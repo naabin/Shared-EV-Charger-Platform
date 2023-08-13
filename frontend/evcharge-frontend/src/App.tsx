@@ -9,7 +9,7 @@ function App() {
     });
   });
   return (
-    <div className="App">
+    <div style={{ display: "flex", justifyContent: "center" }} className="App">
       <h1>{title && title}</h1>
     </div>
   );
