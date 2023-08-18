@@ -17,7 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from evcharge import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.hello_world)
+    path('api/hello/', views.hello_world, name='hello_world'),
+    path('api/login/', views.login_view, name='login_view'),
+    path('api/logout/', views.logout_view, name='logout_view'),  # This needs to be added to your views.py
+    path('api/register/', views.register, name='register'),
 ]
