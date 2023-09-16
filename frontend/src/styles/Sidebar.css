@@ -1,0 +1,8 @@
+.side-bar {
+    margin-top: 20px;
+    margin-left: 40px;
+    border-radius: 10px;  
+    border: 1px solid rgb(64, 137, 141);
+    padding: 8px 12px;
+    height: fit-content;
+}

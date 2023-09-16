@@ -1,0 +1,15 @@
+.block-content {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.block-title {
+    font-family: "SimHei", sans-serif;
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+.description {
+    font-weight: bold;
+}
