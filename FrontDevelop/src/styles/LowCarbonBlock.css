@@ -1,0 +1,9 @@
+.block-content {
+    text-align: center;
+}
+
+.block-title {
+    font-family: "SimHei", sans-serif;
+    font-size: larger;
+    font-weight: bold;
+}

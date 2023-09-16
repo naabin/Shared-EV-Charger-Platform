@@ -1,0 +1,9 @@
+.display-area {
+    margin-top: 20px;
+    margin-left: 40px;
+    border-radius: 10px;  
+    border: 1px solid rgb(205, 205, 205);
+    padding: 10px;
+    height: fit-content;
+
+}

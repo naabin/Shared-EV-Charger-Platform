@@ -1,0 +1,10 @@
+djangorestframework~=3.14.0
+django-cors-headers
+Django~=4.2.4
+channels
+channels-redis
+# uvicorn
+uvicorn[standard]
+websockets
+wsproto
+# run : uvicorn core.asgi:application --port 8001
