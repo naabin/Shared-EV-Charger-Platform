@@ -2,6 +2,7 @@ djangorestframework~=3.14.0
 django-cors-headers
 Django~=4.2.4
 channels
+mysqlclient
 channels-redis
 # uvicorn
 uvicorn[standard]

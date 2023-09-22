@@ -1,4 +1,4 @@
-import "../../styles/DisplayArea.css";
+import "../../styles/Admin/DisplayArea.css";
 import React from "react";
 import Unresolved from "./Unsolved";
 import NewUsers from "./NewUsers";

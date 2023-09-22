@@ -1,4 +1,4 @@
-import "../../styles/app_header.css";
+import "../../styles/CoverPage/app_header.css";
 import React from "react";
 import { Button, Col, Row } from "antd";
 import { useNavigate } from 'react-router-dom'; // Use this import for React Router v6

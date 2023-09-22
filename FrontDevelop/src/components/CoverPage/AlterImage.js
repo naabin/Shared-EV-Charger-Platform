@@ -1,4 +1,4 @@
-import "../../styles/AlterImage.css";
+import "../../styles/CoverPage/AlterImage.css";
 import React, { useState } from "react";
 import { Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";

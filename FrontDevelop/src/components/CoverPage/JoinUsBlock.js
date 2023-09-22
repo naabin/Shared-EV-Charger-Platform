@@ -1,4 +1,4 @@
-import "../../styles/JoinUsBlock.css";
+import "../../styles/CoverPage/JoinUsBlock.css";
 import React from "react";
 import Img1 from "../../matirial/Image/part2-1.png";
 import Img2 from "../../matirial/Image/part2-2.png";

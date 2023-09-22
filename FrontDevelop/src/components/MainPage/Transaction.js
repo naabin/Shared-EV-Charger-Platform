@@ -12,7 +12,7 @@ import {
   IconButton,
 } from "@mui/material";
 import ButtonAppBar from "./ButtonAppBar";
-import "../../styles/Transaction.css";
+import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
 
 const transactions = [

@@ -1,6 +1,7 @@
 import "./App.css";
 import LoginForm  from "./components/Login/LoginForm";
 import RegisterForm from "./components/Register/RegisterForm";
+import RetrieveForm from "./components/Retrieve/RetrieveForm";
 import AppHeader from "./components/CoverPage/app_header";
 import AlterImage from "./components/CoverPage/AlterImage";
 import React, { useState } from "react";
@@ -16,6 +17,7 @@ import ButtonAppBar from "./components/MainPage/ButtonAppBar";
 import Transaction from "./components/MainPage/Transaction";
 import MyCharger from "./components/MainPage/MyCharger";
 import AdminPage from "./components/Admin/AdminPage";
+
 import {
 
   BrowserRouter as Router,
@@ -25,8 +27,10 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
+
 import HelpModel from "./components/MainPage/HelpModel";
 import AddChargerModel from "./components/MainPage/AddChargerModel";
+import GoogleMapReact from 'google-map-react';
 
 function App() {
   return (
@@ -40,6 +44,7 @@ function App() {
           <Route path="/AdminPage" element={<Adminpage />} />
           <Route path="/login/" element={<LoginForm />} />
           <Route path="/register/" element={<RegisterForm />} />
+          <Route path="/retrieve/" element={<RetrieveForm />} />
         </Routes>
       </div>
     </Router>
@@ -50,6 +55,7 @@ function MainPage() {
   const navigate = useNavigate();
   const [showDialog, setShowDialog] = useState(false);
 
+
   const showDialogEvent = () => {
     setShowDialog(true);
   };
@@ -57,6 +63,8 @@ function MainPage() {
   const closeDialogEvent = () => {
     setShowDialog(false);
   };
+
+
   return (
     <div className="App">
       <AppHeader change={showDialogEvent}></AppHeader>
@@ -86,6 +94,8 @@ function MainPage() {
           />
         </div>
       </div>
+
+
       <JoinUsBlock />
       <LowCarbonBlock />
       <AdvantageBlock />
@@ -93,19 +103,52 @@ function MainPage() {
       <ModalForm
       />
     </div>
+
   );
+
+
+
 }
 
 function MapPage() {
-  const navigate = useNavigate();
-  return (
-    <ButtonAppBar
-      transactionpage={() => navigate("/TranscationPage")}
-      adminpage={() => navigate("/Adminpage")}
-      myChargers={() => navigate("/myCharger")}
-    />
-  );
+    const navigate = useNavigate();
+
+    const defaultProps = {
+        center: {
+            lat: -33.8688, // Latitude for Sydney
+            lng: 151.2093  // Longitude for Sydney
+        },
+        zoom: 11
+    };
+
+    return (
+        <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+            <ButtonAppBar
+                transactionpage={() => navigate("/TranscationPage")}
+                adminpage={() => navigate("/Adminpage")}
+                myChargers={() => navigate("/myCharger")}
+            />
+
+            <div style={{
+                position: 'absolute',
+                top: '10%',
+                left: '10%',
+                height: '80%',
+                width: '80%'
+            }}>
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: 'AIzaSyDnRpQ2BiFb6skH2qkvgCW0Bthwb83PVf0' }}
+                    defaultCenter={defaultProps.center}
+                    defaultZoom={defaultProps.zoom}
+                >
+                </GoogleMapReact>
+            </div>
+        </div>
+    );
 }
+
+
+
 
 function MyChargerPage() {
   const [showDialog, setShowDialog] = useState(false);

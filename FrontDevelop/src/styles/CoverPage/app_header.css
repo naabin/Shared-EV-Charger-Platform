@@ -1,0 +1,48 @@
+.app-header {
+    height: 5vh;
+    background-color: rgba(203, 201, 199, 199);
+    display: flex;
+    align-items: center;
+    
+}
+
+.title {
+    color: white;
+    margin-left: 2vw;
+    font-family: "Eras Bold ITC";
+    align-items: center;
+    font-size: 22px;
+}
+
+.operate-btn {
+    margin-left: 75vw;
+    border-radius: 15px;
+    width: fit-content;
+    display: flex;
+    background-color: rgba(190, 190, 199, 150);
+}
+
+
+/* .header-image {
+    width: 100%;
+} */
+
+.app-image {
+    display: flex;
+    
+    height: auto;
+    justify-content: center;
+}
+
+
+.btn-login:hover {
+    display: block;
+}
+
+.btn-login {
+    display: none;
+}
+
+.btn-register:hover + .btn-login {
+    display: block;
+}

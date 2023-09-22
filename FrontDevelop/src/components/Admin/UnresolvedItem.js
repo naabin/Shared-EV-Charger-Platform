@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import "../../styles/unresolved_item.css";
+import "../../styles/Admin/unresolved_item.css";
 import React from "react";
 
 function UnresolvedItem(props) {

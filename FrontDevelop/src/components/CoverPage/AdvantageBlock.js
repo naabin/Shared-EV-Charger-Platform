@@ -1,4 +1,4 @@
-import "../../styles/LowCarbonBlock.css";
+import "../../styles/CoverPage/LowCarbonBlock.css";
 import React from "react";
 import Img1 from "../../matirial/Image/part4-1.png";
 import Img2 from "../../matirial/Image/part4-2.png";

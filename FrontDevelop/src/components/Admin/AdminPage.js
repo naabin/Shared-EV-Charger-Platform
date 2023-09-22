@@ -1,4 +1,4 @@
-import "../../styles/AdminPage.css";
+import "../../styles/Admin/AdminPage.css";
 import React, { useState } from "react";
 import HeadBar from "./HeadBar";
 import { Col, Row } from "antd";

@@ -1,4 +1,4 @@
-import "../../styles/Sidebar.css";
+import "../../styles/Admin/Sidebar.css";
 import React from "react";
 import SidebarMenu from "./SidebarMenu";
 

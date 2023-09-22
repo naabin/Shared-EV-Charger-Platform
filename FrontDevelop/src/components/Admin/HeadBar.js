@@ -1,5 +1,5 @@
 import { Col, Row, Input } from "antd";
-import "../../styles/HeadBar.css";
+import "../../styles/Admin/HeadBar.css";
 import React from "react";
 import { LogoutOutlined, WifiOutlined } from "@ant-design/icons";
 

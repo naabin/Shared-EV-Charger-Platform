@@ -24,10 +24,11 @@ input[type="password"] {
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
+    text-align: left;
 }
 
 input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #00008B;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -37,7 +38,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #00008B;
 }
 
 label {
@@ -45,7 +46,17 @@ label {
     display: inline-block;
 }
 
+.login-link {
+    margin-top: 10px;
+    display: inline-block;
+}
+
 .register-link {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.retrieve-link {
     margin-top: 10px;
     display: inline-block;
 }

@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import "../../styles/sidebar_menu.css";
+import "../../styles/Admin/sidebar_menu.css";
 import React, { useState } from "react";
 import { ArrowRightOutlined } from "@ant-design/icons";
 

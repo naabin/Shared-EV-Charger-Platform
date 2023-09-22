@@ -1,4 +1,4 @@
-import "../../styles/app-bottom.css";
+import "../../styles/CoverPage/app-bottom.css";
 import React from "react";
 import { Button } from "antd";
 
