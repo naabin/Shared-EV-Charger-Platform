@@ -13,9 +13,11 @@ import ModalForm from "./components/CoverPage/ModalForm";
 import rightImg1 from "./matirial/Image/rightimg-1.png";
 import rightImg2 from "./matirial/Image/rightimg-2.png";
 import rightImg3 from "./matirial/Image/righting-3.png";
-import ButtonAppBar from "./components/MainPage/ButtonAppBar";
-import Transaction from "./components/MainPage/Transaction";
-import MyCharger from "./components/MainPage/MyCharger";
+import ButtonAppBar from "./components/ButtonAppBar";
+import Transaction from "./components/MapPage/Transaction";
+import MyCharger from "./components/MapPage/MyCharger";
+import GoogleMapComponent from './components/MapPage/GoogleMapComponent';
+import LiveChat from './components/MapPage/LiveChat';
 import AdminPage from "./components/Admin/AdminPage";
 
 import {
@@ -30,9 +32,14 @@ import {
 
 import HelpModel from "./components/MainPage/HelpModel";
 import AddChargerModel from "./components/MainPage/AddChargerModel";
-import GoogleMapReact from 'google-map-react';
+import usePlacesAutocomplete, {
+    getGeocode,
+    getLatLng,
+} from "use-places-autocomplete";
+
 
 function App() {
+
   return (
     <Router>
       <div className="App">
@@ -112,43 +119,70 @@ function MainPage() {
 
 function MapPage() {
     const navigate = useNavigate();
+    const [showLiveChat, setShowLiveChat] = useState(false);
+    const [center, setCenter] = useState({
+        lat: -33.8688, // Latitude for Sydney
+        lng: 151.2093  // Longitude for Sydney
+    });
+
+    const {
+        ready,
+        value,
+        suggestions: { status, data },
+        setValue,
+        clearSuggestions,
+    } = usePlacesAutocomplete();
 
     const defaultProps = {
-        center: {
-            lat: -33.8688, // Latitude for Sydney
-            lng: 151.2093  // Longitude for Sydney
-        },
         zoom: 11
     };
 
-    return (
-        <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
-            <ButtonAppBar
-                transactionpage={() => navigate("/TranscationPage")}
-                adminpage={() => navigate("/Adminpage")}
-                myChargers={() => navigate("/myCharger")}
-            />
+    const handleSelect = async (address) => {
+        setValue(address, false);
+        clearSuggestions();
 
-            <div style={{
-                position: 'absolute',
-                top: '10%',
-                left: '10%',
-                height: '80%',
-                width: '80%'
-            }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyDnRpQ2BiFb6skH2qkvgCW0Bthwb83PVf0' }}
-                    defaultCenter={defaultProps.center}
-                    defaultZoom={defaultProps.zoom}
-                >
-                </GoogleMapReact>
+        try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            setCenter({ lat, lng });
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    };
+
+    return (
+        <div style={{ height: '100vh', width: '100vw' }}>
+            <ButtonAppBar
+                transactionpage={() => navigate('/TransactionPage')}
+                adminpage={() => navigate('/Adminpage')}
+                myChargers={() => navigate('/myCharger')}
+                showLiveChat={showLiveChat}
+                toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+            />
+            {showLiveChat && <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />}
+
+            <div className={showLiveChat ? 'chat-overlay-open' : ''}>
+                <GoogleMapComponent
+                    center={center}
+                    defaultProps={defaultProps}
+                    onPlaceSelect={handleSelect}
+                    ready={ready}
+                    value={value}
+                    suggestions={{ status, data }}
+                    setValue={setValue}
+                />
             </div>
         </div>
     );
 }
 
-
-
+function LiveChatPage() {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <LiveChat />
+        </div>
+    );
+}
 
 function MyChargerPage() {
   const [showDialog, setShowDialog] = useState(false);
