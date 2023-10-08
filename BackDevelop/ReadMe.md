@@ -1,28 +1,7 @@
-install mysql on https://dev.mysql.com/downloads/mysql/  (MSI Installer)
+-- note --
+if you encounter error while dowloading mysqlclient using WSL in windows. This link can be helpful https://stackoverflow.com/a/76588599.
 
-create a database named evcharger
-create a user named admin with password admin
-
-    MySql commands:
-        CREATE DATABASE evcharger;
-        CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
-        GRANT ALL PRIVILEGES ON evcharger.* TO 'admin'@'localhost';
-        FLUSH PRIVILEGES;
-        Connect evcharger
-
-run pip install -r requirements.txt on terminal
-
-run python manage.py makemigrations
-
-run python manage.py migrate
-
-run python manage.py runserver
-
-cd to frontend/evcharge-frontend
-
-run npm install
-
-run npm start
-
-
-
+super_user creds
+username: admin
+email: admin@email.com
+password: admin

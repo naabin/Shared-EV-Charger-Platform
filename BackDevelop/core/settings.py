@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
-print("The settings file is being read")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -26,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,10 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_swagger',
+    'django_filters',
+    'drf_yasg',
     'corsheaders',
-    'evcharge',
-    'channels',
+    'django_s3_storage',
+    'users',
+    'charger'
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -52,11 +65,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'core.urls'
-
-APPEND_SLASH = False
 
 TEMPLATES = [
     {
@@ -73,36 +83,35 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = 'core.asgi.application'
-# Channel layer settings
-# settings.py
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
-
-
-# WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'ROTATE_REFRESH_TOKENS': False,
+    'ROTATE_REFRESH_TOKENS': True,
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'TOKEN_BACKEND': 'rest_framework_simplejwt.token_blacklist.backends.BlacklistBackend',
+    'BLACKLIST_TOKEN_CHECKS': [
+        'rest_framework_simplejwt.token_blacklist.check_blacklisted_token',
+    ],
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -111,13 +120,29 @@ AUTHENTICATION_BACKENDS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'evcharger',  # Name of your database
-        'USER': 'admin',  # Your MySQL username (given as 'user admin' in your description)
-        'PASSWORD': 'admin',  # Your MySQL password (given as 'password admin' in your description)
-        'HOST': 'localhost',  # Your MySQL host. If your database is on the same machine, leave as 'localhost'
-        'PORT': '3306',  # Default MySQL port
+        'NAME': 'evcharger',   # Name of your database
+        # Your MySQL username (given as 'user admin' in your description)
+        'USER': 'admin',
+        # Your MySQL password (given as 'password admin' in your description)
+        'PASSWORD': 'admin',
+        # Your MySQL host. If your database is on the same machine, leave as 'localhost'
+        'HOST': 'localhost',
+        'PORT': '3306',   # Default MySQL port
     }
 }
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -128,8 +153,103 @@ USE_I18N = True
 USE_TZ = True
 
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 STATIC_URL = 'static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = "users.UserProfile"
 
+# The AWS region to connect to.
+AWS_REGION = "us-east-1"
+
+# The AWS access key to use.
+AWS_ACCESS_KEY_ID = "ASIA5BJCD236DBRKBITG"
+
+# The AWS secret access key to use.
+AWS_SECRET_ACCESS_KEY = "Sib+P6diDnFL2QJ1F2Ls3ILAfbEBlfr4Wp47HSD7"
+
+# The optional AWS session token to use.
+AWS_SESSION_TOKEN = "FwoGZXIvYXdzEHcaDMntRIMvNDyMugScWSLLAfesBGt35LvKrVUQqJw7kCwXV41NUPQLjC4sE22xRV2omQLqqJtm9jyAhptePN7HjTEx8fiOISsEWDKQ7FmEJsMbn8BgGpUG7aioOtRL+riO7jMU6j+UsLxAABDYTDwHvGdCQRkXBKhI/fBRii0wR+41VvyypEeksnlpANwjNCSAB4bDvfWEmDtS2YRZ4Dr9VSkjURwzOyoje5qyAxpj2eCy/MClv2wBppdc9y4qkqhg8rGSTqRCcHga7gNg8nuVGGmgyifz/tZHe+JcKPez/qgGMi2kmvU5hD7x6ZvyPPSCscXrX/smjNGsr9smISpIueiegLEAD5Vn5C6MyO24IxU="
+
+# The name of the bucket to store files in.
+AWS_S3_BUCKET_NAME = "evcharger-bucket"
+
+# How to construct S3 URLs ("auto", "path", "virtual").
+AWS_S3_ADDRESSING_STYLE = "auto"
+
+# The full URL to the S3 endpoint. Leave blank to use the default region URL.
+AWS_S3_ENDPOINT_URL = ""
+
+# A prefix to be applied to every stored file. This will be joined to every filename using the "/" separator.
+AWS_S3_KEY_PREFIX = ""
+
+# Whether to enable authentication for stored files. If True, then generated URLs will include an authentication
+# token valid for `AWS_S3_MAX_AGE_SECONDS`. If False, then generated URLs will not include an authentication token,
+# and their permissions will be set to "public-read".
+AWS_S3_BUCKET_AUTH = True
+
+# How long generated URLs are valid for. This affects the expiry of authentication tokens if `AWS_S3_BUCKET_AUTH`
+# is True. It also affects the "Cache-Control" header of the files.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_MAX_AGE_SECONDS = 60 * 60  # 1 hours.
+
+# A URL prefix to be used for generated URLs. This is useful if your bucket is served through a CDN.
+AWS_S3_PUBLIC_URL = ""
+
+# If True, then files will be stored with reduced redundancy. Check the S3 documentation and make sure you
+# understand the consequences before enabling.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_REDUCED_REDUNDANCY = False
+
+# The Content-Disposition header used when the file is downloaded. This can be a string, or a function taking a
+# single `name` argument.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_CONTENT_DISPOSITION = ""
+
+# The Content-Language header used when the file is downloaded. This can be a string, or a function taking a
+# single `name` argument.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_CONTENT_LANGUAGE = ""
+
+# A mapping of custom metadata for each file. Each value can be a string, or a function taking a
+# single `name` argument.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_METADATA = {}
+
+# If True, then files will be stored using AES256 server-side encryption.
+# If this is a string value (e.g., "aws:kms"), that encryption type will be used.
+# Otherwise, server-side encryption is not be enabled.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_ENCRYPT_KEY = False
+
+# The AWS S3 KMS encryption key ID (the `SSEKMSKeyId` parameter) is set from this string if present.
+# This is only relevant if AWS S3 KMS server-side encryption is enabled (above).
+AWS_S3_KMS_ENCRYPTION_KEY_ID = ""
+
+# If True, then text files will be stored using gzip content encoding. Files will only be gzipped if their
+# compressed size is smaller than their uncompressed size.
+# Important: Changing this setting will not affect existing files.
+AWS_S3_GZIP = True
+
+# The signature version to use for S3 requests.
+AWS_S3_SIGNATURE_VERSION = None
+
+# If True, then files with the same name will overwrite each other. By default it's set to False to have
+# extra characters appended.
+AWS_S3_FILE_OVERWRITE = False
+
+# If True, use default behaviour for boto3 of using threads when doing S3 operations. If gevent or similar
+# is used it must be disabled
+AWS_S3_USE_THREADS = True
+
+# Max pool of connections for massive S3 interactions
+AWS_S3_MAX_POOL_CONNECTIONS = 10
+
+# Time to raise timeout when submitting a new file
+AWS_S3_CONNECT_TIMEOUT = 60

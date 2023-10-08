@@ -40,10 +40,10 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #00008B;
 }
-
 label {
-    margin-bottom: 10px;
-    display: inline-block;
+    display: block;
+    text-align: left;
+    margin-bottom: 2px;
 }
 
 .login-link {
@@ -60,4 +60,3 @@ label {
     margin-top: 10px;
     display: inline-block;
 }
-
