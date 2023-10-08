@@ -13,7 +13,7 @@ import ModalForm from "./components/CoverPage/ModalForm";
 import rightImg1 from "./matirial/Image/rightimg-1.png";
 import rightImg2 from "./matirial/Image/rightimg-2.png";
 import rightImg3 from "./matirial/Image/righting-3.png";
-import ButtonAppBar from "./components/ButtonAppBar";
+import ButtonAppBar from "./components/utils/ButtonAppBar";
 import Transaction from "./components/MapPage/Transaction";
 import MyCharger from "./components/MapPage/MyCharger";
 import GoogleMapComponent from './components/MapPage/GoogleMapComponent';
@@ -151,7 +151,7 @@ function MapPage() {
     };
 
     return (
-        <div style={{ height: '100vh', width: '100vw' }}>
+        <div style={{ postion : "relative" , height: '100vh', width: '100vw' }}>
             <ButtonAppBar
                 transactionpage={() => navigate('/TransactionPage')}
                 adminpage={() => navigate('/Adminpage')}

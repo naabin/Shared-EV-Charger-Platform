@@ -14,6 +14,7 @@ const RegisterForm: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+
         const target = event.target as typeof event.target & {
             lastname: { value: string };
             firstname: { value: string };
@@ -26,6 +27,7 @@ const RegisterForm: React.FC = () => {
             postcode: { value: string };
             address: { value: string };
         };
+
         const lastname = target.lastname.value;
         const firstname = target.firstname.value;
         const email = target.email.value;
@@ -37,11 +39,39 @@ const RegisterForm: React.FC = () => {
         const postcode = target.postcode.value;
         const address = target.address.value;
 
-        register(username, enteredPassword).then((data) => {
+        // Check password confirmation
+        if (enteredPassword !== enteredConfirmPassword) {
+            console.error("Passwords do not match!");
+            return;
+        }
+
+        // Prepare user data based on the structure you provided
+        const userData = {
+            username: username,
+            email: email,
+            first_name: firstname,
+            last_name: lastname,
+            password: enteredPassword,
+            role: {
+                role: "user"
+            },
+            address: {
+
+                street_address: address,
+                lat: -33.865143,
+                lng: 151.209900,
+                suburb: suburb,
+                post_code: postcode,
+                country: city  // Assuming city here is meant as country
+            }
+        };
+
+        register(userData).then((data) => {
             // Handle the response data
             console.log(data);
         });
     };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

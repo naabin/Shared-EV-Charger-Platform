@@ -17,3 +17,4 @@ wsproto
 channels-redis
 
 # run : uvicorn core.asgi:application --port 8001
+channels~=4.0.0

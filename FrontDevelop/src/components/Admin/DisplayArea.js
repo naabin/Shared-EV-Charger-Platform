@@ -6,15 +6,15 @@ import NewUsers from "./NewUsers";
 function DisplayArea(props) {
   if (props.content === "Unresolved cases") {
     return (
-      <div className="display-area">
-        <Unresolved />
-      </div>
+        <div className="display-area">
+          <Unresolved />
+        </div>
     );
   } else if (props.content === "New users") {
     return (
-      <div className="display-area">
-        <NewUsers />
-      </div>
+        <div className="display-area">
+          <NewUsers />
+        </div>
     );
   } else {
     return <div></div>;

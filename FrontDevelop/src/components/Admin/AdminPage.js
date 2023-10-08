@@ -12,19 +12,19 @@ function AdminPage() {
   };
 
   return (
-    <div>
-      <HeadBar />
-      <div className="main-content">
-        <Row style={{ height: "50vh" }}>
-          <Col span={8}>
-            <SideBar childClick={updateContent} />
-          </Col>
-          <Col span={16}>
-            <DisplayArea content={currentContent} />
-          </Col>
-        </Row>
+      <div>
+        <HeadBar />
+        <div className="main-content">
+          <Row style={{ height: "50vh" }}>
+            <Col span={8}>
+              <SideBar childClick={updateContent} />
+            </Col>
+            <Col span={16}>
+              <DisplayArea content={currentContent} />
+            </Col>
+          </Row>
+        </div>
       </div>
-    </div>
   );
 }
 

@@ -12,21 +12,26 @@ const LoginForm: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const target = event.target as typeof event.target & {
-            username: { value: string };
+            email: { value: string };
             password: { value: string };
         };
-        const username = target.username.value;
+        const email = target.email.value;
         const enteredPassword = target.password.value;
 
-        const data = await login(username, enteredPassword);
+        const response = await login(email, enteredPassword);
 
-        if (data.message === 'Login successful') {
+        if (response.status === 200) {
+            const access_token = response.data.access;
+            const refresh_token = response.data.refresh;
+            // Store tokens if needed, using localStorage or any other mechanism
+            // For example: localStorage.setItem('access_token', access_token);
             window.location.href = '/mapPage';
         } else {
-            // Show error message
-            console.log("fail");
+            // Handle the error message. You might want to set an error state and display it to the user.
+            console.error(response.error || "Login failed.");
         }
     };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -36,8 +41,8 @@ const LoginForm: React.FC = () => {
         <div className="container">
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Email address:</label>
-                <input type="text" id="username" name="username" required />
+                <label htmlFor="email">Email address:</label>
+                <input type="email" id="email" name="username" required />
                 <label htmlFor="password">Password:</label>
                 <div className="password-input">
                     <Input.Password
