@@ -1,5 +1,6 @@
 import "../../styles/MapPage/ChatPage.css";
 import React, { useState, useEffect } from 'react';
+import Avatar from './Avatar';  // Adjust the import path if necessary
 function LiveChat({ onClose , show}) {
 
     let [username, setUsername] = useState('');
@@ -26,6 +27,7 @@ function LiveChat({ onClose , show}) {
                 'username': username,
                 'message': chatMessage
             }));
+
             const sentMessage = {
                 type: 'sent',
                 username: username,
@@ -38,26 +40,35 @@ function LiveChat({ onClose , show}) {
         }
     };
 
+
+
     useEffect(() => {
         if (chatSocket) {
             const handleNewMessage = function(e) {
                 const data = JSON.parse(e.data);
-                const type = data.username === username ? 'sent' : 'received'; // Compare to the current user's name
+                console.log(data);  // Log the data to the console
+                const type = data.username === username ? 'sent' : 'received';
                 const receivedMessage = {
                     type: type,
                     username: data.username,
                     content: data.message
                 };
+                // Check if the received message is identical to the last sent message
+                const lastMessage = chatLog[chatLog.length - 1];
+                if (lastMessage && lastMessage.type === 'sent' && lastMessage.content === data.message) {
+                    return;  // Skip adding this message to the chatLog
+                }
                 setChatLog(prevLog => [...prevLog, receivedMessage]);
             };
 
             chatSocket.onmessage = handleNewMessage;
 
-            return () => { // Clean up function
+            return () => {
                 chatSocket.removeEventListener('message', handleNewMessage);
             };
         }
-    }, [chatSocket]);
+    }, [chatSocket, chatLog, username]);
+
 
 
 
@@ -72,15 +83,22 @@ function LiveChat({ onClose , show}) {
                     <input value={roomNumber} onChange={e => setRoomNumber(e.target.value)} placeholder="Enter room number" />
                     <button onClick={joinRoom}>Join</button>
                 </div>
+
                 <div className="chat-messages">
                     {chatLog.map((message, index) => (
-                        <div key={index}>
-                            <span className={message.type === 'sent' ? 'sent-message' : 'received-message'}>
-                                {message.content}
-                            </span>
+                        <div key={index} className={`chat-message ${message.type === 'sent' ? 'sent-message-container' : 'received-message-container'}`}>
+                            <div className="avatar-container">
+                                <Avatar username={message.username} isSender={message.type === 'sent'} />
+                            </div>
+                            <div className="message-text">
+                                <span className={message.type === 'sent' ? 'sent-message' : 'received-message'}>
+                                    {message.content}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>
+
                 <div className="chat-inputs">
                     <input value={chatMessage} onChange={e => setChatMessage(e.target.value)} autoComplete="off" placeholder="Type a message..." />
                     <button onClick={sendMessage} disabled={!chatSocket}>Send</button>

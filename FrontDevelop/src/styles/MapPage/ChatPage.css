@@ -40,15 +40,15 @@ body {
     font-weight: bold;
     cursor: pointer;
     position: absolute;
-    top: 10px;  /* Adjust the position so it's above the line near the Join button */
-    right: 20px;  /* Adjust as per the alignment with the Join button */
+    top: 0px;
+    right: 10px;
     width: 30px;
     height: 30px;
     line-height: 30px;
     text-align: center;
     border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
-
 
 .chat-inputs {
     display: flex;
@@ -78,6 +78,7 @@ body {
 }
 
 .chat-messages {
+    max-height: 70vh;
     overflow-y: auto;
     flex: 1;
     margin-bottom: 10px;
@@ -85,52 +86,69 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
-.chat-overlay-hidden {
-    display: none;
+.chat-message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 0;
 }
 
-.close-chat {
-    background-color: transparent;
-    color: #333;
-    border: none;
-    font-size: 24px; /* Increase the font size to make "X" larger */
-    font-weight: bold; /* Make the "X" bold */
-    cursor: pointer;
-    position: absolute;
-    top: 0px;  /* Positioning the close button outside the top edge */
-    right: 10px;  /* Positioning the close button outside the right edge */
-    width: 30px; /* Setting a fixed width for the close button */
-    height: 30px; /* Setting a fixed height for the close button */
-    line-height: 30px; /* Vertically center the "X" inside the button */
-    text-align: center; /* Horizontally center the "X" inside the button */
-    border-radius: 50%; /* Making the close button circular */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: A slight shadow for visual appeal */
+.sent-message-container {
+    align-items: flex-end;
 }
 
-.chat-overlay-open {
-    pointer-events: none;
+.avatar-container {
+    order: 1;
+}
+
+.message-text {
+    order: 2;
+    width: fit-content;
+}
+
+.sent-message, .received-message {
+    padding: 5px 10px;
+    display: inline-block;
+    border-radius: 10px;
+    max-width: 80%;  /* Ensuring that the messages don't stretch too long horizontally */
+    word-wrap: break-word;  /* Ensuring that the text wraps inside the bubble */
 }
 
 .sent-message {
     background-color: green;
     color: white;
-    display: inline-block;
-    border-radius: 10px;
     margin-left: auto;
-    padding: 5px 10px;
 }
 
 .received-message {
     background-color: grey;
     color: white;
-    display: inline-block;
-    border-radius: 10px;
     margin-right: auto;
-    padding: 5px 10px;
 }
 
-.chat-messages div {
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+
+
+.sender-avatar {
+    background-color: blue;
+    color: white;
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.receiver-avatar {
+    background-color: grey;
+    color: white;
+    margin-left: 10px;
+    margin-right: 0;
 }
