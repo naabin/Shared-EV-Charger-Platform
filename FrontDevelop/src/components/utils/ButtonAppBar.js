@@ -12,9 +12,11 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import { deepOrange } from "@mui/material/colors";
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
 import MyCharger from "../MapPage/MyCharger";
 import Joyride, { STATUS } from "react-joyride";
+import { AuthContext } from '../../services/AuthContext';
+
 
 export default function ButtonAppBar({
                                          transactionpage,
@@ -26,7 +28,9 @@ export default function ButtonAppBar({
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isDark, setIsDark] = useState(false);
     const [run, setRun] = useState(true);
-
+    let { username, id, access_token, refresh_token } = useContext(AuthContext);
+    const firstLetter = username ? username.charAt(0).toUpperCase() : 'A';
+    console.log(username)
     const steps = [
         {
             target: ".first-step",
@@ -110,7 +114,7 @@ export default function ButtonAppBar({
                                 drawerOpen === true ? setDrawerOpen(false) : setDrawerOpen(true)
                             }
                         >
-                            A
+                            {firstLetter} {/* Replaced 'A' with the firstLetter */}
                         </Avatar>
                     </Toolbar>
                 </AppBar>
@@ -128,7 +132,7 @@ export default function ButtonAppBar({
                             marginBottom: 2,
                         }}
                     >
-                        A
+                        {firstLetter} {/* Replaced 'A' with the firstLetter */}
                     </Avatar>
                     <Typography
                         variant="h6"
@@ -136,8 +140,9 @@ export default function ButtonAppBar({
                         gutterBottom
                         style={{ marginBottom: 16 }}
                     >
-                        User Name
+                        {username || 'User Name'} {/* Replaced 'User Name' with the actual username, and fallback to 'User Name' if username is not defined */}
                     </Typography>
+
 
                     <List>
                         <ListItem disablePadding>

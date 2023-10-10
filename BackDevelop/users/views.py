@@ -58,15 +58,22 @@ class AuthViewSet(viewsets.GenericViewSet):
     def login(self, request):
         user_email = request.data.get('email')
         password = request.data.get('password')
+
         user = UserProfile.objects.filter(email=user_email).first()
         if user is not None:
             if user_email is None or user.check_password(user.check_password(password)):
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
             token = RefreshToken.for_user(user=user)
+            username_from_db = user.username
+            id_from_db = user.id
+            print(id_from_db, username_from_db)
             return Response({
                 'refresh': str(token),
                 'access': str(token.access_token),
+                'username': username_from_db,
+                'id' : id_from_db
             }, status=status.HTTP_200_OK)
+
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
     @swagger_auto_schema(method='post', request_body=SwaggerLoginSchema.logout_schema, responses=SwaggerLoginSchema.logout_schema_response)
