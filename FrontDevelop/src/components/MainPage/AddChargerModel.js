@@ -1,8 +1,12 @@
-import React from "react";
-import { Form, Input, Modal, Upload } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Modal, Upload, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import GoogleMapComponent from '../MapPage/GoogleMapComponent';
 
 function AddChargerModel(props) {
+  const [showMapOverlay, setShowMapOverlay] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const handleOk = () => {};
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -59,10 +63,22 @@ function AddChargerModel(props) {
         >
           <Input />
         </Form.Item>
+        <Button onClick={() => setShowMapOverlay(true)}>Find My Location on Map</Button>
+        <Form.Item
+            label="Selected Latitude"
+        >
+          <Input value={selectedLocation ? `${selectedLocation.lat}` : ''} readOnly />
+        </Form.Item>
 
+        <Form.Item
+            label="Selected Longitude"
+        >
+          <Input value={selectedLocation ? `${selectedLocation.lng}` : ''} readOnly />
+        </Form.Item>
         <Form.Item
           label="Charger Location"
           name="CL"
+
           rules={[
             {
               required: true,
@@ -70,7 +86,7 @@ function AddChargerModel(props) {
             },
           ]}
         >
-          <Input />
+          <Input value={selectedLocation ? `${selectedLocation.lat}, ${selectedLocation.lng}` : ''} readOnly />
         </Form.Item>
 
         <Form.Item
@@ -124,7 +140,22 @@ function AddChargerModel(props) {
             </div>
           </Upload>
         </Form.Item>
+
+
       </Form>
+      {showMapOverlay && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1000 }}>
+            <GoogleMapComponent
+                center={{ lat: -33.8688, lng: 151.2093 }} // Sydney as default
+                defaultProps={{ zoom: 11 }}
+                onMapClick={(lat, lng) => {
+                  setSelectedLocation({ lat, lng });
+                  setShowMapOverlay(false); // close the map after selecting a location
+                }}
+            />
+            <Button onClick={() => setShowMapOverlay(false)}>Close Map</Button>
+          </div>
+      )}
     </Modal>
   );
 }

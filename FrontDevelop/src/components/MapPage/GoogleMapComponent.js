@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import '../../styles/MapPage/GoogleMapComponent.css';
 
-function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect }) {
+function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect, onMapClick }) {
     const [value, setValue] = useState('');
     const [status, setStatus] = useState('IDLE');
     const [ready, setReady] = useState(true);
 
     const handleSelect = (description) => {
         if (onPlaceSelect) onPlaceSelect(description);
+    }
+
+    const handleMapClick = ({ lat, lng }) => {
+        if (onMapClick) onMapClick(lat, lng);
     }
 
     return (
@@ -34,6 +38,7 @@ function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect }) 
                 defaultCenter={center}
                 center={center}
                 defaultZoom={defaultProps.zoom}
+                onClick={handleMapClick}
             >
                 {/* Existing map markers or other elements */}
             </GoogleMapReact>
@@ -42,4 +47,5 @@ function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect }) 
 }
 
 export default GoogleMapComponent;
+
 
