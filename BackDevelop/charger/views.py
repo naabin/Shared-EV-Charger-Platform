@@ -17,8 +17,11 @@ class ChargerViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def create(self, request, *args, **kwargs):
-        serializer = ChargerSerializer(data=request.data)
-        if serializer.is_valid():
-            charger = serializer.save()
-            return Response({'charger': ChargerSerializer(charger).data}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        charger = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({'charger': ChargerSerializer(charger).data}, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()

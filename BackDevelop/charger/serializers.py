@@ -27,6 +27,25 @@ class ChargerTypeSerializer(serializers.ModelSerializer):
         return charger_type
 
 
+
+class ChargerTypeSerializer(serializers.ModelSerializer):
+    image = ChargerImageSerializer(required=False)
+
+    class Meta:
+        model = ChargerType
+        fields = '__all__'
+
+    def create(self, validated_data):
+        image_data = validated_data.pop('image', None)
+        if image_data:
+            image = ChargerImage.objects.create(**image_data)
+        else:
+            image = None
+        charger_type = ChargerType.objects.create(image=image, **validated_data)
+        charger_type.save()
+        return charger_type
+
+
 class UserIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
