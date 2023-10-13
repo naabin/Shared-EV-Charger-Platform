@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'channels',
     'django_s3_storage',
     'users',
-    'charger'
+    'charger',
+    'charger_activity'
 
 ]
 CORS_ALLOW_ALL_ORIGINS = True

@@ -12,7 +12,7 @@ class ChargerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve', 'create']:
+        if self.action in ['list', 'retrieve']:
             self.permission_classes = [AllowAny]
         return super().get_permissions()
 
