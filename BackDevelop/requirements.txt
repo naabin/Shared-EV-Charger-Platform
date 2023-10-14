@@ -10,6 +10,8 @@ drf-yasg>=1.21.7
 django-filter>=23.3
 django-s3-storage>=0.14.0
 Pillow>=10.0.1
+django-extra-fields>=3.0.2
+psycopg2-binary>=2.9.9
 
 uvicorn[standard]
 websockets
