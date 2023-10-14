@@ -177,14 +177,23 @@ AUTH_USER_MODEL = "users.UserProfile"
 # The AWS region to connect to.
 AWS_REGION = "us-east-1"
 
+# AWS replaces on server
+
+
 # The AWS access key to use.
-AWS_ACCESS_KEY_ID = "ASIA5BJCD236IR7VJYZI"
+AWS_ACCESS_KEY_ID = "ASIA5UINW6EWUZLIDBKC"
 
 # The AWS secret access key to use.
-AWS_SECRET_ACCESS_KEY = "+11cH+lowBtyI+L8qu//5Bol4xQkAN1uMsaYDjEt"
+AWS_SECRET_ACCESS_KEY = "2zQaq9/I6k+S5gjBE+buakXBadDtrSq1V+NTnU0N"
 
 # The optional AWS session token to use.
-AWS_SESSION_TOKEN = "FwoGZXIvYXdzEDsaDK8rlRrZ1xMP3Q8A/SLLAeXHFrAepxQ77JNjHUCarxqDScY4HYkxNC+qnX2nm+JZohyij5pngrlPWlD0fBC6fKVj0gVicgrwIuf7r3pwJ6VFkXNz2ohv+//NnT7Ll8xXtm7w8Z+fTiDrw2vKlLUboZN1Mzc5tu7G6brhJOdSF0bcY0AqM9joK5r7Q5gNZTQvNQBj5W6LwDLWUR2AXI/AMG+lZ+go5DqsdNT/BDYVfXCDrdZRsjCi6q/7qPvMaOQdqMC+CmCUSdkQbI/SjAStAbj4BoJO31Km5s/8KMG6qakGMi0D6eslXSqBKFN0wHAkdYHp3BwxuVR9dKI22q8jplP9RgmItWafrUqhyTT9J9c="
+AWS_SESSION_TOKEN = "FwoGZXIvYXdzECAaDM8PHOjtE1kUNH4YRyLLATG03Bt8NFNzPXi4zMDeckw2CExMTDpyIoGhUTcDY+xc7B2+ryxVZYgz//4Wm/M8bRSH19FKHbvPs1/lIZueFenEMnEvwN7/G/dSfYg6Qt5zxpJ/O2gD/XBC3TOz4EB7n3+tPi50i2dg5tpVL8aykMdUCatFyiMKsvelikfwd7YZs2tH/3gOYLUE2sQgVi/1Ev5XS9WNlVwYfBSY7O14UFke7btVbN88pYvcGrXdm4Kymnqg3JknJw3YOPC68FSzGzhq9rUm2vtm/qHTKOnOo6kGMi0KE6+r/baas+nVV5w4UuXs4xo2hyx2ghw2vujB2SiTubouJ3dwcfbNnkyFLBU="
+
+
+
+# end
+
+
 
 # The name of the bucket to store files in.
 AWS_S3_BUCKET_NAME = "evcharger-bucket"

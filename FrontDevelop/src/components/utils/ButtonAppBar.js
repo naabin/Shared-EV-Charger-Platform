@@ -16,6 +16,7 @@ import {useState, useEffect, useContext} from "react";
 import MyCharger from "../MapPage/MyCharger";
 import Joyride, { STATUS } from "react-joyride";
 import { AuthContext } from '../../services/AuthContext';
+import Pay_Page from '../Pay_Page/Pay_Page';
 
 
 
@@ -108,6 +109,7 @@ export default function ButtonAppBar({
                         >
                             {isDark ? "🌙" : "☀️"}
                         </button>
+                        <Pay_Page /> {/* Added here */}
                         <Avatar
                             className="first-step"
                             sx={{ bgcolor: deepOrange[300], cursor: "pointer" }}
@@ -200,4 +202,3 @@ export default function ButtonAppBar({
         </>
     );
 }
-
