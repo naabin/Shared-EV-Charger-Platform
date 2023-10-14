@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import GoogleMapComponent from '../MapPage/GoogleMapComponent';
 import {createCharger, register} from '../../services/auth';
 
+
 function AddChargerModel(props) {
     const [showMapOverlay, setShowMapOverlay] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -18,7 +19,10 @@ function AddChargerModel(props) {
 
                 // Get the File object from the first item in the image array, if it exists
                 const imageFile = image && image[0] ? image[0].originFileObj : null;
+                const formData = new FormData();
+                formData.append( 'imageFile',imageFile);
 
+                console.log(imageFile)
 
 
                 const data = {
@@ -29,7 +33,10 @@ function AddChargerModel(props) {
                             port_type: otherValues.CT,  // Assuming you have a form field named 'CT'
                             amp: otherValues.Amp.toString(),
                             warranty: parseInt(otherValues.warranty, 10) || 0,  // Default to 0 if undefined
-                            image: imageFile,
+                            image: {
+                                name: imageFile.name,
+                                image : formData,
+                            },
                         },
 
                     address: {
