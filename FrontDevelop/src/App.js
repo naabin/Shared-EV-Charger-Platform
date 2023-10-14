@@ -153,7 +153,7 @@ function MapPage() {
     };
 
     return (
-        <div style={{ postion : "relative" , height: '100vh', width: '100vw' }}>
+        <div style={{ position: 'fixed', height: '100vh', width: '100%' }}>
             <ButtonAppBar
                 transactionpage={() => navigate('/TransactionPage')}
                 adminpage={() => navigate('/Adminpage')}
@@ -163,7 +163,7 @@ function MapPage() {
             />
             {showLiveChat && <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />}
 
-            <div className={showLiveChat ? 'chat-overlay-open' : ''}>
+            <div className={showLiveChat ? 'chat-overlay-open' : ''} style={{ height: 'calc(100% - 64px)', position: 'relative' }}>
                 <GoogleMapComponent
                     center={center}
                     defaultProps={defaultProps}
