@@ -61,7 +61,7 @@ class AuthViewSet(viewsets.GenericViewSet):
 
         user = UserProfile.objects.filter(email=user_email).first()
         if user is not None:
-            if user_email is None or user.check_password(user.check_password(password)):
+            if user_email is None or not user.check_password(password):
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
             token = RefreshToken.for_user(user=user)
             username_from_db = user.username
