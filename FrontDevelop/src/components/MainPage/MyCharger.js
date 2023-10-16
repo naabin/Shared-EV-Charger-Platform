@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
-  AppBar,
-  Toolbar,
   Typography,
   List,
   ListItem,
@@ -11,17 +9,24 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
+import axios from "axios";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
+import { AuthContext } from "../../services/AuthContext";
 
 const chargers = [];
-
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
+  const userContext = useContext(AuthContext);
 
   useEffect(() => {
-    setTitleOpacity(1);
+    axios
+      .get("http://localhost:8000/charger")
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+    // setTitleOpacity(1);
   }, []);
   return (
     <div className="pageContainer">
@@ -44,7 +49,7 @@ const MyCharger = (props) => {
               opacity: titleOpacity,
             }}
           >
-            XXX's Charger
+            {userContext && userContext.username}
           </Typography>
           <Button onClick={props.change}>Register a new Charger</Button>
           <List>

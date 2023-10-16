@@ -1,7 +1,4 @@
-
 import {
-  AppBar,
-  Toolbar,
   Typography,
   List,
   ListItem,
@@ -13,43 +10,23 @@ import {
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
-import { useState, useEffect } from "react";
-
-const chargers = [
-  {
-    id: 1,
-    chargerName: "XXXXX",
-    position: "Auguest 1 Street",
-    Brand: "Tesla",
-    power: "220V",
-    Price: "$10",
-  },
-  {
-    id: 2,
-    chargerName: "XXXXX",
-    position: "Auguest 2 Street",
-    Brand: "Xiaopeng",
-    power: "110V",
-    Price: "$20",
-  },
-  {
-    id: 3,
-    chargerName: "XXXXX",
-    position: "Auguest 3 Street",
-    Brand: "Weilai",
-    power: "220V",
-    Price: "$30",
-  },
-];
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../services/AuthContext";
+import axios from "axios";
 
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
 
   const [showMapOverlay, setShowMapOverlay] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
-
+  const [chargers, setChargers] = useState([]);
+  const userContext = useContext(AuthContext);
   useEffect(() => {
-    setTitleOpacity(1);
+    // setTitleOpacity(1);
+    axios
+      .get("http://localhost:8000/charger")
+      .then((res) => setChargers(res.data))
+      .catch((err) => console.log(err));
   }, []);
   return (
     <div className="pageContainer">
@@ -72,7 +49,7 @@ const MyCharger = (props) => {
               opacity: titleOpacity,
             }}
           >
-            XXX's Charger
+            {userContext && userContext.username}
           </Typography>
           <Button onClick={props.change}>Register a new Charger</Button>
           <List>
@@ -80,8 +57,8 @@ const MyCharger = (props) => {
               <div key={charger.id}>
                 <ListItem>
                   <ListItemText
-                    primary={`${charger.chargerName} - Price:${charger.Price} :  ${charger.position} `}
-                    secondary={`${charger.Brand} -- ${charger.power}`}
+                    primary={`${charger.name}`}
+                    secondary={`${charger.charger_type.brand} -- ${charger.charger_type.power}`}
                   />
                   <Button style={{ marginLeft: "auto" }}>
                     Modify Chrager Information
