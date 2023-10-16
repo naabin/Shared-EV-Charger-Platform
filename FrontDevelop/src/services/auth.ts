@@ -34,3 +34,28 @@ export const register = async (user: any) => {
     throw err;
   }
 };
+
+export const createCharger = async (chargerData: any) => {
+  console.log(chargerData);
+
+  try {
+    const response = await fetch("http://localhost:8000/charger/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(chargerData), // Convert chargerData to JSON string
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessages = Object.values(errorData).flat().join(", "); // Extract error messages from errorData object
+      throw new Error(errorMessages || "Failed to create charger.");
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

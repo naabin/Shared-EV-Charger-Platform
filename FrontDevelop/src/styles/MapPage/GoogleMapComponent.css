@@ -1,31 +1,21 @@
-/* google map related */
 .map-container {
-    position: fixed;
+    position: absolute;
     z-index: 50;
     top: 10%;
     left: 10%;
-    height: 80%;
-    width: 80%;
+
+    height: 100vh;
+    width: 160vh;
+    overflow: hidden;
 }
 
-.search-container {
-    position: fixed;
-    z-index: 60;
-    top: 10px;
-    left: 10px;
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+.charger-marker {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer; /* To indicate clickable */
+    position: absolute; /* Added */
+    transform: translate(-50%, -50%); /* Centering based on lat/lng */
 }
 
-.search-container input {
-    width: 200px;
-    padding: 5px;
-}
-
-.search-container ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}

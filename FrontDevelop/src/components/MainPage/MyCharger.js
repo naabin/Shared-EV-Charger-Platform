@@ -15,32 +15,7 @@ import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
 
-const chargers = [
-  {
-    id: 1,
-    chargerName: "XXXXX",
-    position: "Auguest 1 Street",
-    Brand: "Tesla",
-    power: "220V",
-    Price: "$10",
-  },
-  {
-    id: 2,
-    chargerName: "XXXXX",
-    position: "Auguest 2 Street",
-    Brand: "Xiaopeng",
-    power: "110V",
-    Price: "$20",
-  },
-  {
-    id: 3,
-    chargerName: "XXXXX",
-    position: "Auguest 3 Street",
-    Brand: "Weilai",
-    power: "220V",
-    Price: "$30",
-  },
-];
+const chargers = [];
 
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);

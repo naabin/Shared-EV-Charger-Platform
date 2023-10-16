@@ -188,7 +188,7 @@ AWS_SECRET_ACCESS_KEY = "vR/0G9yqudxnl65iTS3o1/pJ47ymUU8OPZzZ9Yoo"
 AWS_SESSION_TOKEN = "FwoGZXIvYXdzEGMaDCq1Wqk440D8Vic3lyLLAUKseO5rXk7fTGnIIepeVDM000zREBACtPMUW0+1vrOZMojPz3VkNBwGx7Llq7pZ+xlc3v1Is3kBY1z/ipV7mlhwV2TScCXrAnr+rO1x662WGda6lSqdxlIQ0aLmHHpCi9CA7TZyElnrem1FBAEL/1wNWCGmlpN84D4jmN06qqfBz4ebLNQqvZD1KdNR+dP2KF1prpLEQQjefx1luL5DGyoyvzBp1ABu7c1kHylRX0QZuptDwajlXqnEVW8k82n14pENo8qclwx6CyfaKPWdsqkGMi2qm9404ZcGgSDVdgGCkG3QADYdaeXPOUsdPuLJjPerW15hd6tqezU/LJf6UD0="
 
 # The name of the bucket to store files in.
-AWS_S3_BUCKET_NAME = "evcharger-bucket"
+AWS_S3_BUCKET_NAME = "evcharger-bucket-eren"
 
 # How to construct S3 URLs ("auto", "path", "virtual").
 AWS_S3_ADDRESSING_STYLE = "auto"

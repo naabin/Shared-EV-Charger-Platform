@@ -1,4 +1,4 @@
-import React from "react";
+
 import {
   AppBar,
   Toolbar,
@@ -44,6 +44,9 @@ const chargers = [
 
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
+
+  const [showMapOverlay, setShowMapOverlay] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     setTitleOpacity(1);

@@ -22,3 +22,6 @@ class ChargerViewSet(viewsets.ModelViewSet):
             charger = serializer.save()
             return Response({'charger': ChargerSerializer(charger).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_create(self, serializer):
+        return serializer.save()
