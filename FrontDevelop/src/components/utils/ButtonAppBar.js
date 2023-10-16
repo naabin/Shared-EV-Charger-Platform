@@ -12,25 +12,25 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import { deepOrange } from "@mui/material/colors";
-import {useState, useEffect, useContext} from "react";
-import MyCharger from "../MapPage/MyCharger";
 import Joyride, { STATUS } from "react-joyride";
 import { AuthContext } from '../../services/AuthContext';
 import Pay_Page from '../Pay_Page/Pay_Page';
-
-
+import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function ButtonAppBar({
                                          transactionpage,
                                          adminpage,
                                          myChargers,
                                          showLiveChat,
-                                         toggleLiveChat
+                                         toggleLiveChat,
+                                         profile,
                                      }) {
+    const navigate = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isDark, setIsDark] = useState(false);
     const [run, setRun] = useState(true);
-    let { username, id, access_token, refresh_token } = useContext(AuthContext);
+    const { username, id, access_token, refresh_token } = useContext(AuthContext);
     const firstLetter = username ? username.charAt(0).toUpperCase() : 'A';
     console.log(username)
     const steps = [
@@ -193,7 +193,7 @@ export default function ButtonAppBar({
                         </ListItem>
                     </List>
                     <Divider style={{ margin: "16px 0" }} />
-                    <Button fullWidth variant="contained" color="secondary">
+                    <Button fullWidth variant="contained" color="secondary" onClick={() => navigate("/ProfilePage")}>
                         Profile
                     </Button>
                 </div>

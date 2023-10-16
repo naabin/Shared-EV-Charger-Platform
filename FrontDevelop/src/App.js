@@ -4,7 +4,7 @@ import RegisterForm from "./components/Register/RegisterForm";
 import RetrieveForm from "./components/Retrieve/RetrieveForm";
 import AppHeader from "./components/CoverPage/app_header";
 import AlterImage from "./components/CoverPage/AlterImage";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import JoinUsBlock from "./components/CoverPage/JoinUsBlock";
 import LowCarbonBlock from "./components/CoverPage/LowCarbonBlock";
 import AdvantageBlock from "./components/CoverPage/AdvantageBlock";
@@ -19,7 +19,7 @@ import MyCharger from "./components/MapPage/MyCharger";
 import GoogleMapComponent from './components/MapPage/GoogleMapComponent';
 import LiveChat from './components/MapPage/LiveChat';
 import AdminPage from "./components/Admin/AdminPage";
-import { AuthProvider } from './services/AuthContext';
+import {AuthContext, AuthProvider} from './services/AuthContext';
 import {
 
   BrowserRouter as Router,
@@ -36,27 +36,32 @@ import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
 } from "use-places-autocomplete";
-
+import {LoadScript} from "@react-google-maps/api";
+import ProfilePage from "./components/MapPage/Profile";
 
 function App() {
 
   return (
-      <AuthProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/mapPage" element={<MapPage />} />
-              <Route path="/transcationPage" element={<TranscationPage />} />
-              <Route path="/myCharger" element={<MyChargerPage />} />
-              <Route path="/AdminPage" element={<Adminpage />} />
-              <Route path="/login/" element={<LoginForm />} />
-              <Route path="/register/" element={<RegisterForm />} />
-              <Route path="/retrieve/" element={<RetrieveForm />} />
-            </Routes>
-          </div>
-        </Router>
-      </AuthProvider>
+      <LoadScript googleMapsApiKey="AIzaSyDnRpQ2BiFb6skH2qkvgCW0Bthwb83PVf0" libraries={["places"]}>
+          <AuthProvider>
+            <Router>
+              <div className="App">
+                <Routes>
+                  <Route path="/" element={<MainPage />} />
+
+                  <Route path="/mapPage" element={<MapPage />} />
+                  <Route path="/transcationPage" element={<TranscationPage />} />
+                  <Route path="/myCharger" element={<MyChargerPage />} />
+                  <Route path="/AdminPage" element={<Adminpage />} />
+                  <Route path="/ProfilePage" element={< Profile />} />
+                  <Route path="/login/" element={<LoginForm />} />
+                  <Route path="/register/" element={<RegisterForm />} />
+                  <Route path="/retrieve/" element={<RetrieveForm />} />
+                </Routes>
+              </div>
+            </Router>
+          </AuthProvider>
+      </LoadScript>
   );
 }
 
@@ -120,6 +125,10 @@ function MainPage() {
 }
 
 function MapPage() {
+    const { authData } = useContext(AuthContext);
+    console.log(authData);  // Log the authData to see if it's being passed down correctly
+
+
     const navigate = useNavigate();
     const [showLiveChat, setShowLiveChat] = useState(false);
     const [center, setCenter] = useState({
@@ -153,32 +162,35 @@ function MapPage() {
     };
 
     return (
-        <div style={{ position: 'fixed', height: '100vh', width: '100%' }}>
+        <div className="map-wrapper">
             <ButtonAppBar
                 transactionpage={() => navigate('/TransactionPage')}
                 adminpage={() => navigate('/Adminpage')}
                 myChargers={() => navigate('/myCharger')}
                 showLiveChat={showLiveChat}
                 toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+                profile={() => navigate('/ProfilePage')}
             />
             {showLiveChat && <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />}
 
-            <div className={showLiveChat ? 'chat-overlay-open' : ''} style={{ height: 'calc(100% - 64px)', position: 'relative' }}>
-                <GoogleMapComponent
-                    center={center}
-                    defaultProps={defaultProps}
-                    onPlaceSelect={handleSelect}
-                    ready={ready}
-                    value={value}
-                    suggestions={{ status, data }}
-                    setValue={setValue}
-                />
-            </div>
+            <GoogleMapComponent
+                bootstrapURLKeys={{ key: 'AIzaSyDnRpQ2BiFb6skH2qkvgCW0Bthwb83PVf0' }}
+                center={center}
+                defaultProps={defaultProps}
+                onPlaceSelect={handleSelect}
+                ready={ready}
+                value={value}
+                suggestions={{ status, data }}
+                setValue={setValue}
+            />
+
         </div>
     );
 }
 
+
 function LiveChatPage() {
+
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <LiveChat />
@@ -223,7 +235,12 @@ function TranscationPage() {
 }
 
 function Adminpage() {
-  return <AdminPage />;
+  return (<AdminPage />);
+}
+
+function Profile() {
+    const [showDialog, setShowDialog] = useState(false);
+    return <ProfilePage />;
 }
 
 export default App;

@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
-import GoogleMapReact from 'google-map-react';
-import chargerIcon from '../../matirial/Image/charger.png';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import '../../styles/MapPage/GoogleMapComponent.css';
+import markerImage from '../../matirial/Image/charger.png'
+const containerStyle = {
+    width: '100%',
+    height: '100%'
+};
 
+function ChargerMarker({ position, onChargerClick }) {
+    return (
+        <Marker
+            position={position}
+            onClick={() => onChargerClick && onChargerClick()}
+            icon={{
+                url: markerImage, // URL of the custom image
+                scaledSize: new window.google.maps.Size(40, 40), // Size of the custom image, you can adjust the dimensions
+            }}
+        />
+    );
+}
 
-function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect, onMapClick }) {
-    const [value, setValue] = useState('');
-    const [status, setStatus] = useState('IDLE');
-    const [ready, setReady] = useState(true);
-    const [selectedCharger, setSelectedCharger] = useState(null);  // State for selected charger info
-    function ChargerMarker({ charger, onChargerClick }) {
-        const { lat, lng } = charger.address;
-        console.log("Latitude:", lat, "Longitude:", lng);  // Add this line
+function GoogleMapComponent({ center, defaultProps = { zoom: 10 }, data = [], onPlaceSelect, onMapClick }) {
 
-        return (
-            <div
-                lat={lat}
-                lng={lng}
-                onClick={() => onChargerClick(charger)}
-                style={{ cursor: 'pointer' }}
-            >
-                <img src={chargerIcon} alt="Charger" width="30" height="30" />
-            </div>
-        );
-    }
-
-
+    const [selectedCharger, setSelectedCharger] = useState(null);
 
     const sampleChargers = [
         {
@@ -102,12 +99,8 @@ function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect, on
     ];
 
 
-    const handleSelect = (description) => {
-        if (onPlaceSelect) onPlaceSelect(description);
-    }
-
-    const handleMapClick = ({ lat, lng }) => {
-        if (onMapClick) onMapClick(lat, lng);
+    const handleMapClick = (e) => {
+        if (onMapClick) onMapClick(e.latLng.lat(), e.latLng.lng());
     }
 
     const showChargerInfo = (charger) => {
@@ -115,55 +108,27 @@ function GoogleMapComponent({ center, defaultProps, data = [], onPlaceSelect, on
     };
 
 
-
     return (
         <div className="map-container">
-            <div className="search-container">
-                <input
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    disabled={!ready}
-                    placeholder="Search places"
-                />
-                <ul>
-                    {status === 'OK' && data.map(({ id, description }) => (
-                        <li key={id} onClick={() => handleSelect(description)}>
-                            {description}
-                        </li>
-                    ))}
-                </ul>
-            </div>
 
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyDnRpQ2BiFb6skH2qkvgCW0Bthwb83PVf0' }}
-                defaultCenter={center}
+
+            <GoogleMap
+                mapContainerStyle={containerStyle}
                 center={center}
-                defaultZoom={defaultProps.zoom}
+                zoom={defaultProps ? defaultProps.zoom : 10}
+
                 onClick={handleMapClick}
             >
-
-            {sampleChargers.map(charger => (
-                <ChargerMarker
-                    key={charger.name}
-                    charger={charger}
-                    onChargerClick={showChargerInfo}
-                />
-            ))}
-
-
-            </GoogleMapReact>
-
-            {selectedCharger && (
-                <div className="charger-info-overlay">
-                    <h3>{selectedCharger.name}</h3>
-                    <p>{selectedCharger.address.street_address}</p>
-                    {/* Include other charger details */}
-                    <button onClick={() => setSelectedCharger(null)}>Close</button>
-                </div>
-            )}
+                {sampleChargers.map(charger => (
+                    <ChargerMarker
+                        key={charger.name}
+                        position={{ lat: charger.address.lat, lng: charger.address.lng }}
+                        onChargerClick={() => showChargerInfo(charger)}
+                    />
+                ))}
+            </GoogleMap>
         </div>
     );
 }
 
 export default GoogleMapComponent;
-

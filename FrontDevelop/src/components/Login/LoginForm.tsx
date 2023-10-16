@@ -12,32 +12,44 @@ const LoginForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { setAuthData } = useContext(AuthContext);
 
+    interface FormElements extends HTMLFormElement {
+        email: { value: string };
+        password: { value: string };
+    }
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const target = event.target as typeof event.target & {
             email: { value: string };
             password: { value: string };
         };
+
         const email = target.email.value;
         const enteredPassword = target.password.value;
         const response = await login(email, enteredPassword);
-
+        console.log(response);
         if (response.status === 200) {
             const access_token = response.data.access;
             const refresh_token = response.data.refresh;
             const user_id = response.data.id;
+            const email = response.data.email;
             const username = response.data.username;
-
+            const firstname = response.data.first_name;
+            const lastname = response.data.last_name;
+            const Uaddress = response.data.address;
             if (setAuthData) {
                 setAuthData({
                     username: username,
                     id: user_id,
                     access_token: access_token,
-                    refresh_token: refresh_token
+                    refresh_token: refresh_token,
+                    first_name : firstname,
+                    last_name : lastname,
+                    email : email ,
+                    address : Uaddress,
                 });
             }
 
-            console.log(username);
+
             navigate('/mapPage'); // Use navigate here instead of window.location.href
         } else {
             console.error(response.error || "Login failed.");

@@ -74,6 +74,7 @@ function LiveChat({ onClose , show}) {
 
     return (
 
+
         <div className={`chat-overlay ${display ? '' : 'chat-overlay-hidden'}`}>
             <div className="chat-window">
 

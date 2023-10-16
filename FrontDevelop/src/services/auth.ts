@@ -9,7 +9,7 @@ export const login = async (email: string, password: string) => {
         },
         body: JSON.stringify({ email, password }),
     });
-
+    console.log(response);
     if (response.status === 200) {
         return { status: 200, data: await response.json() };
     } else {
