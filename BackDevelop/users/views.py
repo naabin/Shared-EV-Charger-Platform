@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.decorators import action
 
 from .swagger_schema import SwaggerLoginSchema
 from .models import UserProfile
@@ -35,6 +36,27 @@ class UserViewSet(viewsets.ModelViewSet):
                 'access-token': str(refresh.access_token)
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['get'], detail=False, permission_classes=[AllowAny])
+    def get_user_by_username(self, request):
+        username = request.query_params.get('username')
+        if username is not None:
+            user = UserProfile.objects.filter(username=username)
+            if not (user.exists()):
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'Username already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        return Response(status=status.HTTP_200_OK)
+    
+    @action(methods=['get'], detail=False, permission_classes=[AllowAny])
+    def get_user_by_email(self, request):
+        user_email = request.query_params.get('email')
+        if user_email is not None and len(user_email) > 0:
+            user = UserProfile.objects.filter(email=user_email)
+            if not (user.exists()):
+                return Response(status=status.HTTP_200_OK)
+            return Response({'message': 'Email already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        return Response(status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
         queryset = UserProfile.objects.order_by('date_joined')
