@@ -39,6 +39,7 @@ import usePlacesAutocomplete, {
 import {LoadScript} from "@react-google-maps/api";
 import ProfilePage from "./components/MapPage/Profile";
 
+const googleMapsLibraries = ["places"];
 function App() {
 
   return (
@@ -48,7 +49,6 @@ function App() {
               <div className="App">
                 <Routes>
                   <Route path="/" element={<MainPage />} />
-
                   <Route path="/mapPage" element={<MapPage />} />
                   <Route path="/transcationPage" element={<TranscationPage />} />
                   <Route path="/myCharger" element={<MyChargerPage />} />
@@ -145,7 +145,7 @@ function MapPage() {
     } = usePlacesAutocomplete();
 
     const defaultProps = {
-        zoom: 11
+        zoom: 10
     };
 
     const handleSelect = async (address) => {
@@ -183,7 +183,6 @@ function MapPage() {
                 suggestions={{ status, data }}
                 setValue={setValue}
             />
-
         </div>
     );
 }

@@ -1,5 +1,5 @@
 .map-container {
-    position: absolute;
+    position: fixed;
     z-index: 50;
     top: 10%;
     left: 10%;
@@ -7,15 +7,5 @@
     height: 100vh;
     width: 160vh;
     overflow: hidden;
-}
-
-.charger-marker {
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    border-radius: 50%;
-    cursor: pointer; /* To indicate clickable */
-    position: absolute; /* Added */
-    transform: translate(-50%, -50%); /* Centering based on lat/lng */
 }
 
