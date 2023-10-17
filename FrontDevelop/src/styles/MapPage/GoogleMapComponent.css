@@ -9,3 +9,26 @@
     overflow: hidden;
 }
 
+.info-container {
+    padding: 10px;
+    background: #f8f8f8; /* light gray background for visibility */
+    border: 1px solid #e0e0e0; /* subtle border */
+    border-radius: 5px; /* rounded corners */
+    width: 250px; /* or any other preferred width */
+}
+
+.charger-name {
+    font-size: 20px; /* Large text size for name */
+    margin-bottom: 8px; /* space below the title */
+    color: #333; /* Dark color for name */
+}
+
+.info-container p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #555; /* Grayish text color */
+}
+
+.info-container p strong {
+    color: #333; /* Darker text color for the label */
+}

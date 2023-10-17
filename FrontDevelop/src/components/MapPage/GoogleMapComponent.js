@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import {GoogleMap, InfoWindow, Marker} from '@react-google-maps/api';
 import '../../styles/MapPage/GoogleMapComponent.css';
 import markerImage from '../../matirial/Image/charger.png';
 
@@ -13,12 +13,14 @@ const containerStyle = {
 function GoogleMapComponent({ center, defaultProps = { zoom: 10 }, data = [], onPlaceSelect, onMapClick }) {
 
     const [rerender, setRerender] = useState(false);
+    const [selectedCharger, setSelectedCharger] = useState(null);
 
     useEffect(() => {
         const timer = setTimeout(() => setRerender(true), 500);  // delay of 500ms
         return () => clearTimeout(timer);
     }, []);
-    const [selectedCharger, setSelectedCharger] = useState(null);
+
+
     const sampleChargers = [
         {
             charger_type: {
@@ -123,6 +125,27 @@ function GoogleMapComponent({ center, defaultProps = { zoom: 10 }, data = [], on
                         );
                     })
                 }
+                {selectedCharger && (
+                    <InfoWindow
+                        position={{
+                            lat: selectedCharger.address.lat,
+                            lng: selectedCharger.address.lng
+                        }}
+                        onCloseClick={() => setSelectedCharger(null)}
+                    >
+                        <div className="info-container">
+                            <h4 className="charger-name">{selectedCharger.name}</h4>
+                            <p><strong>Type:</strong> {selectedCharger.charger_type.name}</p>
+                            <p><strong>Power:</strong> {selectedCharger.charger_type.power}</p>
+                            <p><strong>Port Type:</strong> {selectedCharger.charger_type.port_type}</p>
+                            <p><strong>Amp:</strong> {selectedCharger.charger_type.amp}</p>
+                            <p><strong>Address:</strong> {selectedCharger.address.street_address}</p>
+                            <p><strong>Average Rating:</strong> {(selectedCharger.number_of_stars / selectedCharger.number_of_rating).toFixed(2)}</p>
+                        </div>
+                    </InfoWindow>
+                )}
+
+
 
             </GoogleMap>
         </div>
