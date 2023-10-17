@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
+import { GoogleMap, InfoWindowF, Marker } from "@react-google-maps/api";
 import "../../styles/MapPage/GoogleMapComponent.css";
 import markerImage from "../../matirial/Image/charger.png";
 import axios from "axios";
@@ -24,7 +24,7 @@ function GoogleMapComponent({
       .get("http://localhost:8000/charger/")
       .then((res) => setChargers(res.data))
       .catch((err) => console.log(err));
-  });
+  }, []);
   useEffect(() => {
     const timer = setTimeout(() => setRerender(true), 500); // delay of 500ms
     return () => clearTimeout(timer);
@@ -121,7 +121,6 @@ function GoogleMapComponent({
       >
         {rerender &&
           chargers.map((charger, index) => {
-            console.log("Rendering marker for:", charger.name);
             return (
               <Marker
                 key={index}
@@ -138,7 +137,7 @@ function GoogleMapComponent({
             );
           })}
         {selectedCharger && (
-          <InfoWindow
+          <InfoWindowF
             position={{
               lat: JSON.parse(selectedCharger.address.lat),
               lng: JSON.parse(selectedCharger.address.lng),
@@ -147,6 +146,7 @@ function GoogleMapComponent({
           >
             <div className="info-container">
               <h4 className="charger-name">{selectedCharger.name}</h4>
+              {/* <img src={selectedCharger}/> */}
               <p>
                 <strong>Type:</strong> {selectedCharger.charger_type.name}
               </p>
@@ -172,7 +172,7 @@ function GoogleMapComponent({
                 ).toFixed(2)}
               </p>
             </div>
-          </InfoWindow>
+          </InfoWindowF>
         )}
       </GoogleMap>
     </div>
