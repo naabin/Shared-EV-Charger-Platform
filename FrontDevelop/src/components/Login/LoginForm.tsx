@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { login } from "../../services/auth";
 import { AuthContext } from "../../services/AuthContext";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate here
+import { Link, json, useNavigate } from "react-router-dom"; // Added useNavigate here
 import { Input, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import "../../styles/LoginReg.css";
@@ -28,6 +28,7 @@ const LoginForm: React.FC = () => {
     const enteredPassword = target.password.value;
     const response = await login(email, enteredPassword);
     if (response.status === 200) {
+      localStorage.setItem("user", JSON.stringify(response.data));
       const access_token = response.data.access;
       const refresh_token = response.data.refresh;
       const user_id = response.data.id;

@@ -20,13 +20,22 @@ const MyCharger = (props) => {
   const [showMapOverlay, setShowMapOverlay] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [chargers, setChargers] = useState([]);
-  const userContext = useContext(AuthContext);
+  const [auth, setAuth] = useState(null);
+
   useEffect(() => {
-    // setTitleOpacity(1);
-    axios
-      .get("http://localhost:8000/charger")
-      .then((res) => setChargers(res.data))
-      .catch((err) => console.log(err));
+    const access_token = JSON.parse(localStorage.getItem("user"));
+    setAuth(access_token);
+    if (auth && auth.access) {
+      axios
+        .get("http://localhost:8000/charger/get_charger_by_renter_id/", {
+          params: { renter: auth.id },
+          headers: {
+            Authorization: "Bearer " + auth.access,
+          },
+        })
+        .then((res) => setChargers(res.data))
+        .catch((err) => console.log(err));
+    }
   }, []);
   return (
     <div className="pageContainer">
@@ -49,7 +58,7 @@ const MyCharger = (props) => {
               opacity: titleOpacity,
             }}
           >
-            {userContext && userContext.username}
+            {auth && auth.username}
           </Typography>
           <Button onClick={props.change}>Register a new Charger</Button>
           <List>

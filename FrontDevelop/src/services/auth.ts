@@ -36,8 +36,6 @@ export const register = async (user: any) => {
 };
 
 export const createCharger = async (chargerData: any) => {
-  console.log(chargerData);
-
   try {
     const response = await fetch("http://localhost:8000/charger/", {
       method: "POST",

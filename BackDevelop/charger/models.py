@@ -28,6 +28,6 @@ class Charger(models.Model):
     renter = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, null=True)
     charger_type = models.ForeignKey(
-        ChargerType, on_delete=models.CASCADE, verbose_name='charger_type')
+        ChargerType, on_delete=models.CASCADE, verbose_name='charger_type', blank=True)
     number_of_stars = models.IntegerField()
     number_of_rating = models.DecimalField(max_digits=3, decimal_places=1)
