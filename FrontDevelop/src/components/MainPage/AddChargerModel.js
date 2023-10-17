@@ -1,22 +1,27 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Modal, Upload, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import GoogleMapComponent from "../MapPage/GoogleMapComponent";
-import { createCharger } from "../../services/auth";
-import { AuthContext } from "../../services/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 function AddChargerModel(props) {
   const [showMapOverlay, setShowMapOverlay] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [form] = Form.useForm();
-  const context = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [auth, setAuth] = useState({});
+  useEffect(() => {
+    setAuth(JSON.parse(localStorage.getItem("user")));
+  }, []);
   const handleOk = () => {
     form.validateFields().then(async (values) => {
       const { image, ...otherValues } = await values; // Destructure to separate image from other values
       let data = null;
       image
         .then((e) => {
-          if (e && e.file && e.file.thumbUrl && context.id) {
+          if (e && e.file && e.file.thumbUrl && auth.id) {
             data = {
               charger_type: {
                 name: otherValues.name,
@@ -41,17 +46,23 @@ function AddChargerModel(props) {
               name: otherValues.name,
               number_of_stars: 0, // Default to 0 if undefined
               number_of_rating: 0,
-              renter: context.id,
+              renter: auth.id,
             };
           }
           data &&
-            createCharger(data)
-              .then((data) => {
-                console.log("Success:", data);
-                props.closeEvent();
+            axios
+              .post("http://localhost:8000/charger/", JSON.stringify(data), {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + auth.access,
+                },
               })
-              .catch((error) => {
-                console.error("Error:", error);
+              .then((res) => {
+                console.log("successfully created charger");
+                navigate("/myCharger");
+              })
+              .catch((err) => {
+                console.log(err);
               });
         })
         .catch((errorInfo) => {

@@ -25,12 +25,12 @@ const MyCharger = (props) => {
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
     setAuth(access_token);
-    if (auth && auth.access) {
+    if (access_token && access_token.access) {
       axios
         .get("http://localhost:8000/charger/get_charger_by_renter_id/", {
-          params: { renter: auth.id },
+          params: { renter: access_token.id },
           headers: {
-            Authorization: "Bearer " + auth.access,
+            Authorization: "Bearer " + access_token.access,
           },
         })
         .then((res) => setChargers(res.data))
