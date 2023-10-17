@@ -17,7 +17,6 @@ import { AuthContext } from "../../services/AuthContext";
 import Pay_Page from "../Pay_Page/Pay_Page";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 
 export default function ButtonAppBar({
   transactionpage,
@@ -33,17 +32,18 @@ export default function ButtonAppBar({
   const [run, setRun] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [auth, setAuth] = useState(null);
-  const { username, id, access_token, refresh_token } = useContext(AuthContext);
-  const firstLetter = username ? username.charAt(0).toUpperCase() : "A";
+
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       setAuth(JSON.parse(localStorage.getItem("user")));
-      console.log(auth);
+
       if (auth && auth.access) {
         setIsLoggedIn(true);
       }
     }
   }, []);
+  const firstLetter = (auth && auth.username) ? auth.username.charAt(0).toUpperCase() : "A";
   const steps = [
     {
       target: ".first-step",
@@ -67,6 +67,9 @@ export default function ButtonAppBar({
     localStorage.setItem("user", null);
     navigate("/login");
   };
+
+
+
 
   useEffect(
     function () {
@@ -160,8 +163,7 @@ export default function ButtonAppBar({
               gutterBottom
               style={{ marginBottom: 16 }}
             >
-              {username || "User Name"}{" "}
-              {/* Replaced 'User Name' with the actual username, and fallback to 'User Name' if username is not defined */}
+              {auth && auth.username ? auth.username : "User Name"}
             </Typography>
             <List>
               <ListItem disablePadding>
