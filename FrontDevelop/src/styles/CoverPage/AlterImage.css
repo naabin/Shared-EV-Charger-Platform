@@ -2,7 +2,7 @@
 .btn-image-container {
     position: relative;
     display: inline-block;
-    width: 50%;
+    width: 100%;
 }
 
 .hidden-image-container {
@@ -11,14 +11,16 @@
 
 .flex-img-container {
     display: flex;
+    width:350.3px;
 }
 
 .overlay-button {
-    height: fit-content;
     white-space: pre-line;
     position: absolute;
-    top: 40%;
-    left: 10%;
+    top: 45%;
+    left: 2%;
     background-color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
+    width: 120px;
+    color: white;
 }

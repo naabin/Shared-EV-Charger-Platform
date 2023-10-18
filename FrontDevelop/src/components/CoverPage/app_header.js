@@ -28,11 +28,12 @@ function AppHeader(props) {
             <Col span={3}>
               <div className="title">EV Shared Charger</div>
             </Col>
-            <Col span={2}>
+            <Col span={2} style = {{margin: "15px 10px"}}>
               <div className="operate-btn">
                 <Button
                     className="btn-register"
                     type="text"
+                    style = {{color:"white"}}
                     onClick={handleRegisterClick}
                 >
                   Register
@@ -40,6 +41,7 @@ function AppHeader(props) {
                 <Button
                     className="btn-login"
                     type="text"
+                    style = {{color:"white"}}
                     onClick={handleLoginClick}
                 >
                   Login
@@ -56,4 +58,3 @@ function AppHeader(props) {
 }
 
 export default AppHeader;
-
