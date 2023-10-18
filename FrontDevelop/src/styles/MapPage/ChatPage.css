@@ -30,8 +30,8 @@ body {
 }
 
 .chat-container {
-    width: 80%;
-    height: 80%;
+    width: 70%;
+    height: 70%;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -245,18 +245,5 @@ body {
 
 .chat-room .offline .status-indicator {
     background-color: #ccc; /* Offline status color */
-}
-
-/* Load more messages indicator */
-.load-more {
-    text-align: center;
-    padding: 5px;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.load-more:hover {
-    color: #555;
 }
 

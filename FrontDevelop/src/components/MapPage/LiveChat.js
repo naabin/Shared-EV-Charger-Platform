@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Avatar from './Avatar';
-import { saveAs } from 'file-saver';
 import "../../styles/MapPage/ChatPage.css";
 
 function LiveChat({ onClose, show }) {
@@ -23,20 +22,23 @@ function LiveChat({ onClose, show }) {
         }
     }, []);  // Only run once when component mounts
 
+
+
     useEffect(() => {
-        if (username) {
+        if (username)
+        {
             fetch(`http://localhost:8000/chatroom/get_user_chatrooms/${username}`)
                 .then(response => response.json())
                 .then(data => {
-                    setChatRooms(data);
-                    if (data && data.length > 0) {
+                    if (data && data.length > 0 && data[0].chatlog) {
+                        setChatRooms(data);
                         setChatLog(data[0].chatlog);
                         setRoomNumber(data[0].room_name);
                     }
                 });
         }
-    }, [username]);
 
+    }, [username]);
 
     useEffect(() => {
         if (auth && auth.access) {
@@ -44,17 +46,7 @@ function LiveChat({ onClose, show }) {
         }
     }, [auth]);  // Run whenever `auth` changes
 
-    useEffect(() => {
-        fetch(`http://localhost:8000/chatroom/get_user_chatlogs/${username}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.length > 0 && data[0].chatlog) {
-                    setChatRooms(data);
-                    setChatLog(data[0].chatlog);
-                    setRoomNumber(data[0].room_name);
-                }
-            });
-    }, [username]);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -93,6 +85,7 @@ function LiveChat({ onClose, show }) {
                     setRoomNumber(data.room_name);
                     const newSocket = new WebSocket('ws://localhost:8001/ws/chat/' + data.room_name + '/');
                     setChatSocket(newSocket);
+                    console.log("join successfully")
                 });
         } else {
             chatSocket.close();
@@ -139,10 +132,6 @@ function LiveChat({ onClose, show }) {
         onClose();
     };
 
-    const handleChatEntryClick = (room) => {
-        setReceiverUsername(room.chatlog[0].username);
-        joinRoom();
-    };
 
 
     useEffect(() => {
@@ -234,7 +223,7 @@ function LiveChat({ onClose, show }) {
                         <button onClick={sendMessage} disabled={!chatSocket}>Send</button>
                     </div>
                 </div>
-             </div>
+            </div>
         </div>
     );
 }

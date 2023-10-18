@@ -36,13 +36,6 @@ def get_chatroom(request):
             'chatlog': []
         }, status=201)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def get_user_chatlogs(request, username):
-    chatrooms = Chatroom.objects.filter(Q(user1__username=username) | Q(user2__username=username))
-    data = [{'room_name': cr.room_name, 'chatlog': json.loads(cr.chatlog)} for cr in chatrooms]
-    print(data)
-    return Response(data)
 
 # Define the function to generate a random room name
 def generate_random_room_name():
