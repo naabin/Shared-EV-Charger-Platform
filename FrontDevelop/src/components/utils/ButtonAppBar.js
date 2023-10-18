@@ -7,15 +7,27 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
 import { deepOrange } from "@mui/material/colors";
 import Joyride, { STATUS } from "react-joyride";
 import { AuthContext } from "../../services/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Popper, { PopperPlacementType } from '@mui/material/Popper';
+import Fade from '@mui/material/Fade';
+import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Input from '@mui/material/Input';
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import SvgIcon from '@mui/material/SvgIcon';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 export default function ButtonAppBar({
   transactionpage,
@@ -32,6 +44,14 @@ export default function ButtonAppBar({
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [auth, setAuth] = useState(null);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
+  const handleClick = (newPlacement) => (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -81,7 +101,7 @@ export default function ButtonAppBar({
       <Box sx={{ flexGrow: 1, zIndex: 1250 }}>
         <AppBar
           position="fixed"
-          sx={{ backgroundColor: "#e0e0e0", zIndex: 1350 }}
+          sx={{ backgroundColor: "#F3F3F3", zIndex: 1350 }}
         >
           <Toolbar>
             <Joyride
@@ -108,7 +128,7 @@ export default function ButtonAppBar({
               aria-label="menu"
               sx={{ mr: 2, color: "black" }}
               onClick={() =>
-                drawerOpen === true ? setDrawerOpen(false) : setDrawerOpen(true)
+                  drawerOpen === true ? setDrawerOpen(false) : setDrawerOpen(true)
               }
             >
               <MenuIcon />
@@ -130,103 +150,109 @@ export default function ButtonAppBar({
             <Avatar
               className="first-step"
               sx={{ bgcolor: deepOrange[300], cursor: "pointer" }}
-              onClick={() =>
-                drawerOpen === true ? setDrawerOpen(false) : setDrawerOpen(true)
-              }
+              // onClick={() =>
+              //   drawerOpen === true ? setDrawerOpen(false) : setDrawerOpen(true)
+              // }
+              onClick={handleClick('bottom-end')}
             >
               {firstLetter} {/* Replaced 'A' with the firstLetter */}
             </Avatar>
           </Toolbar>
         </AppBar>
-      </Box>
-      {
-        <Drawer
-          anchor="right"
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-        >
-          <div style={{ width: 400, marginTop: 100 }}>
-            <Avatar
-              sx={{
-                bgcolor: deepOrange[300],
-                margin: "0 auto",
-                marginBottom: 2,
-              }}
-            >
+        <Popper  style={{ zIndex: 1400 }} open={open} anchorEl={anchorEl} placement={placement} transition>
+          {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper style={{width:300}}>
+                  {/* <div style={{ width: 300, height:500}}><br></br> */}
+                  <Card sx={{ marginTop:1, Width: 100, height:400, backgroundColor:'#E2E2E2'}}>
+                    <CardContent>
+                      <Card sx={{ Width: 280, height:80}}>
+                        <CardContent>
+                          <Box sx={{display:"inline-block", width:20}}>
+                            <SvgIcon onClick={adminpage} cursor='pointer'sx={{marginLeft:'220px',display:"inline-block"}}>
+                              {/* credit: plus icon from https://heroicons.com/ */}
+                              <svg
+
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                              >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"
+                                />
+                              </svg>
+                            </SvgIcon>
+                            <Avatar
+                                className="first-step"
+                                sx={{ marginTop:"-25px", bgcolor: deepOrange[300]}}
+                            >
               {firstLetter} {/* Replaced 'A' with the firstLetter */}
-            </Avatar>
-            <Typography
-              variant="h6"
-              align="center"
-              gutterBottom
-              style={{ marginBottom: 16 }}
-            >
-              {auth && auth.username ? auth.username : "User Name"}
-            </Typography>
-            <List>
-              <ListItem disablePadding>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginBottom: 30 }}
-                  onClick={transactionpage}
-                >
-                  Transaction History
-                </Button>
-              </ListItem>
-              <ListItem disablePadding>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginBottom: 30 }}
-                  onClick={toggleLiveChat} // Toggle the live chat overlay
-                >
-                  Live Chat
-                </Button>
-              </ListItem>
-              <ListItem disablePadding>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginBottom: 30 }}
-                  onClick={myChargers}
-                >
-                  My Charger
-                </Button>
-              </ListItem>
-              <ListItem disablePadding>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginBottom: 30 }}
-                  onClick={adminpage}
-                >
-                  Switch to Admin
-                </Button>
-              </ListItem>
-              <ListItem disablePadding>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginBottom: 30 }}
-                  onClick={logout}
-                >
-                  Logout
-                </Button>
-              </ListItem>
-            </List>
-            <Divider style={{ margin: "16px 0" }} />
-            <Button
-              fullWidth
-              variant="contained"
-              color="secondary"
-              onClick={() => navigate("/ProfilePage")}
-            >
-              Profile
-            </Button>
-          </div>
-        </Drawer>
-      }
+                            </Avatar>
+                          </Box>
+                          <Box sx={{ marginTop:-7,marginLeft:9, width: '60%'}}>
+                            <p style={{fontWeight:"400", fontSize:'20px'}}>UserName</p>
+                            <p style={{marginTop:"-15px",fontSize:"10px"}}>121212@outlook.com</p>
+                          </Box>
+                        </CardContent>
+
+                      </Card>
+                      <Card sx={{ Width: 280, height:280, marginTop:'5px'}}>
+                        <CardContent>
+                          <List subheader={
+                            <ListSubheader component="div" id="nested-list-subheader">
+                              Options
+                            </ListSubheader>
+                          }>
+                            <ListItem disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Transaction" onClick={transactionpage} />
+                              </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <DraftsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="LiveChat" onClick={toggleLiveChat} />
+                              </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <DraftsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="MyCharger" onClick={myChargers}/>
+                              </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <DraftsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Admin" onClick={adminpage}/>
+                              </ListItemButton>
+                            </ListItem>
+                          </List>
+
+                        </CardContent>
+
+                      </Card>
+                      <CardContent>
+                      </CardContent>
+                    </CardContent>
+                  </Card>
+                </Paper>
+              </Fade>
+          )}
+        </Popper>
+      </Box>
     </>
   );
 }
