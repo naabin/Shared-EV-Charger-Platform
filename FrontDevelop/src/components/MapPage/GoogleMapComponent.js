@@ -9,12 +9,12 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
+  Chip,
   Rating,
   TextField,
 } from "@mui/material";
 import { Spinner } from "../utils/Spinner";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 
 const containerStyle = {
   width: "100%",
@@ -32,8 +32,13 @@ function GoogleMapComponent({
   const [selectedCharger, setSelectedCharger] = useState(null);
   const [chargers, setChargers] = useState([]);
   const [showReview, setShowReview] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [comment, setComment] = useState(null);
+  const [auth, setAuth] = useState(null);
+
   useEffect(() => {
+    setAuth(JSON.parse(localStorage.getItem("user")));
     axios
       .get("http://localhost:8000/charger/")
       .then((res) => setChargers(res.data))
@@ -44,9 +49,44 @@ function GoogleMapComponent({
     return () => clearTimeout(timer);
   }, []);
 
+  const loadReviews = (chargerId) => {
+    if (chargerId !== null) {
+      axios
+        .get(`http://localhost:8000/comment/get_comments_by_charger`, {
+          params: {
+            charger_id: chargerId,
+          },
+        })
+        .then((res) => {
+          setReviews(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const sendComment = (chargerId) => {
+    const data = {
+      contents: comment,
+      user: auth.id,
+      charger: chargerId,
+    };
+    if (auth && auth.id) {
+      axios
+        .post("http://localhost:8000/comment/", JSON.stringify(data), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setComment("");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const handleMapClick = (e) => {
-    console.log(e);
     if (onMapClick) onMapClick(e.latLng.lat(), e.latLng.lng());
   };
 
@@ -110,17 +150,17 @@ function GoogleMapComponent({
                 alt={selectedCharger.charger_type.image.name}
               />
               <div className="checkinBtn-continer">
-                <button className="checkinBtn"><Pay_Page /></button>
+                <button className="checkinBtn">
+                  <Pay_Page />
+                </button>
               </div>
 
               <Accordion>
-
                 <AccordionSummary
                   aria-controls="panel1-content"
                   expandIcon={<ExpandMoreIcon />}
                   id="panel1-header"
                 >
-
                   <Typography>
                     <strong> Charger Details </strong>
                   </Typography>
@@ -146,7 +186,7 @@ function GoogleMapComponent({
                   </p>
                 </AccordionDetails>
               </Accordion>
-              <Accordion>
+              <Accordion onChange={() => loadReviews(selectedCharger.id)}>
                 <AccordionSummary
                   aria-controls="panel2"
                   id="panel2-header"
@@ -157,19 +197,42 @@ function GoogleMapComponent({
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>List of reviews goes here</Typography>
+                  <Typography>
+                    {reviews.map((rev, index) => {
+                      return (
+                        <>
+                          <Chip key={index} label={rev.contents} />
+                          <Chip label={rev.user} variant="outlined" />
+                        </>
+                      );
+                    })}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              {/* TODO: need to enable this one again after user uses the  */}
+              <Accordion disabled>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <div>
+                    <Rating />
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails>
                   <TextField
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                     type="search"
                     label="Leave review"
                     variant="filled"
                     id="filled-search"
                   />
+                  <Button
+                    onClick={() => sendComment(selectedCharger.id)}
+                    type="submit"
+                    variant="outlined"
+                  >
+                    Send
+                  </Button>
                 </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary>
-                  <Rating />
-                </AccordionSummary>
               </Accordion>
             </div>
           </InfoWindowF>
