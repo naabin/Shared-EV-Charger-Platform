@@ -103,6 +103,7 @@ function GoogleMapComponent({
   ];
 
   const handleMapClick = (e) => {
+    console.log(e);
     if (onMapClick) onMapClick(e.latLng.lat(), e.latLng.lng());
   };
 
@@ -146,7 +147,12 @@ function GoogleMapComponent({
           >
             <div className="info-container">
               <h4 className="charger-name">{selectedCharger.name}</h4>
-              {/* <img src={selectedCharger}/> */}
+              <img
+                src={
+                  selectedCharger && selectedCharger.charger_type.image.image
+                }
+                alt={selectedCharger.charger_type.image.name}
+              />
               <p>
                 <strong>Type:</strong> {selectedCharger.charger_type.name}
               </p>
