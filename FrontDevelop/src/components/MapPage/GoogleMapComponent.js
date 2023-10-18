@@ -3,6 +3,16 @@ import { GoogleMap, InfoWindowF, Marker } from "@react-google-maps/api";
 import "../../styles/MapPage/GoogleMapComponent.css";
 import markerImage from "../../matirial/Image/charger.png";
 import axios from "axios";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Rating,
+} from "@mui/material";
+import { Spinner } from "../utils/Spinner";
+import { Typography } from "antd";
 
 const containerStyle = {
   width: "100%",
@@ -19,6 +29,8 @@ function GoogleMapComponent({
   const [rerender, setRerender] = useState(false);
   const [selectedCharger, setSelectedCharger] = useState(null);
   const [chargers, setChargers] = useState([]);
+  const [showReview, setShowReview] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
     axios
       .get("http://localhost:8000/charger/")
@@ -108,7 +120,6 @@ function GoogleMapComponent({
   };
 
   const showChargerInfo = (charger) => {
-    console.log(charger);
     setSelectedCharger(charger);
   };
 
@@ -143,40 +154,61 @@ function GoogleMapComponent({
               lat: JSON.parse(selectedCharger.address.lat),
               lng: JSON.parse(selectedCharger.address.lng),
             }}
-            onCloseClick={() => setSelectedCharger(null)}
+            onCloseClick={() => {
+              setSelectedCharger(null);
+              setImageLoaded(false);
+            }}
           >
             <div className="info-container">
-              <h4 className="charger-name">{selectedCharger.name}</h4>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h2>{selectedCharger.name}</h2>
+                <Rating defaultValue={3} readOnly max={5} />
+              </div>
+
+              {!imageLoaded ? <Spinner /> : null}
               <img
+                onLoad={(e) => setImageLoaded(true)}
                 src={
                   selectedCharger && selectedCharger.charger_type.image.image
                 }
                 alt={selectedCharger.charger_type.image.name}
               />
-              <p>
-                <strong>Type:</strong> {selectedCharger.charger_type.name}
-              </p>
-              <p>
-                <strong>Power:</strong> {selectedCharger.charger_type.power}
-              </p>
-              <p>
-                <strong>Port Type:</strong>{" "}
-                {selectedCharger.charger_type.port_type}
-              </p>
-              <p>
-                <strong>Amp:</strong> {selectedCharger.charger_type.amp}
-              </p>
-              <p>
-                <strong>Address:</strong>{" "}
-                {selectedCharger.address.street_address}
-              </p>
-              <p>
-                <strong>Average Rating:</strong>{" "}
-                {(
-                  selectedCharger.number_of_stars /
-                  selectedCharger.number_of_rating
-                ).toFixed(2)}
-              </p>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Charger Details</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <p>
+                    <strong>Type:</strong> {selectedCharger.charger_type.name}
+                  </p>
+                  <p>
+                    <strong>Power:</strong> {selectedCharger.charger_type.power}
+                  </p>
+                  <p>
+                    <strong>Port Type:</strong>
+                    {selectedCharger.charger_type.port_type}
+                  </p>
+                  <p>
+                    <strong>Amp:</strong> {selectedCharger.charger_type.amp}
+                  </p>
+                  <p>
+                    <strong>Address:</strong>
+                    {selectedCharger.address.street_address}
+                  </p>
+                  {/* <p>
+                    <strong>Average Rating:</strong>
+                    {(
+                      selectedCharger.number_of_stars /
+                      selectedCharger.number_of_rating
+                    ).toFixed(2)}
+                  </p> */}
+                </AccordionDetails>
+              </Accordion>
             </div>
           </InfoWindowF>
         )}
