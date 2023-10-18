@@ -10,6 +10,7 @@ import {
   AccordionSummary,
   Button,
   Rating,
+  TextField,
 } from "@mui/material";
 import { Spinner } from "../utils/Spinner";
 import { Typography } from "antd";
@@ -179,8 +180,14 @@ function GoogleMapComponent({
                 alt={selectedCharger.charger_type.image.name}
               />
               <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Charger Details</Typography>
+                <AccordionSummary
+                  aria-controls="panel1-content"
+                  expandIcon={<ExpandMoreIcon />}
+                  id="panel1-header"
+                >
+                  <Typography>
+                    <strong> Charger Details </strong>
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <p>
@@ -200,14 +207,32 @@ function GoogleMapComponent({
                     <strong>Address:</strong>
                     {selectedCharger.address.street_address}
                   </p>
-                  {/* <p>
-                    <strong>Average Rating:</strong>
-                    {(
-                      selectedCharger.number_of_stars /
-                      selectedCharger.number_of_rating
-                    ).toFixed(2)}
-                  </p> */}
                 </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  aria-controls="panel2"
+                  id="panel2-header"
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography>
+                    <strong>Reviews</strong>
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>List of reviews goes here</Typography>
+                  <TextField
+                    type="search"
+                    label="Leave review"
+                    variant="filled"
+                    id="filled-search"
+                  />
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary>
+                  <Rating />
+                </AccordionSummary>
               </Accordion>
             </div>
           </InfoWindowF>
