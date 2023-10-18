@@ -169,7 +169,7 @@ export default function ButtonAppBar({
                       <Card sx={{ Width: 280, height:80}}>
                         <CardContent>
                           <Box sx={{display:"inline-block", width:20}}>
-                            <SvgIcon onClick={adminpage} cursor='pointer'sx={{marginLeft:'220px',display:"inline-block"}}>
+                            <SvgIcon onClick={() => navigate("/ProfilePage")} cursor='pointer'sx={{marginLeft:'220px',display:"inline-block"}}>
                               {/* credit: plus icon from https://heroicons.com/ */}
                               <svg
 
