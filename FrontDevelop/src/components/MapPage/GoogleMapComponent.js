@@ -8,12 +8,12 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
+  Chip,
   Rating,
   TextField,
 } from "@mui/material";
 import { Spinner } from "../utils/Spinner";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 
 const containerStyle = {
   width: "100%",
@@ -31,8 +31,13 @@ function GoogleMapComponent({
   const [selectedCharger, setSelectedCharger] = useState(null);
   const [chargers, setChargers] = useState([]);
   const [showReview, setShowReview] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [comment, setComment] = useState(null);
+  const [auth, setAuth] = useState(null);
+
   useEffect(() => {
+    setAuth(JSON.parse(localStorage.getItem("user")));
     axios
       .get("http://localhost:8000/charger/")
       .then((res) => setChargers(res.data))
@@ -43,80 +48,44 @@ function GoogleMapComponent({
     return () => clearTimeout(timer);
   }, []);
 
-  const sampleChargers = [
-    {
-      charger_type: {
-        image: null,
-        name: "Fast Charger",
-        brand: "ACME",
-        power: "50 kW",
-        port_type: "Type 2",
-        amp: "125A",
-        warranty: 2,
-      },
-      address: {
-        street_address: "123 Main Street",
-        lat: -33.8688,
-        lng: 151.2093,
-        suburb: "Sydney",
-        post_code: "2000",
-        country: "Australia",
-      },
-      name: "Charger 1",
-      number_of_stars: 4,
-      number_of_rating: "100",
-      renter: 3,
-    },
-    {
-      charger_type: {
-        image: null,
-        name: "Standard Charger",
-        brand: "XYZ",
-        power: "22 kW",
-        port_type: "Type 1",
-        amp: "32A",
-        warranty: 1,
-      },
-      address: {
-        street_address: "456 Elm Street",
-        lat: -33.9167,
-        lng: 151.2333,
-        suburb: "Sydney",
-        post_code: "2000",
-        country: "Australia",
-      },
-      name: "Charger 2",
-      number_of_stars: 5,
-      number_of_rating: "50",
-      renter: 2,
-    },
-    {
-      charger_type: {
-        image: null,
-        name: "Ultra Charger",
-        brand: "FastCharge",
-        power: "100 kW",
-        port_type: "Type 3",
-        amp: "250A",
-        warranty: 3,
-      },
-      address: {
-        street_address: "789 Oak Avenue",
-        lat: -33.8679,
-        lng: 151.209,
-        suburb: "Sydney",
-        post_code: "2000",
-        country: "Australia",
-      },
-      name: "Charger 3",
-      number_of_stars: 3,
-      number_of_rating: "75",
-      renter: 1,
-    },
-  ];
+  const loadReviews = (chargerId) => {
+    if (chargerId !== null) {
+      axios
+        .get(`http://localhost:8000/comment/get_comments_by_charger`, {
+          params: {
+            charger_id: chargerId,
+          },
+        })
+        .then((res) => {
+          setReviews(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const sendComment = (chargerId) => {
+    const data = {
+      contents: comment,
+      user: auth.id,
+      charger: chargerId,
+    };
+    if (auth && auth.id) {
+      axios
+        .post("http://localhost:8000/comment/", JSON.stringify(data), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setComment("");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const handleMapClick = (e) => {
-    console.log(e);
     if (onMapClick) onMapClick(e.latLng.lat(), e.latLng.lng());
   };
 
@@ -209,7 +178,7 @@ function GoogleMapComponent({
                   </p>
                 </AccordionDetails>
               </Accordion>
-              <Accordion>
+              <Accordion onChange={() => loadReviews(selectedCharger.id)}>
                 <AccordionSummary
                   aria-controls="panel2"
                   id="panel2-header"
@@ -220,19 +189,42 @@ function GoogleMapComponent({
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>List of reviews goes here</Typography>
+                  <Typography>
+                    {reviews.map((rev, index) => {
+                      return (
+                        <>
+                          <Chip key={index} label={rev.contents} />
+                          <Chip label={rev.user} variant="outlined" />
+                        </>
+                      );
+                    })}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              {/* TODO: need to enable this one again after user uses the  */}
+              <Accordion disabled>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <div>
+                    <Rating />
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails>
                   <TextField
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                     type="search"
                     label="Leave review"
                     variant="filled"
                     id="filled-search"
                   />
+                  <Button
+                    onClick={() => sendComment(selectedCharger.id)}
+                    type="submit"
+                    variant="outlined"
+                  >
+                    Send
+                  </Button>
                 </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary>
-                  <Rating />
-                </AccordionSummary>
               </Accordion>
             </div>
           </InfoWindowF>

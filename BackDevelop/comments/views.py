@@ -23,7 +23,7 @@ class CommentViewset(viewsets.ModelViewSet):
         if serializer.is_valid():
             comment = serializer.save()
             return Response({'comment': CommentSerializer(comment).data}, status=status.HTTP_201_CREATED)
-        return Response({'message': 'Error creating comment'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
     @action(detail=False, methods=['get'], permission_classes=[AllowAny])
@@ -33,7 +33,7 @@ class CommentViewset(viewsets.ModelViewSet):
         serializer = CommentSerializer(queryset, many=True)
         if serializer.data:
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
 

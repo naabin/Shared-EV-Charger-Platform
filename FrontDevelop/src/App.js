@@ -51,7 +51,14 @@ function App() {
           <div className="App">
             <Routes>
               <Route index path="/" element={<MainPage />} />
-              <Route path="/mapPage" element={<MapPage />} />
+              <Route
+                path="/mapPage"
+                element={
+                  <ProtectedRoute>
+                    <MapPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/transcationPage" element={<TranscationPage />} />
               <Route
                 path="myCharger"
