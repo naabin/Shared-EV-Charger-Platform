@@ -19,6 +19,7 @@ import MyCharger from "./components/MapPage/MyCharger";
 import GoogleMapComponent from "./components/MapPage/GoogleMapComponent";
 import LiveChat from "./components/MapPage/LiveChat";
 import AdminPage from "./components/Admin/AdminPage";
+import LoadingImg from "./components/utils/LoadingImg";
 import { AuthContext, AuthProvider } from "./services/AuthContext";
 import {
   BrowserRouter as Router,
@@ -109,6 +110,7 @@ function MainPage() {
 
   return (
     <div className="App">
+      <LoadingImg />
       <AppHeader change={showDialogEvent}></AppHeader>
       <div className={"img-block"}>
         <div>

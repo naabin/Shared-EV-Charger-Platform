@@ -1,36 +1,38 @@
 .app-header {
-    height: 9vh;
-    background-color: rgba(203, 201, 199, 199);
+    /* height: 30vh; */
+    /* background-color: rgba(203, 201, 199, 199);
     display: flex;
-    align-items: center;
-
-
+    align-items: center; */
 }
+
 
 .title {
     color: black;
     margin-left: 2vw;
-    font-family: "Eras Bold ITC";
-    font-size: 22px;
+    font-size: 35px;
     font-weight: 500;
     width: 300px;
-    margin-top: 1vw;
+    /* margin-top: 2vw; */
+  ;
 
 }
 
 .operate-btn {
-    margin-left: 75vw;
+    margin-left: 70vw;
     border-radius: 15px;
     width: fit-content;
-    height: 35px;
+    height: 40px;
     display: flex;
-    background-color: #1890ff;
+    background-color: #174b7c;
+}
+
+.logo{
+   width: auto;
+   height:50vh;
+   padding: 0,0;
 }
 
 
-/* .header-image {
-    width: 100%;
-} */
 
 .app-image {
     padding-top: 4px;
