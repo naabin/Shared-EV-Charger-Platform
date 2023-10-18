@@ -14,7 +14,6 @@ import Divider from "@mui/material/Divider";
 import { deepOrange } from "@mui/material/colors";
 import Joyride, { STATUS } from "react-joyride";
 import { AuthContext } from "../../services/AuthContext";
-import Pay_Page from "../Pay_Page/Pay_Page";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -128,7 +127,6 @@ export default function ButtonAppBar({
             >
               {isDark ? "🌙" : "☀️"}
             </button>
-            <Pay_Page /> {/* Added here */}
             <Avatar
               className="first-step"
               sx={{ bgcolor: deepOrange[300], cursor: "pointer" }}

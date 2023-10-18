@@ -4,6 +4,7 @@ import "../../styles/MapPage/GoogleMapComponent.css";
 import markerImage from "../../matirial/Image/charger.png";
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Pay_Page from "../Pay_Page/Pay_Page";
 import {
   Accordion,
   AccordionDetails,
@@ -148,6 +149,12 @@ function GoogleMapComponent({
                 }
                 alt={selectedCharger.charger_type.image.name}
               />
+              <div className="checkinBtn-continer">
+                <button className="checkinBtn">
+                  <Pay_Page />
+                </button>
+              </div>
+
               <Accordion>
                 <AccordionSummary
                   aria-controls="panel1-content"
@@ -158,6 +165,7 @@ function GoogleMapComponent({
                     <strong> Charger Details </strong>
                   </Typography>
                 </AccordionSummary>
+
                 <AccordionDetails>
                   <p>
                     <strong>Type:</strong> {selectedCharger.charger_type.name}

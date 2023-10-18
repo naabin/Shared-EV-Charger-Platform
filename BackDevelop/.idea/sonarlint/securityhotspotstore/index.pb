@@ -1,0 +1,7 @@
+
+@
+core/settings.py,5/0/50d2db7959c3140e27b70128db0c86bd7ad43594
+9
+	ReadMe.md,a/2/a225a7e79496c5a1d847c78c3db651eb302ec867
+@
+requirements.txt,1/9/19359a61ae2446b51b549167b014da2fcf265768

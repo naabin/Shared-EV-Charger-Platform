@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Button, Modal, InputNumber, Input} from 'antd';
 import { ApplePayButton } from "react-apple-pay-button";
+import checkinBtn from '../../matirial/Image/CheckInBtn.png'
 
 
 export function Pay_Page(){
@@ -31,9 +32,21 @@ export function Pay_Page(){
   return (
     <>
 
-      <Button type="primary" onClick={showModal}>
-        Pay
+      <Button
+          onClick={showModal}
+          style={{
+            backgroundImage: `url(${checkinBtn})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            border: 'none',
+            color: 'white', // or any other color that you want for the text
+            width: '100px',  // Adjust this value based on the size you want
+            height: '100px', // Adjust this value based on the size you want
+          }}
+      >
       </Button>
+
+
       <Modal width={500} title = {Order_Address} open={isModalOpen} okText={'Process'} onOk={handleOk} onCancel={handleCancel}>
         <p style={{marginLeft:"10px"}}>Order No.{Order_Number}</p>
         <InputNumber min={1} max={20} addonAfter="Hours" value={hours} 

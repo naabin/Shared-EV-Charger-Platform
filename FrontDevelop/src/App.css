@@ -35,6 +35,8 @@
 
 .img-block {
   display: flex;
+  height: auto;
+  justify-content: center;
 }
 
 .dark-mode {

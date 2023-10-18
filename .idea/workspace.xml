@@ -2,44 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb18065c-e528-4111-85a0-9ebd165d1878" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BackDevelop/core/routing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackDevelop/users/consumers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FrontDevelop/src/services/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/.idea/Group-4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/.idea/Group-4.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/core/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/core/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/core/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/logo192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/logo512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/public/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/App.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/Login.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/Register.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/react-app-env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/reportWebVitals.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/src/setupTests.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/frontend/evcharge-frontend/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/users/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/users/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackDevelop/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackDevelop/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/Login/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/Login/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/styles/MapPage/GoogleMapComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/styles/MapPage/GoogleMapComponent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +11,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2WPntozHdAZTJPzRLF2LyeFC7rm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -59,7 +25,10 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/11338/Desktop/charger_g4/Group-4/BackDevelop&quot;
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/11338/Desktop/charger_g4/Group-4/BackDevelop&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -70,7 +39,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1696643299952</updated>
+      <workItem from="1697597790873" duration="1000" />
+      <workItem from="1697600187477" duration="5000" />
+      <workItem from="1697600346291" duration="50000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
