@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'users',
     'charger',
     'charger_activity',
-    'comments'
+    'comments',
+    'chatroom',
 
 ]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -189,7 +190,7 @@ AWS_SECRET_ACCESS_KEY = "6gYqjer7Pmz3Ij/YZZsf6ItEAQ8G1lbWgRyJD4pf"
 AWS_SESSION_TOKEN = "FwoGZXIvYXdzEJT//////////wEaDPCvsbeQU5f7gqZx6yLLAZl+bQb/49lyyNLEORSbBXc4UBs0XLod0PfSTb7RgLJIpGhUewWvecaGLRr3nCFIioevc3GLWVd22P94y4Km0uDGarWGoZXQwpj6Hp4sojcFVA3VQt/nO4wsCIDXJxp/FOCxDeuvFFXv/vSdgfxMggC8kJpIqQnzAvisReU9PdbCgEwvqJPbERZi3sGRWth5JQZzXg4g8JnNvT5+OUCY2XfBrKeiS2Bb+GTm9DiP3Z+6o6gGaXxv8mcZFMx0uRh7Y6nnPKs9RTFsDQDZKM/+vKkGMi33poHIbntOmh3yYmT7n8uuHJT1K8f8oume94olwFYk871p+bhsahm+Z9kaU34="
 
 # The name of the bucket to store files in.
-AWS_S3_BUCKET_NAME = "evcharger-bucket"
+AWS_S3_BUCKET_NAME = "evcharger-bucket-eren"
 
 # How to construct S3 URLs ("auto", "path", "virtual").
 AWS_S3_ADDRESSING_STYLE = "auto"

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
-
+from django.http import JsonResponse
 from .swagger_schema import SwaggerLoginSchema
 from .models import UserProfile
 from .serializers import UserSerializer
@@ -16,13 +16,14 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
     # parser_classes = [parsers.MultiPartParser]
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:
-            self.permission_classes = [IsAuthenticated,]
+            self.permission_classes = [IsAuthenticated, ]
         elif self.action in ['create', 'list', 'retrieve']:
-            self.permission_classes = [AllowAny,]
+            self.permission_classes = [AllowAny, ]
         return super().get_permissions()
 
     def create(self, request):
@@ -40,14 +41,34 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False, permission_classes=[AllowAny])
     def get_user_by_username(self, request):
         username = request.query_params.get('username')
-        if username is not None:
-            user = UserProfile.objects.filter(username=username)
-            if not (user.exists()):
-                return Response(status=status.HTTP_200_OK)
-            else:
-                return Response({'message': 'Username already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        try:
+            user = UserProfile.objects.get(username=username)
+
+            return Response({'message': 'Username already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        except UserProfile.DoesNotExist:
+            return Response( status=status.HTTP_200_OK)
         return Response(status=status.HTTP_200_OK)
-    
+
+
+    @action(methods=['get'], detail=False, permission_classes=[AllowAny])
+    def get_user_by_itsname(request):
+        username = request.GET.get('username')
+        if not username:
+            return JsonResponse({"error": "Username parameter is missing."}, status=400)
+
+        try:
+            user = UserProfile.objects.get(username=username)
+            token = RefreshToken.for_user(user=user)
+            username_from_db = user.username
+            id_from_db = user.id
+            return JsonResponse({
+                "id": id_from_db,
+                "username": username_from_db,
+            },status=status.HTTP_200_OK)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({"error": "User not found."}, status=404)
+
+
     @action(methods=['get'], detail=False, permission_classes=[AllowAny])
     def get_user_by_email(self, request):
         user_email = request.query_params.get('email')
@@ -70,12 +91,13 @@ class AuthViewSet(viewsets.GenericViewSet):
 
     def get_permissions(self):
         if self.action in ['login']:
-            self.permission_classes = [AllowAny,]
+            self.permission_classes = [AllowAny, ]
         elif self.action in ['logout']:
-            self.permission_classes = [IsAuthenticated,]
+            self.permission_classes = [IsAuthenticated, ]
         return super().get_permissions()
 
-    @swagger_auto_schema(method='post', request_body=SwaggerLoginSchema.login_schema, responses=SwaggerLoginSchema.login_schema_response)
+    @swagger_auto_schema(method='post', request_body=SwaggerLoginSchema.login_schema,
+                         responses=SwaggerLoginSchema.login_schema_response)
     @action(detail=False, methods=['post'], url_name='login')
     def login(self, request):
         user_email = request.data.get('email')
@@ -93,12 +115,13 @@ class AuthViewSet(viewsets.GenericViewSet):
                 'refresh': str(token),
                 'access': str(token.access_token),
                 'username': username_from_db,
-                'id' : id_from_db
+                'id': id_from_db
             }, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @swagger_auto_schema(method='post', request_body=SwaggerLoginSchema.logout_schema, responses=SwaggerLoginSchema.logout_schema_response)
+    @swagger_auto_schema(method='post', request_body=SwaggerLoginSchema.logout_schema,
+                         responses=SwaggerLoginSchema.logout_schema_response)
     @action(detail=False, methods=['post'], url_name='logout')
     def logout(self, request):
         # print(request.META['HTTP_AUTHORIZATION'])
@@ -110,6 +133,7 @@ class AuthViewSet(viewsets.GenericViewSet):
                 RefreshToken(refresh_token).blacklist()
                 return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
             except Exception as e:
-                return Response({'message': 'Invalid token or token has already expired'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'message': 'Invalid token or token has already expired'},
+                                status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'message': 'Refresh token is required'}, status=status.HTTP_401_UNAUTHORIZED)

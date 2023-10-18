@@ -16,7 +16,7 @@ class Address(models.Model):
     country = models.CharField(max_length=12)
 
 
-storage = S3Storage(aws_s3_bucket_name="evcharger-bucket")
+storage = S3Storage(aws_s3_bucket_name="evcharger-bucket-eren")
 
 
 class UserProfile(AbstractUser):

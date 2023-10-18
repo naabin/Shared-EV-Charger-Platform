@@ -18,5 +18,6 @@ urlpatterns = [
     path('charger-activity/', include('charger_activity.urls')),
     path('comment/', include('comments.urls')),
     path('docs/', schema_view.with_ui('swagger',
-         cache_timeout=0), name='schema-swagger-ui')
+         cache_timeout=0), name='schema-swagger-ui'),
+    path('chatroom/', include('chatroom.urls'))
 ]

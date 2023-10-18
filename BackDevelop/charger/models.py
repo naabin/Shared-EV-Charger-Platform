@@ -2,7 +2,7 @@ from django.db import models
 from users.models import Address, UserProfile
 from django_s3_storage.storage import S3Storage
 
-storage = S3Storage(aws_s3_bucket_name="evcharger-bucket")
+storage = S3Storage(aws_s3_bucket_name="evcharger-bucket-eren")
 
 
 class ChargerImage(models.Model):
