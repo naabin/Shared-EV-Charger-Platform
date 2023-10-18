@@ -3,32 +3,66 @@
     z-index: 50;
     top: 10%;
     left: 10%;
-
     height: 100vh;
     width: 160vh;
     overflow: hidden;
+    border-radius: 8px; /* Adds a little curvature to the map container */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* subtle shadow to lift the map off the background */
 }
 
+
 .info-container {
-    padding: 10px;
-    background: #f8f8f8; /* light gray background for visibility */
-    border: 1px solid #e0e0e0; /* subtle border */
-    border-radius: 5px; /* rounded corners */
-    width: 250px; /* or any other preferred width */
+    padding: 15px;
+    background: #ffffff; /* Switch to a white background for better contrast */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    width: 260px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* A subtle shadow to give depth */
 }
 
 .charger-name {
-    font-size: 20px; /* Large text size for name */
-    margin-bottom: 8px; /* space below the title */
-    color: #333; /* Dark color for name */
+    font-size: 22px;
+    font-weight: 500; /* Semi-bold weight */
+    margin-bottom: 12px;
+    color: #2c3e50; /* A deep blue-ish gray */
 }
 
 .info-container p {
-    font-size: 14px;
-    margin: 5px 0;
-    color: #555; /* Grayish text color */
+    font-size: 15px;
+    margin: 8px 0;
+    color: #7f8c8d; /* A softer gray for general information */
+    line-height: 1.5; /* Improved readability */
 }
 
 .info-container p strong {
-    color: #333; /* Darker text color for the label */
+    color: #34495e; /* Darker gray for labels to make them stand out */
+}
+
+.AccordionSummary, .AccordionDetails {
+    transition: background 0.3s; /* Smooth transition for hover effect */
+}
+
+.AccordionSummary:hover, .AccordionDetails:hover {
+    background: #ecf0f1; /* A light gray hover effect to indicate interactivity */
+}
+
+/* If you have any buttons or clickable items, you can also add a transition effect */
+button, .ApplePayButton, [role="button"] {
+    transition: all 0.3s;
+    cursor: pointer; /* Indicates interactivity */
+}
+
+.checkinBtn-continer {
+    display: flex;
+    justify-content: flex-end; /* Align to the right side */
+    align-items: center;
+    padding: 15px 0; /* This will add some space around the button */
+}
+
+.checkinBtn {
+    background-color: transparent; /* No background */
+    border: none;
+    font-size: 16px; /* A slightly bigger font for visibility */
+    cursor: pointer;
+    transition: color 0.3s; /* Smooth transition for color change */
 }
