@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const login = async (email: string, password: string) => {
   const response = await fetch("http://localhost:8000/user/auth/login/", {
     method: "POST",
@@ -35,25 +37,47 @@ export const register = async (user: any) => {
   }
 };
 
-export const createCharger = async (chargerData: any) => {
+export const getChargers = async () => {
   try {
-    const response = await fetch("http://localhost:8000/charger/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(chargerData), // Convert chargerData to JSON string
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessages = Object.values(errorData).flat().join(", "); // Extract error messages from errorData object
-      throw new Error(errorMessages || "Failed to create charger.");
-    }
-
-    return await response.json();
+    const response = await axios.get("http://localhost:8000/charger/");
+    localStorage.setItem("chargers", JSON.stringify(response.data));
+    return response.data;
   } catch (err) {
     console.error(err);
     throw err;
   }
 };
+
+export const setLocalAuth = (user: any) => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+
+export const getUserById = async (userId: any) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/user/${userId}`);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to retrieve user information.");
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const getOwnerDetails = async (renterId: any) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/user/${renterId}`);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to retrieve owner information.");
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
