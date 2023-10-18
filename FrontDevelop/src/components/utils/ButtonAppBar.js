@@ -28,6 +28,7 @@ import ListItemText from '@mui/material/ListItemText';
 import SvgIcon from '@mui/material/SvgIcon';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
+import axios from "axios";
 
 export default function ButtonAppBar({
   transactionpage,
@@ -47,11 +48,13 @@ export default function ButtonAppBar({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
+  const [userData, setUserData] = useState(null);
   const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((prev) => placement !== newPlacement || !prev);
     setPlacement(newPlacement);
   };
+
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -62,7 +65,25 @@ export default function ButtonAppBar({
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (auth && auth.id) {
+      axios
+          .get(`http://localhost:8000/user/${auth.id}/`, {
+            headers: {
+              Authorization: `Bearer ` + auth.access,
+            },
+          })
+          .then((res) => setUserData(res.data))
+          .catch((err) => console.log(err));
+    }
+  }, [auth]);
+
   const firstLetter = (auth && auth.username) ? auth.username.charAt(0).toUpperCase() : "A";
+
+
+
+
   const steps = [
     {
       target: ".first-step",
@@ -86,9 +107,6 @@ export default function ButtonAppBar({
     localStorage.setItem("user", null);
     navigate("/login");
   };
-
-
-
 
   useEffect(
     function () {
@@ -194,8 +212,9 @@ export default function ButtonAppBar({
                             </Avatar>
                           </Box>
                           <Box sx={{ marginTop:-7,marginLeft:9, width: '60%'}}>
-                            <p style={{fontWeight:"400", fontSize:'20px'}}>UserName</p>
-                            <p style={{marginTop:"-15px",fontSize:"10px"}}>121212@outlook.com</p>
+
+                            <p style={{fontWeight:"400", fontSize:'20px'}}>{auth && auth.username ? auth.username : "User Name"}</p>
+                            <p style={{marginTop:"-15px",fontSize:"10px"}}>{userData && userData.email ? userData.email : "email"}</p>
                           </Box>
                         </CardContent>
 
