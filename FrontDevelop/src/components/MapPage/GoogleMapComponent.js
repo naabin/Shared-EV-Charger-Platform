@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { Spinner } from "../utils/Spinner";
 import { Button, Typography } from "antd";
-import { getUserById, getOwnerDetails } from '../../services/auth';
-import chatBtn from '../../matirial/Image/Chatbtn.png'
+import { getUserById, getOwnerDetails } from "../../services/auth";
+import chatBtn from "../../matirial/Image/Chatbtn.png";
 
 const containerStyle = {
   width: "100%",
@@ -36,28 +36,26 @@ function GoogleMapComponent({
   const [showReview, setShowReview] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState("");
   const [auth, setAuth] = useState(null);
   const [renterUsername, setRenterUsername] = useState(null);
-
 
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("user")));
     axios
       .get("http://localhost:8000/charger/")
-        .then(async (res) => {
-          const chargersWithOwnerDetails = await Promise.all(
-              res.data.map(async (charger) => {
-                const ownerDetails = await getOwnerDetails(charger.renter);
-                return { ...charger, owner_details: ownerDetails };
-              })
-          );
+      .then(async (res) => {
+        const chargersWithOwnerDetails = await Promise.all(
+          res.data.map(async (charger) => {
+            const ownerDetails = await getOwnerDetails(charger.renter);
+            return { ...charger, owner_details: ownerDetails };
+          })
+        );
 
-          setChargers(chargersWithOwnerDetails);
-        })
-        .catch((err) => console.log(err));
+        setChargers(chargersWithOwnerDetails);
+      })
+      .catch((err) => console.log(err));
   }, []);
-  console.log(chargers);
 
   useEffect(() => {
     const timer = setTimeout(() => setRerender(true), 500); // delay of 500ms
@@ -75,10 +73,9 @@ function GoogleMapComponent({
         .then((res) => {
           setReviews(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => setReviews([]));
     }
   };
-
 
   const sendComment = (chargerId) => {
     const data = {
@@ -95,7 +92,6 @@ function GoogleMapComponent({
           },
         })
         .then((res) => {
-          console.log(res.data);
           setComment("");
         })
         .catch((err) => console.log(err));
@@ -115,12 +111,12 @@ function GoogleMapComponent({
   // Step 4: Handle the button click event
   const handleButtonClick = () => {
     setIsClicked(true);
-    console.log('ok'); // Print "ok" to the console
+    console.log("ok"); // Print "ok" to the console
   };
   const buttonStyle = {
-    background: 'transparent', // Set the background color to transparent
-    border: 'none', // Remove the border
-    cursor: 'pointer', // Add a pointer cursor on hover
+    background: "transparent", // Set the background color to transparent
+    border: "none", // Remove the border
+    cursor: "pointer", // Add a pointer cursor on hover
   };
   return (
     <div className="map-container">
@@ -165,22 +161,26 @@ function GoogleMapComponent({
                   flexDirection: "column",
                 }}
               >
-                <h2>{selectedCharger.name}</h2>
-                <Rating defaultValue={3} readOnly max={5} />
-              </div>
+                <h2 style={{ display: "flex", justifyContent: "center" }}>
+                  {selectedCharger.name}
+                </h2>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Rating defaultValue={3} readOnly max={5} />
+                </div>
 
-              {!imageLoaded ? <Spinner /> : null}
-              <img
-                onLoad={(e) => setImageLoaded(true)}
-                src={
-                  selectedCharger && selectedCharger.charger_type.image.image
-                }
-                alt={selectedCharger.charger_type.image.name}
-              />
-              <div className="checkinBtn-continer">
-                <button className="checkinBtn">
-                  <Pay_Page />
-                </button>
+                {!imageLoaded ? <Spinner /> : null}
+                <img
+                  onLoad={(e) => setImageLoaded(true)}
+                  src={
+                    selectedCharger && selectedCharger.charger_type.image.image
+                  }
+                  alt={selectedCharger.charger_type.image.name}
+                />
+                <div className="checkinBtn-continer">
+                  <button className="checkinBtn">
+                    <Pay_Page />
+                  </button>
+                </div>
               </div>
 
               <Accordion>
@@ -214,14 +214,17 @@ function GoogleMapComponent({
                   </p>
                   <p>
                     <button style={buttonStyle} onClick={handleButtonClick}>
-                      <img src={chatBtn} alt="Chat Button" width={20} height={20} />
+                      <img
+                        src={chatBtn}
+                        alt="Chat Button"
+                        width={20}
+                        height={20}
+                      />
                     </button>
                     <strong>Renter:</strong>
                     {selectedCharger.owner_details.username}
-
                   </p>
                 </AccordionDetails>
-
               </Accordion>
               <Accordion onChange={() => loadReviews(selectedCharger.id)}>
                 <AccordionSummary
@@ -237,10 +240,10 @@ function GoogleMapComponent({
                   <Typography>
                     {reviews.map((rev, index) => {
                       return (
-                        <>
+                        <div key={index}>
                           <Chip key={index} label={rev.contents} />
                           <Chip label={rev.user} variant="outlined" />
-                        </>
+                        </div>
                       );
                     })}
                   </Typography>

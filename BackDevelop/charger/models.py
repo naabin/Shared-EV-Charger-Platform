@@ -2,7 +2,7 @@ from django.db import models
 from users.models import Address, UserProfile
 from django_s3_storage.storage import S3Storage
 
-storage = S3Storage(aws_s3_bucket_name="evcharger-bucket-eren")
+storage = S3Storage(aws_s3_bucket_name="evcharger-bucket")
 
 
 class ChargerImage(models.Model):
@@ -30,4 +30,5 @@ class Charger(models.Model):
     charger_type = models.ForeignKey(
         ChargerType, on_delete=models.CASCADE, verbose_name='charger_type', blank=True)
     number_of_stars = models.IntegerField()
+    hourly_rate = models.IntegerField(default=0)
     number_of_rating = models.DecimalField(max_digits=3, decimal_places=1)

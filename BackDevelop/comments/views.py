@@ -33,7 +33,7 @@ class CommentViewset(viewsets.ModelViewSet):
         serializer = CommentSerializer(queryset, many=True)
         if serializer.data:
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 

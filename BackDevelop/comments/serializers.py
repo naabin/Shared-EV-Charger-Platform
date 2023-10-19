@@ -12,8 +12,6 @@ class ChargerIdForCommentSerializer(serializers.ModelSerializer):
         fields = ['id']
 
 class CommentSerializer(serializers.ModelSerializer):
-    # charger = ChargerIdForCommentSerializer()
-    # user = UserIdSerializer()
     class Meta:
         model = Comment
         fields = '__all__'
