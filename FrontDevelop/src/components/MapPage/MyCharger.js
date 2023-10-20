@@ -30,6 +30,7 @@ const MyCharger = (props) => {
   const [chargers, setChargers] = useState([]);
   const [auth, setAuth] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedChargerId, setSelectedChargerId] = useState(null);
 
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
@@ -47,13 +48,36 @@ const MyCharger = (props) => {
     }
   }, []);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (chargerId) => {
     setDeleteModal(true);
+    setSelectedChargerId(chargerId);
   };
 
   const handleClose = () => {
     setDeleteModal(false);
   };
+
+  const handleDelete = () =>{
+    if (selectedChargerId) {
+      axios
+        .delete(`http://localhost:8000/charger/${selectedChargerId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        })
+        .then((res) => {
+          console.log("Successfully deleted charger");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("Missing auth.id or chargers.id, cannot delete charger.");
+    }
+    setChargers(chargers.filter(charger => charger.id !== selectedChargerId));
+    setDeleteModal(false);
+    }
   return (
     <div className="pageContainer">
       <ButtonAppBar />
@@ -90,7 +114,7 @@ const MyCharger = (props) => {
                     Modify Chrager Information
                   </Button>{" "}
                   <span style={{ marginLeft: "auto" , color: blue }}> | </span>{" "}
-                  <Button onClick={handleClickOpen}>Delete This Charger</Button>
+                  <Button onClick={() => handleClickOpen(charger.id)}>Delete This Charger</Button>
                 </ListItem>
                 {index !== chargers.length - 1 && <Divider />}
               </div>
@@ -114,7 +138,7 @@ const MyCharger = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancle</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleDelete} autoFocus>
             Delete
           </Button>
         </DialogActions>
