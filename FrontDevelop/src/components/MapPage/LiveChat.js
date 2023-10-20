@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef  } from 'react';
 import Avatar from './Avatar';
 import "../../styles/MapPage/ChatPage.css";
 
+
+
 function LiveChat({ onClose, show, initialReceiver }) {
     // States
     const [username, setUsername] = useState('');
@@ -13,8 +15,13 @@ function LiveChat({ onClose, show, initialReceiver }) {
     const [display, setDisplay] = useState(show);
     const [auth, setAuth] = useState(null);
     const [chatRooms, setChatRooms] = useState([]);
+
+
+
     const handleCloseChat = () => {
+
         setDisplay(false);
+        window.location.href = "/mapPage";
     };
 
 
