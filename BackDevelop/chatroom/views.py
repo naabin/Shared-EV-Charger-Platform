@@ -19,6 +19,7 @@ def get_chatroom(request):
     ).first()
 
     if chatroom:
+        print(chatroom.chatlog)
         return Response({
             'room_name': chatroom.room_name,
             'chatlog': json.loads(chatroom.chatlog)
@@ -50,27 +51,53 @@ def save_chatlog(request):
 
     chatroom = Chatroom.objects.get(room_name=room_name)
     chatroom.chatlog = json.dumps(chatlog)
+    print(chatlog)
     chatroom.save()
 
     return Response({"message": "Chatlog saved successfully!"})
+
+# @api_view(['GET'])
+# @permission_classes([AllowAny])  # Adjust this as per your security preferences
+# def get_user_chatrooms(request, username):
+#     chatrooms = Chatroom.objects.filter(Q(user1__username=username) | Q(user2__username=username))
+#     data = []
+#
+#     for cr in chatrooms:
+#         if cr.user1.username == username:
+#             user2 = cr.user2.username
+#         else:
+#             user2 = cr.user1.username
+#
+#         data.append({
+#             'room_name': cr.room_name,
+#             'chatlog': json.loads(cr.chatlog),
+#             'user1': username,
+#             'user2': user2
+#         })
+#     print(data)
+#     return Response(data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])  # Adjust this as per your security preferences
 def get_user_chatrooms(request, username):
     chatrooms = Chatroom.objects.filter(Q(user1__username=username) | Q(user2__username=username))
-
     data = []
+
     for cr in chatrooms:
         if cr.user1.username == username:
             user2 = cr.user2.username
         else:
             user2 = cr.user1.username
 
+        # Check if cr.chatlog is None and provide empty list as default
+        chatlog_data = json.loads(cr.chatlog) if cr.chatlog else []
+
         data.append({
             'room_name': cr.room_name,
-            'chatlog': json.loads(cr.chatlog),
+            'chatlog': chatlog_data,
             'user1': username,
             'user2': user2
         })
-    return Response(data)
 
+    print(data)
+    return Response(data)
