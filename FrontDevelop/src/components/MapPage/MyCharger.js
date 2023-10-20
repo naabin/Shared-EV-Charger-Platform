@@ -7,12 +7,20 @@ import {
   ListItemText,
   Divider,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Alert,
+
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../services/AuthContext";
 import axios from "axios";
+import { blue } from "@mui/material/colors";
 
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
@@ -21,6 +29,7 @@ const MyCharger = (props) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [chargers, setChargers] = useState([]);
   const [auth, setAuth] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
@@ -37,6 +46,14 @@ const MyCharger = (props) => {
         .catch((err) => console.log(err));
     }
   }, []);
+
+  const handleClickOpen = () => {
+    setDeleteModal(true);
+  };
+
+  const handleClose = () => {
+    setDeleteModal(false);
+  };
   return (
     <div className="pageContainer">
       <ButtonAppBar />
@@ -71,7 +88,9 @@ const MyCharger = (props) => {
                   />
                   <Button style={{ marginLeft: "auto" }}>
                     Modify Chrager Information
-                  </Button>
+                  </Button>{" "}
+                  <span style={{ marginLeft: "auto" , color: blue }}> | </span>{" "}
+                  <Button onClick={handleClickOpen}>Delete This Charger</Button>
                 </ListItem>
                 {index !== chargers.length - 1 && <Divider />}
               </div>
@@ -79,6 +98,27 @@ const MyCharger = (props) => {
           </List>
         </Container>
       </div>
+      <Dialog
+        open={deleteModal}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this charger?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <Alert severity="warning">This action cannot be reverted!</Alert>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancle</Button>
+          <Button onClick={handleClose} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
