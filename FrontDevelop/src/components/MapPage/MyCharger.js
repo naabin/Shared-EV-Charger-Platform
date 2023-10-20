@@ -112,7 +112,7 @@ const MyCharger = (props) => {
                       avatar={<Switch />}
                       action={
                         <IconButton
-                          onClick={() => setDeleteModal(true)}
+                          onClick={() => handleClickOpen(charger.id)}
                           aria-label="settings"
                         >
                           <MoreVertIcon />
