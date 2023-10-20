@@ -7,6 +7,7 @@ import {
   CardHeader,
   IconButton,
   CardMedia,
+  CardContent,
   Accordion,
   Rating,
   Switch,
@@ -16,13 +17,26 @@ import {
   DialogContentText,
   DialogTitle,
   Alert,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
-import { blue } from "@mui/material/colors";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+
+const ChargerPaper = styled(Paper)(({ theme }) => ({
+  // width: `100%`,
+  // height: 120,
+  lineHeight: 0.5,
+  padding: theme.spacing(2),
+  // ...theme.typography.body2,
+  // textAlign: "center",
+}));
 
 const MyCharger = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
@@ -30,6 +44,7 @@ const MyCharger = (props) => {
   const [auth, setAuth] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedChargerId, setSelectedChargerId] = useState(null);
+  const [contentExpanded, setContentExpanded] = useState(null);
 
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
@@ -46,6 +61,10 @@ const MyCharger = (props) => {
         .catch((err) => console.log(err));
     }
   }, []);
+
+  const handleExpansion = (id) => (_, isExpanded) => {
+    setContentExpanded(isExpanded ? id : null);
+  };
 
   const handleClickOpen = (chargerId) => {
     setDeleteModal(true);
@@ -120,11 +139,64 @@ const MyCharger = (props) => {
                       }
                     />
                     <CardMedia
-                      // height={140}
+                      height={200}
+                      sx={{ objectFit: "contain" }}
                       component="img"
                       image={charger.charger_type.image.image}
                       alt={charger.charger_type.image.name}
                     />
+                    <CardContent>
+                      <Accordion
+                        key={index}
+                        onChange={handleExpansion(index)}
+                        expanded={contentExpanded === index}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography>Charger Details</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <ChargerPaper elevation={24}>
+                            <p>
+                              <strong>Name: </strong>{" "}
+                              {charger.charger_type.name}
+                            </p>
+                            <p>
+                              <strong>Brand: </strong>{" "}
+                              {charger.charger_type.brand}
+                            </p>
+                            <p>
+                              <strong>Power: </strong>{" "}
+                              {Number(charger.charger_type.power).toFixed(2)}kHz{" "}
+                              {"  "}
+                              <strong>Amp: </strong>
+                              {Number(charger.charger_type.amp).toFixed(2)} Ohms
+                            </p>
+                            <p>
+                              <strong>Port Type: </strong>{" "}
+                              {charger.charger_type.port_type}
+                            </p>
+                          </ChargerPaper>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion
+                        key={charger.id}
+                        onChange={handleExpansion(charger.id)}
+                        expanded={contentExpanded === charger.id}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography>Charger Location</Typography>
+                        </AccordionSummary>
+                      </Accordion>
+                      <Accordion
+                        key={charger.charger_type.id}
+                        onChange={handleExpansion(charger.charger_type.id)}
+                        expanded={contentExpanded === charger.charger_type.id}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography>Customer revies</Typography>
+                        </AccordionSummary>
+                      </Accordion>
+                    </CardContent>
                   </Card>
                 </Accordion>
               </Grid>
