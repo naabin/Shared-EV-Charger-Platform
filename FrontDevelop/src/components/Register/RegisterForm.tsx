@@ -5,6 +5,7 @@ import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import axios from "axios";
 import "../../styles/LoginReg.css";
+import backimg from "../../matirial/Image/reg.jpg";
 
 const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -125,104 +126,125 @@ const RegisterForm: React.FC = () => {
 
   return (
     <div className="container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="lastname">Last Name:</label>
-        <input type="text" id="lastname" name="lastname" required />
-        <label htmlFor="firstname">First Name:</label>
-        <input type="text" id="firstname" name="firstname" required />
-        <label htmlFor="email">Email:</label>
-        <>
-          <input
-            style={{ borderColor: showEmailError ? "red" : "" }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            id="email"
-            name="email"
-            required
-            pattern="[^@\s]+@[^@\s]+"
-          />
-          <label className="username-error">
-            {showEmailError && emailError}
-          </label>
-        </>
-        <label htmlFor="username">Username:</label>
-        <>
-          <input
-            style={{ borderColor: showUsernameError ? "red" : "" }}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            type="text"
-            id="username"
-            name="username"
-            required
-          />
-          <label className="username-error">
-            {showUsernameError && usernameError}
-          </label>
-        </>
-        <label htmlFor="password">Password:</label>
-        <div className="password-input">
-          <Input.Password
-            placeholder="Password"
-            id="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            iconRender={(visible) => (
-              <span className="eye-icon" onClick={togglePasswordVisibility}>
-                {visible ? (
-                  <EyeTwoTone style={{ fontSize: "6px" }} />
-                ) : (
-                  <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
-                )}
-              </span>
-            )}
-          />
-        </div>
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <div className="password-input">
-          <Input.Password
-            placeholder="Confirm Password"
-            id="confirmPassword"
-            name="confirmPassword"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            iconRender={(visible) => (
-              <span
-                className="eye-icon"
-                onClick={toggleConfirmPasswordVisibility}
-              >
-                {visible ? (
-                  <EyeTwoTone style={{ fontSize: "6px" }} />
-                ) : (
-                  <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
-                )}
-              </span>
-            )}
-          />
-        </div>
-        <label htmlFor="city">City:</label>
-        <input type="text" id="city" name="city" required />
-        <label htmlFor="suburb">Suburb:</label>
-        <input type="text" id="suburb" name="suburb" required />
-        <label htmlFor="postcode">Postcode:</label>
-        <input type="text" id="postcode" name="postcode" required />
-        <label htmlFor="address">Address:</label>
-        <input type="text" id="address" name="address" required />
-        <input type="submit" value="Register" />
-      </form>
-      <label className="username-error">{submitError && submitError}</label>
-      <div className="login-link">
-        <p>
-          Already have an account? <Link to="/login">Login here</Link>
-        </p>
-      </div>
+    <div className="driving-text-container">
+      <img src={backimg} alt="?" className="driving-animation"></img>
+      <h3 className="driving-text">New User Register:</h3>
     </div>
-  );
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="lastname">Last Name:</label>
+
+
+      <Input
+        placeholder="Please type your last name..."
+        id="lastname"
+        name="lastname"
+        required
+      />
+
+
+      <label htmlFor="firstname">First Name:</label>
+      <Input
+        placeholder="Please type your first name..."
+        id="firstname"
+        name="firstname"
+        required
+      />
+      <label htmlFor="email">Email:</label>
+      <Input
+        placeholder="Please type your email..."
+        id="email"
+        name="email"
+        required
+      />
+      <label htmlFor="username">Username:</label>
+      <Input
+        placeholder="Please type your user name..."
+        id="username"
+        name="username"
+        required
+      />
+      <label htmlFor="password">Password:</label>
+      <div className="password-input">
+        <Input.Password
+          placeholder="Password"
+          id="password"
+          name="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          iconRender={(visible) => (
+            <span className="eye-icon" onClick={togglePasswordVisibility}>
+              {visible ? (
+                <EyeTwoTone style={{ fontSize: "6px" }} />
+              ) : (
+                <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
+              )}
+            </span>
+          )}
+        />
+      </div>
+      <label htmlFor="confirmPassword">Confirm Password:</label>
+      <div className="password-input">
+        <Input.Password
+          placeholder="Confirm Password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          iconRender={(visible) => (
+            <span
+              className="eye-icon"
+              onClick={toggleConfirmPasswordVisibility}
+            >
+              {visible ? (
+                <EyeTwoTone style={{ fontSize: "6px" }} />
+              ) : (
+                <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
+              )}
+            </span>
+          )}
+        />
+      </div>
+      <label htmlFor="city">City:</label>
+      <Input
+        placeholder="Please type city..."
+        id="city"
+        name="city"
+        required
+      />
+      <label htmlFor="suburb">Suburb:</label>
+      <Input
+        placeholder="Please type suburb..."
+        id="suburb"
+        name="suburb"
+        required
+      />
+      <label htmlFor="postcode">Postcode:</label>
+      <Input
+        placeholder="Please type postcode..."
+        id="postcode"
+        name="postcode"
+        required
+      />
+      <label htmlFor="address">Address:</label>
+      <Input
+        placeholder="Please type address..."
+        id="postcode"
+        name="postcode"
+        required
+      />
+      <input type="submit" value="Register" />
+    </form>
+
+
+    <div className="login-link">
+      <p>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
+    </div>
+  </div>
+);
 };
 
 export default RegisterForm;
