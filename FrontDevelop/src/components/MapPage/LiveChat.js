@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import Avatar from './Avatar';
 import "../../styles/MapPage/ChatPage.css";
 
@@ -13,6 +13,11 @@ function LiveChat({ onClose, show }) {
     const [display, setDisplay] = useState(show);
     const [auth, setAuth] = useState(null);
     const [chatRooms, setChatRooms] = useState([]);
+    const handleCloseChat = () => {
+        setDisplay(false);
+    };
+
+
 
     // Effects
     useEffect(initializeUser, []);
@@ -33,6 +38,9 @@ function LiveChat({ onClose, show }) {
             fetchUserChatrooms();
         }
     }
+
+
+
 
     function fetchUserChatrooms() {
         if (!username) return;
@@ -107,10 +115,6 @@ function LiveChat({ onClose, show }) {
     }
 
 
-    const handleCloseChat = () => {
-        onClose();
-    };
-
     function joinRoom() {
         if (!chatSocket) {
             fetch('http://localhost:8000/chatroom/get_chatroom/', {
@@ -160,8 +164,9 @@ function LiveChat({ onClose, show }) {
 
     return (
         <div className={`chat-overlay ${display ? '' : 'chat-overlay-hidden'}`}>
-            <button className="close-chat" onClick={handleCloseChat}>X</button>
+
             <div className="chat-container">
+                <button className="close-chat" onClick={handleCloseChat}></button>
                 <ChatSidebar
                     rooms={chatRooms}
                     onSelectRoom={room => {
@@ -203,13 +208,14 @@ function ChatRoom({ room, onSelect }) {
         </div>
     );
 }
-function getAvatarInitials(username) {
-    if (!username || username.length < 2) return "??";
-    return username.substr(0, 2).toUpperCase();
-}
-
 
 function ChatWindow({ username, receiverUsername, chatMessage, chatLog, chatSocket, onJoinRoom, onSendMessage, onUpdateChatMessage }) {
+    const lastMessageRef = useRef(null);
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatLog]);
     return (
         <div className="chat-window">
             <div className="chat-inputs">
@@ -220,23 +226,26 @@ function ChatWindow({ username, receiverUsername, chatMessage, chatLog, chatSock
                 { chatLog.map((message, index) => {
                     const isMyMessage = message.username === username;
                     return (
-                        <div key={index} className={`chat-message ${isMyMessage ? 'sent' : 'received'}`}>
-                            <div className={`avatar ${isMyMessage ? 'my-avatar' : ''}`}>
-                                {message.username.slice(0, 2).toUpperCase()}
+                        <div
+                            key={index}
+                            className={`chat-message ${isMyMessage ? 'sent' : 'received'}`}
+                            ref={index === chatLog.length - 1 ? lastMessageRef : null}
+                        >
+                            <div key={index} className={`chat-message ${isMyMessage ? 'sent' : 'received'}`}>
+                                <div className={`avatar ${isMyMessage ? 'my-avatar' : ''}`}>
+                                    {message.username.slice(0, 2).toUpperCase()}
+                                </div>
+                                {isMyMessage ? (
+                                    <>
+                                        <span className="message-content my-message-content">{message.content}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="message-content">{message.content}</span>
+                                    </>
+                                )}
                             </div>
-                            {isMyMessage ? (
-                                <>
-                                    <span className="message-content my-message-content">{message.content}</span>
-                                    {/*<span className="message-username my-message-username">{message.username}</span>*/}
-                                </>
-                            ) : (
-                                <>
-                                    {/*<span className="message-username">{message.username}</span>*/}
-                                    <span className="message-content">{message.content}</span>
-                                </>
-                            )}
                         </div>
-
                     );
                 })}
             </div>
