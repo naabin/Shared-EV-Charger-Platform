@@ -122,6 +122,7 @@ function AddChargerModel(props) {
           post_code: postCode,
           country,
         },
+        name: model,
         hourly_rate: price,
         number_of_stars: 0,
         number_of_rating: 0,

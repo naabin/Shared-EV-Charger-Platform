@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import {
   Typography,
   List,
+  Grid,
   ListItem,
   Button,
   Container,
@@ -52,22 +53,26 @@ const MyCharger = (props) => {
             {userContext && userContext.username}
           </Typography>
           <Button onClick={props.change}>Register a new Charger</Button>
-          <List>
-            {chargers.map((charger, index) => (
-              <div key={charger.id}>
-                <ListItem>
-                  <ListItemText
-                    primary={`${charger.chargerName} - Price:${charger.Price} :  ${charger.position} `}
-                    secondary={`${charger.Brand} -- ${charger.power}`}
-                  />
-                  <Button style={{ marginLeft: "auto" }}>
-                    Modify Chrager Information
-                  </Button>
-                </ListItem>
-                {index !== chargers.length - 1 && <Divider />}
-              </div>
-            ))}
-          </List>
+          <Grid container spacing={2}>
+            <List>
+              {chargers.map((charger, index) => (
+                <Grid item xs={4}>
+                  <div key={charger.id}>
+                    <ListItem>
+                      <ListItemText
+                        primary={`${charger.chargerName} - Price:${charger.Price} :  ${charger.position} `}
+                        secondary={`${charger.Brand} -- ${charger.power}`}
+                      />
+                      <Button style={{ marginLeft: "auto" }}>
+                        Modify Chrager Information
+                      </Button>
+                    </ListItem>
+                    {index !== chargers.length - 1 && <Divider />}
+                  </div>
+                </Grid>
+              ))}
+            </List>
+          </Grid>
         </Container>
       </div>
     </div>
