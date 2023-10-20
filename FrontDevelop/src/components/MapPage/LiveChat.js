@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef  } from 'react';
 import Avatar from './Avatar';
 import "../../styles/MapPage/ChatPage.css";
 
-function LiveChat({ onClose, show }) {
+function LiveChat({ onClose, show, initialReceiver }) {
     // States
     const [username, setUsername] = useState('');
     const [receiverUsername, setReceiverUsername] = useState('');
@@ -28,6 +28,12 @@ function LiveChat({ onClose, show }) {
         }
     }, [username]);
     useEffect(handleWebSocketMessages, [chatSocket, chatLog, username]);
+    useEffect(() => {
+        if (initialReceiver) {
+            setReceiverUsername(initialReceiver);
+            joinRoom(); // Join the room once the initialReceiver is set
+        }
+    }, [initialReceiver]);
 
     function initializeUser() {
         const storedUser = localStorage.getItem("user");
@@ -38,8 +44,6 @@ function LiveChat({ onClose, show }) {
             fetchUserChatrooms();
         }
     }
-
-
 
 
     function fetchUserChatrooms() {

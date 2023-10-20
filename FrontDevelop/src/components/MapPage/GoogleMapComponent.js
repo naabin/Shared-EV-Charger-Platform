@@ -17,7 +17,7 @@ import { Spinner } from "../utils/Spinner";
 import { Button, Typography } from "antd";
 import { getUserById, getOwnerDetails } from "../../services/auth";
 import chatBtn from "../../matirial/Image/Chatbtn.png";
-
+import LiveChat from './LiveChat'
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -38,7 +38,7 @@ function GoogleMapComponent({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [comment, setComment] = useState("");
   const [auth, setAuth] = useState(null);
-  const [renterUsername, setRenterUsername] = useState(null);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("user")));
@@ -120,6 +120,7 @@ function GoogleMapComponent({
   };
   return (
     <div className="map-container">
+      {showChat && <LiveChat show={true} initialReceiver={selectedCharger.owner_details.username} />}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -213,7 +214,7 @@ function GoogleMapComponent({
                     {selectedCharger.address.street_address}
                   </p>
                   <p>
-                    <button style={buttonStyle} onClick={handleButtonClick}>
+                    <button style={buttonStyle} onClick={() => setShowChat(true)}>
                       <img
                         src={chatBtn}
                         alt="Chat Button"
