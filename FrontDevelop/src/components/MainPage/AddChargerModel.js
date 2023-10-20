@@ -96,6 +96,16 @@ function AddChargerModel(props) {
   const handleBack = () => {
     setActiveStep((prev) => prev - 1);
   };
+  const handleCancel = () => {
+    setStreet("");
+    setSuburb("");
+    setCountry("");
+    setLat(null);
+    setLng(null);
+    setPostCode(null);
+    setState("");
+    props.closeEvent();
+  };
 
   const handleOk = () => {
     setSubmitting(true);
@@ -152,7 +162,7 @@ function AddChargerModel(props) {
       title="Add New Charger"
       visible={props.showDialog}
       onOk={() => handleOk()}
-      onCancel={props.closeEvent}
+      onCancel={handleCancel}
     >
       <Box>
         <Stepper activeStep={activeStep} orientation="vertical">
