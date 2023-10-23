@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django_s3_storage',
     'users',
     'charger',
-    'charger_activity',
+    'activity',
     'comments',
     'chatroom',
 

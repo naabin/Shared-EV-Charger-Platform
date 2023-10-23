@@ -4,7 +4,7 @@ from charger.models import Charger
 # Create your models here.
 
 
-class ChargerActivity(models.Model):
+class Activity(models.Model):
     state = models.CharField(max_length=20)
     start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)

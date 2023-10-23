@@ -47,6 +47,7 @@ export const ChargerActivity = (props) => {
         end_time: endTime,
         duration: hours,
         charger: charger.id,
+        total_price: hours * charger.hourly_rate,
       };
       axios
         .post("http://localhost:8000/charger-activity/", JSON.stringify(data), {
