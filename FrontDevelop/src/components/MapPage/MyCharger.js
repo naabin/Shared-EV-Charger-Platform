@@ -61,6 +61,30 @@ const MyCharger = (props) => {
         .catch((err) => console.log(err));
     }
   }, []);
+  const makeAvailable = (charger) => {
+    const access_token = JSON.parse(localStorage.getItem("user"));
+    if (access_token && access_token.access) {
+      axios
+        .post(
+          "http://localhost:8000/charger/charger_status/",
+          {},
+          {
+            params: { id: charger.id },
+            headers: { Authorization: `Bearer ${access_token.access}` },
+          }
+        )
+        .then((res) => {
+          const updatedCharger = res.data;
+          const arr = [...chargers];
+          const updatedChargerIndex = arr.findIndex(
+            (charger) => charger.id === updatedCharger.id
+          );
+          arr.splice(updatedChargerIndex, 1, updatedCharger);
+          setChargers(arr);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const handleExpansion = (id) => (_, isExpanded) => {
     setContentExpanded(isExpanded ? id : null);
@@ -128,7 +152,13 @@ const MyCharger = (props) => {
                     <CardHeader
                       title={charger.name}
                       subheader={<Rating readOnly value={charger.rating} />}
-                      avatar={<Switch />}
+                      avatar={
+                        <Switch
+                          checked={charger.status}
+                          value={charger.status}
+                          onChange={() => makeAvailable(charger)}
+                        />
+                      }
                       action={
                         <IconButton
                           onClick={() => handleClickOpen(charger.id)}

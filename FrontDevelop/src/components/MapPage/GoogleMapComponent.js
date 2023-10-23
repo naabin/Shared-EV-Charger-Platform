@@ -4,7 +4,8 @@ import "../../styles/MapPage/GoogleMapComponent.css";
 import markerImage from "../../matirial/Image/charger.png";
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Pay_Page from "../Pay_Page/Pay_Page";
+import Pay_Page from "../Pay_Page/PayPage";
+import checkinBtn from "../../matirial/Image/CheckInBtn.png";
 import {
   Accordion,
   AccordionDetails,
@@ -17,7 +18,8 @@ import { Spinner } from "../utils/Spinner";
 import { Button, Typography } from "antd";
 import { getUserById, getOwnerDetails } from "../../services/auth";
 import chatBtn from "../../matirial/Image/Chatbtn.png";
-import LiveChat from './LiveChat'
+import LiveChat from "./LiveChat";
+import { ChargerActivity } from "./ChargerActivity";
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -39,6 +41,11 @@ function GoogleMapComponent({
   const [comment, setComment] = useState("");
   const [auth, setAuth] = useState(null);
   const [showChat, setShowChat] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("user")));
@@ -120,7 +127,12 @@ function GoogleMapComponent({
   };
   return (
     <div className="map-container">
-      {showChat && <LiveChat show={true} initialReceiver={selectedCharger.owner_details.username} />}
+      {showChat && (
+        <LiveChat
+          show={true}
+          initialReceiver={selectedCharger.owner_details.username}
+        />
+      )}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -172,6 +184,7 @@ function GoogleMapComponent({
                 {!imageLoaded ? <Spinner /> : null}
                 <img
                   onLoad={(e) => setImageLoaded(true)}
+                  style={{ objectFit: "contain", height: 90 }}
                   src={
                     selectedCharger && selectedCharger.charger_type.image.image
                   }
@@ -179,7 +192,26 @@ function GoogleMapComponent({
                 />
                 <div className="checkinBtn-continer">
                   <button className="checkinBtn">
-                    <Pay_Page />
+                    <Button
+                      onClick={showModal}
+                      style={{
+                        backgroundImage: `url(${checkinBtn})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        border: "none",
+                        color: "white", // or any other color that you want for the text
+                        width: "100px", // Adjust this value based on the size you want
+                        height: "100px", // Adjust this value based on the size you want
+                      }}
+                    ></Button>
+                    {isModalOpen && (
+                      <ChargerActivity
+                        handleOk={() => setIsModalOpen(false)}
+                        handleCancel={() => setIsModalOpen(false)}
+                        charger={selectedCharger}
+                        isModalOpen={isModalOpen}
+                      />
+                    )}
                   </button>
                 </div>
               </div>
@@ -214,7 +246,10 @@ function GoogleMapComponent({
                     {selectedCharger.address.street_address}
                   </p>
                   <p>
-                    <button style={buttonStyle} onClick={() => setShowChat(true)}>
+                    <button
+                      style={buttonStyle}
+                      onClick={() => setShowChat(true)}
+                    >
                       <img
                         src={chatBtn}
                         alt="Chat Button"

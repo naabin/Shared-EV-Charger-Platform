@@ -38,3 +38,17 @@ class ChargerViewSet(viewsets.ModelViewSet):
             #     return Response(ChargerSerializer(chargers, ), status=status.HTTP_200_OK)
             # return Response([], status=status.HTTP_200_OK)
         return Response({'message':'Could not find any chargers associated with this renter'},status=status.HTTP_404_NOT_FOUND)
+    
+    @action(methods=['post'], detail=False, permission_classes=[IsAuthenticated])
+    def charger_status(self, request):
+        charger_id = request.query_params.get('id')
+        err_res = Response({'message': 'Could not find any chargers'}, status=status.HTTP_404_NOT_FOUND)
+        if charger_id is not None:
+            charger = Charger.objects.get(id=charger_id)
+            if charger is None:
+                return err_res;
+            charger.status = not charger.status
+            Charger.objects.update()
+            charger.save()
+            return Response(ChargerSerializer(charger).data, status=status.HTTP_200_OK)
+        return err_res
