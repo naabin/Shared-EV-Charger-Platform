@@ -22,12 +22,14 @@ import {
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import LiveChat from "./LiveChat";
+import {useNavigate} from "react-router-dom";
 
 const ChargerPaper = styled(Paper)(({ theme }) => ({
   // width: `100%`,
@@ -45,7 +47,8 @@ const MyCharger = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedChargerId, setSelectedChargerId] = useState(null);
   const [contentExpanded, setContentExpanded] = useState(null);
-
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
     setAuth(access_token);
@@ -122,14 +125,26 @@ const MyCharger = (props) => {
   };
   return (
     <div className="pageContainer">
-      <ButtonAppBar />
+      <ButtonAppBar
+          transactionpage={() => navigate("/TransactionPage")}
+          adminpage={() => navigate("/Adminpage")}
+          myChargers={() => navigate("/myCharger")}
+          showLiveChat={showLiveChat}
+          toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+          profile={() => navigate("/ProfilePage")}
+      />
+      {showLiveChat && (
+          <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />
+      )}
       <div style={{ marginTop: 100 }}>
         <Container>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="back"
-            onClick={() => window.history.back()}
+            // onClick={() => window.history.back()}
+            onClick={() => window.location.href = "/mapPage"}
+
           >
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>

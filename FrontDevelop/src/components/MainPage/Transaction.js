@@ -14,47 +14,36 @@ import {
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
+import LiveChat from "../MapPage/LiveChat";
 
-const transactions = [
-  {
-    id: 1,
-    position: "Auguest 1 Street",
-    Time: "1 Hours",
-    Price: "$10",
-    Date: "01/09/2023",
-  },
-  {
-    id: 2,
-    position: "Auguest 2 Street",
-    Time: "2 Hours",
-    Price: "$20",
-    Date: "02/09/2023",
-  },
-  {
-    id: 3,
-    position: "Auguest 3 Street",
-    Time: "3 Hours",
-    Price: "$30",
-    Date: "03/09/2023",
-  },
-];
 
 const Transaction = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
-
+  const [showLiveChat, setShowLiveChat] = useState(false);
   useEffect(() => {
     setTitleOpacity(1);
   }, []);
   return (
     <div className="pageContainer">
-      <ButtonAppBar />
+      <ButtonAppBar
+          transactionpage={() => navigate("/TransactionPage")}
+          adminpage={() => navigate("/Adminpage")}
+          myChargers={() => navigate("/myCharger")}
+          showLiveChat={showLiveChat}
+          toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+          profile={() => navigate("/ProfilePage")}
+      />
+      {showLiveChat && (
+          <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />
+      )}
       <div style={{ marginTop: 100 }}>
         <Container>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="back"
-            onClick={() => window.history.back()}
+            // onClick={() => window.history.back()}
+            onClick={() => window.location.href = "/mapPage"}
           >
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>

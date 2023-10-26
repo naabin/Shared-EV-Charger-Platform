@@ -245,7 +245,7 @@ export default function ButtonAppBar({
                                 <ListItemIcon>
                                   <img src={chargerIconImg} alt="Charger Icon" />
                                 </ListItemIcon>
-                                <ListItemText primary="MyCharger" onClick={myChargers}/>
+                                <ListItemText primary="MyCharger" onClick={() => window.location.href = "/myCharger"}/>
                               </ListItemButton>
                             </ListItem>
                             <Button type="primary" shape="round" icon={<PoweroffOutlined />} size={'large'} onClick={logout}>
