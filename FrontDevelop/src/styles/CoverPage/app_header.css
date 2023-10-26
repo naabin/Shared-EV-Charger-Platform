@@ -6,19 +6,22 @@
 }
 
 
+
+
 .title {
     color: black;
-    margin-left: 2vw;
+    margin-left: 10vw;
     font-size: 35px;
     font-weight: 500;
     width: 300px;
+
     /* margin-top: 2vw; */
   ;
 
 }
 
 .operate-btn {
-    margin-left: 70vw;
+    margin-left: 65vw;
     border-radius: 15px;
     width: fit-content;
     height: 40px;
@@ -27,9 +30,9 @@
 }
 
 .logo{
-   width: auto;
-   height:50vh;
-   padding: 0,0;
+   width: 153vb;
+   height:55vh;
+   padding-left: 28.3vb;
 }
 
 
