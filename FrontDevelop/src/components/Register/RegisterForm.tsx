@@ -22,6 +22,17 @@ const RegisterForm: React.FC = () => {
   const [submitError, setSubmitError] = useState("");
   const navigate = useNavigate();
 
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [city, setCity] = useState("");
+  const [suburb, setSuburb] = useState("");
+  const [postcode, setPostcode] = useState("");
+  const [address, setAddress] = useState("");
+
+  const [passwordLengthError, setPasswordLengthError] = useState("");
+  const [passwordMatchError, setPasswordMatchError] = useState("");
+
+
   useEffect(() => {
     axios
       .get("http://localhost:8000/user/get_user_by_username/", {
@@ -52,6 +63,22 @@ const RegisterForm: React.FC = () => {
       });
   }, [email, showEmailError]);
 
+  useEffect(() => {
+    if (password.length > 0 && password.length < 6) {
+      setPasswordLengthError("Password should be at least 6 characters long!");
+    } else {
+      setPasswordLengthError("");
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (confirmPassword.length > 0 && password !== confirmPassword) {
+      setPasswordMatchError("Passwords do not match!");
+    } else {
+      setPasswordMatchError("");
+    }
+  }, [password, confirmPassword]);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -79,11 +106,7 @@ const RegisterForm: React.FC = () => {
     const postcode = target.postcode.value;
     const address = target.address.value;
 
-    // Check password confirmation
-    if (enteredPassword !== enteredConfirmPassword) {
-      console.error("Passwords do not match!");
-      return;
-    }
+
 
     // Prepare user data based on the structure you provided
     const userData = {
@@ -124,6 +147,29 @@ const RegisterForm: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+
+
+  const areAllFieldsValid = () => {
+    return (
+        username &&
+        email &&
+        password &&
+        confirmPassword &&
+        firstname &&
+        lastname &&
+        city &&
+        suburb &&
+        postcode &&
+        address &&
+        !passwordLengthError &&
+        !passwordMatchError &&
+        !showUsernameError &&
+        !showEmailError
+    );
+  };
+
+
+
   return (
     <div className="container">
     <div className="driving-text-container">
@@ -135,34 +181,44 @@ const RegisterForm: React.FC = () => {
 
 
       <Input
-        placeholder="Please type your last name..."
-        id="lastname"
-        name="lastname"
-        required
+          placeholder="Please type your last name..."
+          id="lastname"
+          name="lastname"
+          required
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
       />
-
 
       <label htmlFor="firstname">First Name:</label>
       <Input
-        placeholder="Please type your first name..."
-        id="firstname"
-        name="firstname"
-        required
+          placeholder="Please type your first name..."
+          id="firstname"
+          name="firstname"
+          required
+          value={firstname}
+          onChange={(e) => setFirstname(e.target.value)}
       />
+
       <label htmlFor="email">Email:</label>
       <Input
-        placeholder="Please type your email..."
-        id="email"
-        name="email"
-        required
+          placeholder="Please type your email..."
+          id="email"
+          name="email"
+          required
+          onChange={(e) => setEmail(e.target.value)}
       />
+      {showEmailError && <p className="error">{emailError}</p>}
+
       <label htmlFor="username">Username:</label>
       <Input
-        placeholder="Please type your user name..."
-        id="username"
-        name="username"
-        required
+          placeholder="Please type your user name..."
+          id="username"
+          name="username"
+          required
+          onChange={(e) => setUsername(e.target.value)}
       />
+      {showUsernameError && <p className="error">{usernameError}</p>}
+
       <label htmlFor="password">Password:</label>
       <div className="password-input">
         <Input.Password
@@ -182,6 +238,8 @@ const RegisterForm: React.FC = () => {
             </span>
           )}
         />
+        {passwordLengthError && <p className="error">{passwordLengthError}</p>}
+
       </div>
       <label htmlFor="confirmPassword">Confirm Password:</label>
       <div className="password-input">
@@ -205,38 +263,53 @@ const RegisterForm: React.FC = () => {
             </span>
           )}
         />
+        {passwordMatchError && <p className="error">{passwordMatchError}</p>}
       </div>
       <label htmlFor="city">City:</label>
       <Input
-        placeholder="Please type city..."
-        id="city"
-        name="city"
-        required
+          placeholder="Please type city..."
+          id="city"
+          name="city"
+          required
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
       />
       <label htmlFor="suburb">Suburb:</label>
       <Input
-        placeholder="Please type suburb..."
-        id="suburb"
-        name="suburb"
-        required
+          placeholder="Please type suburb..."
+          id="suburb"
+          name="suburb"
+          required
+          value={suburb}
+          onChange={(e) => setSuburb(e.target.value)}
       />
       <label htmlFor="postcode">Postcode:</label>
       <Input
-        placeholder="Please type postcode..."
-        id="postcode"
-        name="postcode"
-        required
+          placeholder="Please type postcode..."
+          id="postcode"
+          name="postcode"
+          required
+          value={postcode}
+          onChange={(e) => setPostcode(e.target.value)}
       />
       <label htmlFor="address">Address:</label>
       <Input
-        placeholder="Please type address..."
-        id="postcode"
-        name="postcode"
-        required
+          placeholder="Please type address..."
+          id="address"
+          name="address"
+          required
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
       />
-      <input type="submit" value="Register" />
-    </form>
 
+      <input
+          type="submit"
+          value="Register"
+          className="register-button"
+          disabled={!areAllFieldsValid()}
+      />
+
+    </form>
 
     <div className="login-link">
       <p>

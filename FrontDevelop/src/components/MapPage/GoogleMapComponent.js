@@ -143,7 +143,7 @@ function GoogleMapComponent({
           chargers.map((charger, index) => {
             return (
               <Marker
-                key={index}
+                key={`marker-${charger.id}`}
                 position={{
                   lat: JSON.parse(charger.address.lat),
                   lng: JSON.parse(charger.address.lng),
