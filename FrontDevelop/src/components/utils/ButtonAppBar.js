@@ -77,11 +77,7 @@ export default function ButtonAppBar({
           .catch((err) => console.log(err));
     }
   }, [auth]);
-
   const firstLetter = (auth && auth.username) ? auth.username.charAt(0).toUpperCase() : "A";
-
-
-
 
   const steps = [
     {
