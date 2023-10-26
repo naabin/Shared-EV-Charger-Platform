@@ -230,6 +230,8 @@ const RegisterForm: React.FC = () => {
               <TextField
                 margin="normal"
                 required
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -237,22 +239,13 @@ const RegisterForm: React.FC = () => {
                 autoComplete="lastname"
                 autoFocus
               />
-              {/* <label htmlFor="lastname">Last Name:</label>
-
-
-      <Input
-          placeholder="Please type your last name..."
-          id="lastname"
-          name="lastname"
-          required
-          value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
-      /> */}
 
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
                 id="firstName"
                 label="First Name"
                 name="firstname"
@@ -260,89 +253,51 @@ const RegisterForm: React.FC = () => {
                 autoFocus
               />
 
-              {/* <label htmlFor="firstname">First Name:</label>
-      <Input
-          placeholder="Please type your first name..."
-          id="firstname"
-          name="firstname"
-          required
-          value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
-      /> */}
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 label="Email Address"
                 name="email"
                 autoComplete="email"
                 autoFocus
               />
-
-              {/* <label htmlFor="email">Email:</label>
-      <Input
-          placeholder="Please type your email..."
-          id="email"
-          name="email"
-          required
-          onChange={(e) => setEmail(e.target.value)}
-      /> */}
               {showEmailError && <p className="error">{emailError}</p>}
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 label="User Name"
                 name="username"
                 autoComplete="user"
                 autoFocus
               />
 
-              {/* <label htmlFor="username">Username:</label>
-      <Input
-          placeholder="Please type your user name..."
-          id="username"
-          name="username"
-          required
-          onChange={(e) => setUsername(e.target.value)}
-      /> */}
               {showUsernameError && <p className="error">{usernameError}</p>}
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 name="password"
                 autoComplete="password"
                 autoFocus
               />
-
-              {/* <label htmlFor="password">Password:</label>
-      <div className="password-input">
-        <Input.Password
-          placeholder="Password"
-          id="password"
-          name="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          iconRender={(visible) => (
-            <span className="eye-icon" onClick={togglePasswordVisibility}>
-              {visible ? (
-                <EyeTwoTone style={{ fontSize: "6px" }} />
-              ) : (
-                <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
-              )}
-            </span>
-          )}
-        /> */}
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 id="confirmPassword"
                 label="Confirm Password"
                 name="confirmPassword"
@@ -352,36 +307,13 @@ const RegisterForm: React.FC = () => {
               {passwordLengthError && (
                 <p className="error">{passwordLengthError}</p>
               )}
-
-              {/* </div> */}
-
-              {/* <label htmlFor="confirmPassword">Confirm Password:</label>
-      <div className="password-input">
-        <Input.Password
-          placeholder="Confirm Password"
-          id="confirmPassword"
-          name="confirmPassword"
-          required
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          iconRender={(visible) => (
-            <span
-              className="eye-icon"
-              onClick={toggleConfirmPasswordVisibility}
-            >
-              {visible ? (
-                <EyeTwoTone style={{ fontSize: "6px" }} />
-              ) : (
-                <EyeInvisibleOutlined style={{ fontSize: "6px" }} />
-              )}
-            </span>
-          )}
-        /> */}
               {passwordMatchError && (
                 <p className="error">{passwordMatchError}</p>
               )}
               {/* </div> */}
               <TextField
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -391,19 +323,12 @@ const RegisterForm: React.FC = () => {
                 autoComplete="city"
                 autoFocus
               />
-              {/* <label htmlFor="city">City:</label>
-      <Input
-          placeholder="Please type city..."
-          id="city"
-          name="city"
-          required
-          
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-      /> */}
+
               <TextField
                 margin="normal"
                 required
+                value={suburb}
+                onChange={(e) => setSuburb(e.target.value)}
                 fullWidth
                 id="suburb"
                 label="Suburb"
@@ -411,35 +336,19 @@ const RegisterForm: React.FC = () => {
                 autoComplete="suburb"
                 autoFocus
               />
-              {/* <label htmlFor="suburb">Suburb:</label>
-      <Input
-          placeholder="Please type suburb..."
-          id="suburb"
-          name="suburb"
-          required
-          value={suburb}
-          onChange={(e) => setSuburb(e.target.value)}
-      /> */}
+
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                value={postcode}
+                onChange={(e) => setPostcode(e.target.value)}
                 id="postcode"
                 label="Postcode"
                 name="postcode"
                 autoComplete="postcode"
                 autoFocus
               />
-
-              {/* <label htmlFor="postcode">Postcode:</label>
-      <Input
-          placeholder="Please type postcode..."
-          id="postcode"
-          name="postcode"
-          required
-          value={postcode}
-          onChange={(e) => setPostcode(e.target.value)}
-      /> */}
               <TextField
                 margin="normal"
                 required
@@ -451,15 +360,6 @@ const RegisterForm: React.FC = () => {
                 autoFocus
               />
 
-              {/* <label htmlFor="address">Address:</label>
-      <Input
-          placeholder="Please type address..."
-          id="address"
-          name="address"
-          required
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-      /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -469,34 +369,18 @@ const RegisterForm: React.FC = () => {
               >
                 Join Now!
               </Button>
-
-              {/* <input
-          type="submit"
-          value="Register"
-          className="register-button"
-          disabled={!areAllFieldsValid()}
-      /> */}
-
-              {/* </form> */}
-              <Grid container sx={{
-                    justifyContent: "center",
-                  }}>
-                <Grid
-                  item
-      
-                >
+              <Grid
+                container
+                sx={{
+                  justifyContent: "center",
+                }}
+              >
+                <Grid item>
                   <Link href="/login" variant="body1">
                     Already Have An Account? Log In Here!
                   </Link>
                 </Grid>
               </Grid>
-
-              {/* <div className="login-link">
-      <p>
-        Already have an account? <Link to="/login">Login here</Link>
-      </p>
-    </div> */}
-              {/* </div> */}
             </Box>
           </Box>
         </Grid>

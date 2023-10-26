@@ -9,19 +9,6 @@ import HighlightOff from "@mui/icons-material/HighlightOff";
 
 import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-/*
-        "id": 2,
-        "approve": false,
-        "viewed": false,
-        "state": "request",
-        "start_time": "2023-10-23T13:00:00Z",
-        "end_time": "2023-10-23T19:00:00Z",
-        "duration": 6,
-        "total_price": "30.00",
-        "user": 11,
-        "owner": 10,
-        "charger": 20
-*/
 const columns = [
   {
     field: "charger",
@@ -126,7 +113,7 @@ const Transaction = (props) => {
               opacity: titleOpacity,
             }}
           >
-            XXX's Transaction History
+            {currentUser.name} Transaction
           </Typography>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid rows={activities} columns={columns} />
