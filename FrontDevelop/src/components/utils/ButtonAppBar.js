@@ -28,6 +28,9 @@ import ListItemText from '@mui/material/ListItemText';
 import SvgIcon from '@mui/material/SvgIcon';
 import InboxIcon from '@mui/icons-material/Inbox';
 import { PoweroffOutlined } from '@ant-design/icons';import axios from "axios";
+import transactionImg from '../../matirial/Image/transaction.png';
+import wechatImg from '../../matirial/Image/wechat.png';
+import chargerIconImg from '../../matirial/Image/chargerIcon.png';
 
 export default function ButtonAppBar({
   transactionpage,
@@ -224,7 +227,7 @@ export default function ButtonAppBar({
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                <img src='../../matirial/Image/transaction.png'/>
+                                  <img src={transactionImg} alt="Transaction Icon" />
                                 </ListItemIcon>
                                 <ListItemText primary="Transaction" onClick={transactionpage} />
                               </ListItemButton>
@@ -232,7 +235,7 @@ export default function ButtonAppBar({
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                  <img src='../../matirial/Image/wechat.png'/>
+                                  <img src={wechatImg} alt="WeChat Icon" />
                                 </ListItemIcon>
                                 <ListItemText primary="LiveChat" onClick={toggleLiveChat} />
                               </ListItemButton>
@@ -240,14 +243,14 @@ export default function ButtonAppBar({
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                <img src='../../matirial/Image/charger.png'/>
+                                  <img src={chargerIconImg} alt="Charger Icon" />
                                 </ListItemIcon>
                                 <ListItemText primary="MyCharger" onClick={myChargers}/>
                               </ListItemButton>
                             </ListItem>
                             <Button type="primary" shape="round" icon={<PoweroffOutlined />} size={'large'} onClick={logout}>
-            Log out
-          </Button>
+                            Log out
+                          </Button>
                           </List>
 
                         </CardContent>

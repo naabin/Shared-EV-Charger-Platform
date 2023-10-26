@@ -309,8 +309,6 @@ const RegisterForm: React.FC = () => {
           disabled={!areAllFieldsValid()}
       />
 
-
-
     </form>
 
     <div className="login-link">
