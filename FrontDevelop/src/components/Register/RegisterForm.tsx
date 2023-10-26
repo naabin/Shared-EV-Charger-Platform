@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { register } from "../../services/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import axios from "axios";
 import "../../styles/LoginReg.css";
-import backimg from "../../matirial/Image/reg.jpg";
+import AppRegistrationOutlinedIcon from "@mui/icons-material/AppRegistrationOutlined";
+import background from "../../matirial/Image/register.jpg";
+import {
+  Link,
+  Grid,
+  createTheme,
+  ThemeProvider,
+  CssBaseline,
+  Box,
+  Avatar,
+  Button,
+  Checkbox,
+  Paper,
+  Typography,
+  TextField,
+  FormControlLabel,
+} from "@mui/material";
 
 const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -31,7 +47,6 @@ const RegisterForm: React.FC = () => {
 
   const [passwordLengthError, setPasswordLengthError] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
-
 
   useEffect(() => {
     axios
@@ -106,8 +121,6 @@ const RegisterForm: React.FC = () => {
     const postcode = target.postcode.value;
     const address = target.address.value;
 
-
-
     // Prepare user data based on the structure you provided
     const userData = {
       username: username,
@@ -147,37 +160,84 @@ const RegisterForm: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-
-
   const areAllFieldsValid = () => {
     return (
-        username &&
-        email &&
-        password &&
-        confirmPassword &&
-        firstname &&
-        lastname &&
-        city &&
-        suburb &&
-        postcode &&
-        address &&
-        !passwordLengthError &&
-        !passwordMatchError &&
-        !showUsernameError &&
-        !showEmailError
+      username &&
+      email &&
+      password &&
+      confirmPassword &&
+      firstname &&
+      lastname &&
+      city &&
+      suburb &&
+      postcode &&
+      address &&
+      !passwordLengthError &&
+      !passwordMatchError &&
+      !showUsernameError &&
+      !showEmailError
     );
   };
 
-
+  const defaultTheme = createTheme();
 
   return (
-    <div className="container">
-    <div className="driving-text-container">
-      <img src={backimg} alt="?" className="driving-animation"></img>
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        {/* <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        /> */}
+        {/* <div className="container"> */}
+        {/* <div className="driving-text-container">
+      
       <h3 className="driving-text">New User Register:</h3>
-    </div>
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="lastname">Last Name:</label>
+    </div> */}
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <AppRegistrationOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              New User Register
+            </Typography>
+            {/* <form onSubmit={handleSubmit}> */}
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastname"
+                autoComplete="lastname"
+                autoFocus
+              />
+              {/* <label htmlFor="lastname">Last Name:</label>
 
 
       <Input
@@ -187,9 +247,20 @@ const RegisterForm: React.FC = () => {
           required
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
-      />
+      /> */}
 
-      <label htmlFor="firstname">First Name:</label>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                name="firstname"
+                autoComplete="firstname"
+                autoFocus
+              />
+
+              {/* <label htmlFor="firstname">First Name:</label>
       <Input
           placeholder="Please type your first name..."
           id="firstname"
@@ -197,29 +268,59 @@ const RegisterForm: React.FC = () => {
           required
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
-      />
+      /> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
 
-      <label htmlFor="email">Email:</label>
+              {/* <label htmlFor="email">Email:</label>
       <Input
           placeholder="Please type your email..."
           id="email"
           name="email"
           required
           onChange={(e) => setEmail(e.target.value)}
-      />
-      {showEmailError && <p className="error">{emailError}</p>}
+      /> */}
+              {showEmailError && <p className="error">{emailError}</p>}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                name="username"
+                autoComplete="user"
+                autoFocus
+              />
 
-      <label htmlFor="username">Username:</label>
+              {/* <label htmlFor="username">Username:</label>
       <Input
           placeholder="Please type your user name..."
           id="username"
           name="username"
           required
           onChange={(e) => setUsername(e.target.value)}
-      />
-      {showUsernameError && <p className="error">{usernameError}</p>}
+      /> */}
+              {showUsernameError && <p className="error">{usernameError}</p>}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                name="password"
+                autoComplete="password"
+                autoFocus
+              />
 
-      <label htmlFor="password">Password:</label>
+              {/* <label htmlFor="password">Password:</label>
       <div className="password-input">
         <Input.Password
           placeholder="Password"
@@ -237,11 +338,24 @@ const RegisterForm: React.FC = () => {
               )}
             </span>
           )}
-        />
-        {passwordLengthError && <p className="error">{passwordLengthError}</p>}
+        /> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="confirmPassword"
+                label="Confirm Password"
+                name="confirmPassword"
+                autoComplete="cpassword"
+                autoFocus
+              />
+              {passwordLengthError && (
+                <p className="error">{passwordLengthError}</p>
+              )}
 
-      </div>
-      <label htmlFor="confirmPassword">Confirm Password:</label>
+              {/* </div> */}
+
+              {/* <label htmlFor="confirmPassword">Confirm Password:</label>
       <div className="password-input">
         <Input.Password
           placeholder="Confirm Password"
@@ -262,19 +376,42 @@ const RegisterForm: React.FC = () => {
               )}
             </span>
           )}
-        />
-        {passwordMatchError && <p className="error">{passwordMatchError}</p>}
-      </div>
-      <label htmlFor="city">City:</label>
+        /> */}
+              {passwordMatchError && (
+                <p className="error">{passwordMatchError}</p>
+              )}
+              {/* </div> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="city"
+                label="City"
+                name="city"
+                autoComplete="city"
+                autoFocus
+              />
+              {/* <label htmlFor="city">City:</label>
       <Input
           placeholder="Please type city..."
           id="city"
           name="city"
           required
+          
           value={city}
           onChange={(e) => setCity(e.target.value)}
-      />
-      <label htmlFor="suburb">Suburb:</label>
+      /> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="suburb"
+                label="Suburb"
+                name="suburb"
+                autoComplete="suburb"
+                autoFocus
+              />
+              {/* <label htmlFor="suburb">Suburb:</label>
       <Input
           placeholder="Please type suburb..."
           id="suburb"
@@ -282,8 +419,19 @@ const RegisterForm: React.FC = () => {
           required
           value={suburb}
           onChange={(e) => setSuburb(e.target.value)}
-      />
-      <label htmlFor="postcode">Postcode:</label>
+      /> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="postcode"
+                label="Postcode"
+                name="postcode"
+                autoComplete="postcode"
+                autoFocus
+              />
+
+              {/* <label htmlFor="postcode">Postcode:</label>
       <Input
           placeholder="Please type postcode..."
           id="postcode"
@@ -291,8 +439,19 @@ const RegisterForm: React.FC = () => {
           required
           value={postcode}
           onChange={(e) => setPostcode(e.target.value)}
-      />
-      <label htmlFor="address">Address:</label>
+      /> */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                autoComplete="address"
+                autoFocus
+              />
+
+              {/* <label htmlFor="address">Address:</label>
       <Input
           placeholder="Please type address..."
           id="address"
@@ -300,24 +459,66 @@ const RegisterForm: React.FC = () => {
           required
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-      />
+      /> */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={!areAllFieldsValid()}
+              >
+                Join Now!
+              </Button>
 
-      <input
+              {/* <input
           type="submit"
           value="Register"
           className="register-button"
           disabled={!areAllFieldsValid()}
-      />
+      /> */}
 
-    </form>
+              {/* </form> */}
+              <Grid container sx={{
+                    justifyContent: "center",
+                  }}>
+                <Grid
+                  item
+      
+                >
+                  <Link href="/login" variant="body1">
+                    Already Have An Account? Log In Here!
+                  </Link>
+                </Grid>
+              </Grid>
 
-    <div className="login-link">
+              {/* <div className="login-link">
       <p>
         Already have an account? <Link to="/login">Login here</Link>
       </p>
-    </div>
-  </div>
-);
+    </div> */}
+              {/* </div> */}
+            </Box>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Grid>
+    </ThemeProvider>
+  );
 };
 
 export default RegisterForm;
