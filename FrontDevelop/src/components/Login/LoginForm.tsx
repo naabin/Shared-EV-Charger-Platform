@@ -7,7 +7,7 @@ import { json, useNavigate } from "react-router-dom"; // Added useNavigate here
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import background from "../../matirial/Image/login.jpg"
 import {Grid, createTheme, ThemeProvider, CssBaseline, Box, Avatar,Button, Checkbox, Paper, Typography, TextField,FormControlLabel, Link} from "@mui/material"
-
+import {  notification } from 'antd';
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate(); // Initialize the hook here inside the component
@@ -55,6 +55,13 @@ const LoginForm: React.FC = () => {
       setShowError(false);
       navigate("/mapPage"); // Use navigate here instead of window.location.href
     } else {
+      notification.open({
+        message: 'Wrong account password combination',
+        style: {
+          backgroundColor: '#ff7171',
+          fontSize: '5px'
+        }
+      });
       setLoginError(response.error);
       setShowError(true);
     }
