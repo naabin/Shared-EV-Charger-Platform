@@ -25,7 +25,5 @@ c
 0FrontDevelop/src/styles/CoverPage/AlterImage.css,e/6/e67b041659b9afe68ae5dac617516203447a4c09
 `
 0FrontDevelop/src/styles/CoverPage/app_header.css,2/8/28e00e80bac9ed0a4f159ca664fb9ef1ef7f645c
-e
-5FrontDevelop/src/components/Register/RegisterForm.tsx,a/b/ab7d98b67d68a5b08b1974ff663e5cfa9f169981
 Q
 !FrontDevelop/src/services/auth.ts,3/5/359a809b63c958630ab441908647ba206865c6b3

@@ -25,7 +25,5 @@ L
 BackDevelop/requirements.txt,1/1/1100ec888e28ae9f2df43ec7773512c1abfbafdf
 Q
 !FrontDevelop/src/services/auth.ts,3/5/359a809b63c958630ab441908647ba206865c6b3
-e
-5FrontDevelop/src/components/Register/RegisterForm.tsx,a/b/ab7d98b67d68a5b08b1974ff663e5cfa9f169981
 c
 3FrontDevelop/src/components/CoverPage/app_header.js,f/1/f13002e1a39a5e75542e695a7999b64c157c1f6a

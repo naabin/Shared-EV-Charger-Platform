@@ -22,11 +22,17 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [showLiveChat, setShowLiveChat] = useState(false);
   const [auth, setAuth] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [originalUserData, setOriginalUserData] = useState(null);
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       setAuth(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
+
+
+
   useEffect(() => {
     if (auth && auth.id) {
       axios
@@ -35,22 +41,31 @@ const ProfilePage = () => {
               Authorization: `Bearer ` + auth.access,
             },
           })
-          .then((res) => setUserData(res.data))
+          .then((res) => {
+            setOriginalUserData(res.data);
+            setUserData(res.data);
+          })
           .catch((err) => console.log(err));
     }
   }, [auth]);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedUserProfile, setEditedUserProfile] = useState({
-    lastName: userData && userData.last_name,
-    firstName: userData && userData.first_name,
-    email: userData && userData.email,
-    username: userData && userData.username,
-    city: userData && userData.address && userData.city,
-    suburb: userData && userData.address && userData.suburb,
-    postcode: userData && userData.address && userData.address.post_code,
-    // address: address?.address || "",
-  });
+  const handleFieldChange = (fieldName, value) => {
+    if (fieldName.startsWith("address.")) {
+      const addressField = fieldName.substring("address.".length);
+      setUserData({
+        ...userData,
+        address: {
+          ...userData.address,
+          [addressField]: value,
+        },
+      });
+    } else {
+      setUserData({
+        ...userData,
+        [fieldName]: value,
+      });
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -58,11 +73,42 @@ const ProfilePage = () => {
 
   const handleSaveClick = async () => {
     setIsEditing(false);
-    // Add your save logic here
-  };
+    let data = null;
 
-  const handleFieldChange = (fieldName, value) => {
-    setEditedUserProfile({ ...editedUserProfile, [fieldName]: value });
+    data = {
+      username: userData.username,
+      email: userData.email,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      password: userData.password,
+      role: {
+        role: userData.role.role,
+      },
+      address: {
+        street_address: userData.address.street_address,
+        lat: userData.address.lat,
+        lng: userData.address.lng,
+        suburb: userData.address.suburb,
+        post_code: userData.address.post_code,
+        country: userData.address.country,
+      },
+    };
+
+    if (auth && auth.id) {
+      try {
+        const response = await axios.put(`http://localhost:8000/user/${auth.id}/`, JSON.stringify(data), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        });
+
+        setOriginalUserData(response.data);
+        console.log("User data updated:", response.data);
+      } catch (error) {
+        console.error("Error updating user data:", error);
+      }
+    }
   };
 
   const containerStyle = {
@@ -105,38 +151,14 @@ const ProfilePage = () => {
                         <ListItem>
                           <ListItemText
                               primary="Last Name"
-                              secondary={
-                                isEditing ? (
-                                    <Input
-                                        value={userData.last_name}
-                                        onChange={(e) =>
-                                            handleFieldChange("lastName", e.target.value)
-                                        }
-                                        style={{ padding: "1px", height: "45px" }}
-                                    />
-                                ) : (
-                                    userData.last_name
-                                )
-                              }
+                              secondary={userData.last_name}
                           />
                         </ListItem>
                         <Divider />
                         <ListItem>
                           <ListItemText
                               primary="First Name"
-                              secondary={
-                                isEditing ? (
-                                    <Input
-                                        value={userData.first_name}
-                                        onChange={(e) =>
-                                            handleFieldChange("firstName", e.target.value)
-                                        }
-                                        style={{ padding: "1px", height: "45px" }}
-                                    />
-                                ) : (
-                                    userData.first_name
-                                )
-                              }
+                              secondary={userData.first_name}
                           />
                         </ListItem>
                         <Divider />
@@ -177,19 +199,7 @@ const ProfilePage = () => {
                         <ListItem>
                           <ListItemText
                               primary="Email"
-                              secondary={
-                                isEditing ? (
-                                    <Input
-                                        value={userData.email}
-                                        onChange={(e) =>
-                                            handleFieldChange("email", e.target.value)
-                                        }
-                                        style={{ padding: "1px", height: "45px" }}
-                                    />
-                                ) : (
-                                    userData.email
-                                )
-                              }
+                              secondary={userData.email}
                           />
                         </ListItem>
                       </List>
@@ -210,18 +220,18 @@ const ProfilePage = () => {
                       <List>
                         <ListItem>
                           <ListItemText
-                              primary="City"
+                              primary="Country"
                               secondary={
                                 isEditing ? (
                                     <Input
-                                        value={userData.city}
+                                        value={userData.address.country}
                                         onChange={(e) =>
-                                            handleFieldChange("city", e.target.value)
+                                            handleFieldChange("address.country", e.target.value)
                                         }
                                         style={{ padding: "1px", height: "45px" }}
                                     />
                                 ) : (
-                                    userData.address.city
+                                    userData.address.country
                                 )
                               }
                           />
@@ -235,7 +245,7 @@ const ProfilePage = () => {
                                     <Input
                                         value={userData.address.suburb}
                                         onChange={(e) =>
-                                            handleFieldChange("suburb", e.target.value)
+                                            handleFieldChange("address.suburb", e.target.value)
                                         }
                                         style={{ padding: "1px", height: "45px" }}
                                     />
@@ -254,7 +264,7 @@ const ProfilePage = () => {
                                     <Input
                                         value={userData.address.post_code}
                                         onChange={(e) =>
-                                            handleFieldChange("postcode", e.target.value)
+                                            handleFieldChange("address.post_code", e.target.value)
                                         }
                                         style={{ padding: "1px", height: "45px" }}
                                     />
@@ -273,7 +283,7 @@ const ProfilePage = () => {
                                     <Input
                                         value={userData.address.street_address}
                                         onChange={(e) =>
-                                            handleFieldChange("address", e.target.value)
+                                            handleFieldChange("address.street_address", e.target.value)
                                         }
                                         style={{ padding: "1px", height: "45px" }}
                                     />
@@ -325,6 +335,7 @@ const ProfilePage = () => {
         )}
       </div>
   );
+
 };
 
 export default ProfilePage;

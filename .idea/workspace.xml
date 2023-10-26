@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb18065c-e528-4111-85a0-9ebd165d1878" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/e/1e456a533aa2c9840d08c9d5bf45f96d949afa13" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/3/33970336e30047229c93291978dec65f3078ba1b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/7/87c2f6b4bcf3e29bcceeae43eff2aca08f68dcdd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/b/ab7d98b67d68a5b08b1974ff663e5cfa9f169981" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/e/1e456a533aa2c9840d08c9d5bf45f96d949afa13" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/3/3/33970336e30047229c93291978dec65f3078ba1b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/7/87c2f6b4bcf3e29bcceeae43eff2aca08f68dcdd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/b/ab7d98b67d68a5b08b1974ff663e5cfa9f169981" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/MapPage/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/MapPage/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/Retrieve/RetrieveForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/Retrieve/RetrieveForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
