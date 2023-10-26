@@ -27,8 +27,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SvgIcon from '@mui/material/SvgIcon';
 import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import axios from "axios";
+import { PoweroffOutlined } from '@ant-design/icons';import axios from "axios";
 
 export default function ButtonAppBar({
   transactionpage,
@@ -221,15 +220,15 @@ export default function ButtonAppBar({
                       </Card>
                       <Card sx={{ Width: 280, height:280, marginTop:'5px'}}>
                         <CardContent>
-                          <List subheader={
-                            <ListSubheader component="div" id="nested-list-subheader">
+                        <List subheader={
+                            <ListSubheader style={{backgroundColor:'#EDF2FF',marginLeft:'-15px',marginTop:'-10px',height:'40px'}}component="div" id="nested-list-subheader">
                               Options
                             </ListSubheader>
-                          }>
+                          }><hr></hr>
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                  <InboxIcon />
+                                <img src='../../matirial/Image/transaction.png'/>
                                 </ListItemIcon>
                                 <ListItemText primary="Transaction" onClick={transactionpage} />
                               </ListItemButton>
@@ -237,7 +236,7 @@ export default function ButtonAppBar({
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                  <DraftsIcon />
+                                  <img src='../../matirial/Image/wechat.png'/>
                                 </ListItemIcon>
                                 <ListItemText primary="LiveChat" onClick={toggleLiveChat} />
                               </ListItemButton>
@@ -245,19 +244,14 @@ export default function ButtonAppBar({
                             <ListItem disablePadding>
                               <ListItemButton>
                                 <ListItemIcon>
-                                  <DraftsIcon />
+                                <img src='../../matirial/Image/charger.png'/>
                                 </ListItemIcon>
                                 <ListItemText primary="MyCharger" onClick={myChargers}/>
                               </ListItemButton>
                             </ListItem>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <DraftsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Admin" onClick={adminpage}/>
-                              </ListItemButton>
-                            </ListItem>
+                            <Button type="primary" shape="round" icon={<PoweroffOutlined />} size={'large'} onClick={logout}>
+            Log out
+          </Button>
                           </List>
 
                         </CardContent>
