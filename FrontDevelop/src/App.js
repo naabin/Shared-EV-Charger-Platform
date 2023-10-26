@@ -61,7 +61,7 @@ function App() {
               />
               <Route path="/TransactionPage" element={<TranscationPage />} />
               <Route
-                path="myCharger"
+                path="/myCharger"
                 element={
                   <ProtectedRoute>
                     <MyChargerPage />
@@ -255,6 +255,7 @@ function TranscationPage() {
     setShowDialog(false);
   };
   return (
+
     <div>
       <Transaction change={showDialogEvent} />
       <HelpModel showDialog={showDialog} closeEvent={closeDialogEvent} />
