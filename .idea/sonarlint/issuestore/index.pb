@@ -25,13 +25,7 @@ L
 BackDevelop/requirements.txt,1/1/1100ec888e28ae9f2df43ec7773512c1abfbafdf
 Q
 !FrontDevelop/src/services/auth.ts,3/5/359a809b63c958630ab441908647ba206865c6b3
-G
-FrontDevelop/src/App.js,3/3/33970336e30047229c93291978dec65f3078ba1b
 e
 5FrontDevelop/src/components/Register/RegisterForm.tsx,a/b/ab7d98b67d68a5b08b1974ff663e5cfa9f169981
 c
 3FrontDevelop/src/components/CoverPage/app_header.js,f/1/f13002e1a39a5e75542e695a7999b64c157c1f6a
-^
-.FrontDevelop/src/components/MapPage/Profile.js,1/e/1e456a533aa2c9840d08c9d5bf45f96d949afa13
-a
-1FrontDevelop/src/components/utils/ButtonAppBar.js,8/7/87c2f6b4bcf3e29bcceeae43eff2aca08f68dcdd

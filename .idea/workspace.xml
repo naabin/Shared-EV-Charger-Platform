@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb18065c-e528-4111-85a0-9ebd165d1878" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FrontDevelop/src/matirial/Image/register.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/4/b48ffb821ef7e4b59096f9c1dbd3944d9e6977aa" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/e/1e456a533aa2c9840d08c9d5bf45f96d949afa13" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/3/33970336e30047229c93291978dec65f3078ba1b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/7/87c2f6b4bcf3e29bcceeae43eff2aca08f68dcdd" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/4/b48ffb821ef7e4b59096f9c1dbd3944d9e6977aa" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/e/1e456a533aa2c9840d08c9d5bf45f96d949afa13" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/3/3/33970336e30047229c93291978dec65f3078ba1b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/7/87c2f6b4bcf3e29bcceeae43eff2aca08f68dcdd" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/MapPage/Transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/MapPage/Transaction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/Register/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/Register/RegisterForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontDevelop/src/components/utils/ButtonAppBar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +26,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/FrontDevelop/package.json" />
   </component>
   <component name="ProjectId" id="2WPntozHdAZTJPzRLF2LyeFC7rm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

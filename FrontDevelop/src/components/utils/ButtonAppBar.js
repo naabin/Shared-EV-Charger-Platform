@@ -236,7 +236,7 @@ export default function ButtonAppBar({
                                 <ListItemText primary="MyCharger" onClick={() => window.location.href = "/myCharger"}/>
                               </ListItemButton>
                             </ListItem>
-                            <Button type="primary" shape="round" icon={<PoweroffOutlined />} size={'large'} onClick={logout}>
+                            <Button style={{marginTop:"15px"}} type="primary" variant="outlined" shape="round" icon={<PoweroffOutlined />} size={'large'} onClick={logout}>
                             Log out
                           </Button>
                           </List>
