@@ -19,6 +19,8 @@ import {
   Alert,
   AccordionSummary,
   AccordionDetails,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
@@ -30,6 +32,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import LiveChat from "./LiveChat";
 import {useNavigate} from "react-router-dom";
+import Updating from "../MainPage/UpdatingChargerModel"
 
 const ChargerPaper = styled(Paper)(({ theme }) => ({
   // width: `100%`,
@@ -48,6 +51,9 @@ const MyCharger = (props) => {
   const [selectedChargerId, setSelectedChargerId] = useState(null);
   const [contentExpanded, setContentExpanded] = useState(null);
   const [showLiveChat, setShowLiveChat] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const[updateForm,setUpdateForm]=useState(false);
+  const[chargerData,setChargerData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const access_token = JSON.parse(localStorage.getItem("user"));
@@ -93,13 +99,32 @@ const MyCharger = (props) => {
     setContentExpanded(isExpanded ? id : null);
   };
 
-  const handleClickOpen = (chargerId) => {
-    setDeleteModal(true);
-    setSelectedChargerId(chargerId);
+   const handleDeleteOpen = () => {
+     setDeleteModal(true);
+     setAnchorEl(null);
+   };
+
+  const handleDeleteClose = () => {
+    setDeleteModal(false);
   };
 
-  const handleClose = () => {
-    setDeleteModal(false);
+  const handleMenuOpen = (id,chargerId)=>{
+        setAnchorEl(id);
+        setSelectedChargerId(chargerId);
+  }
+  const handleMenuClose = () => {
+    setAnchorEl(null); 
+    setSelectedChargerId(null);
+  };
+
+  const handleUpdateForm = () => {
+    setUpdateForm(true);
+    handleMenuClose();
+  };
+
+  const handleCloseForm = () => {
+    setUpdateForm(false);
+    //setChargerData({});
   };
 
   const handleDelete = () => {
@@ -120,11 +145,73 @@ const MyCharger = (props) => {
     } else {
       console.log("Missing auth.id or chargers.id, cannot delete charger.");
     }
+    
     setChargers(chargers.filter((charger) => charger.id !== selectedChargerId));
     setDeleteModal(false);
   };
+
+  const handleBeforeModify = async () => {
+    try {
+      if (selectedChargerId) {
+        const response = await axios.get(`http://localhost:8000/charger/${selectedChargerId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        });
+  
+        const data = response.data;
+        setChargerData(data);
+
+      } else {
+        console.log("Missing auth.id or chargers.id");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const handleBeforeModify = () => {
+  //   if (selectedChargerId) {
+  //     axios
+  //       .get(`http://localhost:8000/charger/${selectedChargerId}`, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + auth.access,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         setChargerData(res.data);
+  //         console.log(chargerData);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     console.log("Missing auth.id or chargers.id");
+  //   }
+  
+  // };
+
+  useEffect(() => {
+    console.log(chargerData);
+  }, [chargerData]);
   return (
     <div className="pageContainer">
+      
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={()=>{handleUpdateForm();handleBeforeModify();}}>
+          Modify This Charger 
+        </MenuItem>
+        <MenuItem onClick={()=>handleDeleteOpen()}>
+          Delete This Charger
+        </MenuItem>
+      </Menu>
+      <Updating showDialog={updateForm} closeEvent={handleCloseForm} id={selectedChargerId} />
       <ButtonAppBar
           transactionpage={() => navigate("/TransactionPage")}
           adminpage={() => navigate("/Adminpage")}
@@ -146,6 +233,7 @@ const MyCharger = (props) => {
             onClick={() => window.location.href = "/mapPage"}
 
           >
+          
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>
           <Typography
@@ -177,13 +265,15 @@ const MyCharger = (props) => {
                       }
                       action={
                         <IconButton
-                          onClick={() => handleClickOpen(charger.id)}
+                          onClick={(event) => handleMenuOpen(event.currentTarget,charger.id)}
                           aria-label="settings"
                         >
                           <MoreVertIcon />
                         </IconButton>
                       }
                     />
+                    
+                    
                     <CardMedia
                       height={200}
                       sx={{ objectFit: "contain" }}
@@ -252,7 +342,7 @@ const MyCharger = (props) => {
       </div>
       <Dialog
         open={deleteModal}
-        onClose={handleClose}
+        onClose={handleDeleteClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -265,7 +355,7 @@ const MyCharger = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancle</Button>
+          <Button onClick={handleDeleteClose}>Cancle</Button>
           <Button onClick={handleDelete} autoFocus>
             Delete
           </Button>

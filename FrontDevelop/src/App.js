@@ -20,6 +20,7 @@ import GoogleMapComponent from "./components/MapPage/GoogleMapComponent";
 import LiveChat from "./components/MapPage/LiveChat";
 import AdminPage from "./components/Admin/AdminPage";
 import LoadingImg from "./components/utils/LoadingImg";
+import UpdatingCharger from "./components/MainPage/UpdatingChargerModel";
 import { AuthContext, AuthProvider } from "./services/AuthContext";
 import {
   BrowserRouter as Router,
