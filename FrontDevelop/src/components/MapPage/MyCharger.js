@@ -70,6 +70,7 @@ const MyCharger = (props) => {
         .catch((err) => console.log(err));
     }
   }, []);
+
   const makeAvailable = (charger) => {
     const access_token = JSON.parse(localStorage.getItem("user"));
     if (access_token && access_token.access) {
@@ -196,9 +197,10 @@ const MyCharger = (props) => {
   useEffect(() => {
     console.log(chargerData);
   }, [chargerData]);
+
   return (
     <div className="pageContainer">
-      
+
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -303,8 +305,12 @@ const MyCharger = (props) => {
                             <p>
                               <strong>Power: </strong>{" "}
                               {Number(charger.charger_type.power).toFixed(2)}kHz{" "}
-                              {"  "}
-                              <strong>Amp: </strong>
+                              {/*{"  "}*/}
+                              {/*<strong>Amp: </strong>*/}
+                              {/*{Number(charger.charger_type.amp).toFixed(2)} Ohms*/}
+                            </p>
+                            <p>
+                              <strong>Amp: </strong>{" "}
                               {Number(charger.charger_type.amp).toFixed(2)} Ohms
                             </p>
                             <p>
@@ -315,18 +321,52 @@ const MyCharger = (props) => {
                         </AccordionDetails>
                       </Accordion>
                       <Accordion
-                        key={charger.id}
-                        onChange={handleExpansion(charger.id)}
-                        expanded={contentExpanded === charger.id}
+                          key={charger.id}
+                          onChange={handleExpansion(charger.id)}
+                          expanded={contentExpanded === charger.id}
                       >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography>Charger Location</Typography>
                         </AccordionSummary>
+                        <AccordionDetails>
+                          <ChargerPaper
+                              elevation={24}
+                              sx={{
+                                maxWidth: "100%", // Ensures the paper doesn't exceed its parent's width
+                                wordWrap: "break-word", // Ensures long words or strings break onto the next line
+                                padding: 2, // Adds some padding for aesthetics
+                              }}
+                          >
+                            <p sx={{ margin: '0' }}>  {/* Remove default margins of <p> */}
+                              <strong>Suburb: </strong>
+                              {charger.address.suburb}
+                            </p>
+                            <p sx={{ margin: '0' }}>
+                              <strong>Post_code : </strong>
+                              {charger.address.post_code}
+                            </p>
+                            <p style={{
+                              position: 'relative',
+                              fontSize: '1em',
+                              lineHeight: '1.5em',
+                              zIndex: 1,
+                              margin: '0',
+                              overflowWrap: 'break-word',
+                              whiteSpace: 'normal',
+                            }}>
+                              <strong>Street Address: </strong>
+                              {charger.address.street_address}
+                            </p>
+
+                          </ChargerPaper>
+                        </AccordionDetails>
                       </Accordion>
+
+
                       <Accordion
-                        key={charger.charger_type.id}
-                        onChange={handleExpansion(charger.charger_type.id)}
-                        expanded={contentExpanded === charger.charger_type.id}
+                        key={charger.charger_type.id + 1000}
+                        onChange={handleExpansion(charger.charger_type.id + 1000)}
+                        expanded={contentExpanded === charger.charger_type.id + 1000}
                       >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography>Customer revies</Typography>
