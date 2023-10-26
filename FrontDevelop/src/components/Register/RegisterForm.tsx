@@ -351,6 +351,8 @@ const RegisterForm: React.FC = () => {
               />
               <TextField
                 margin="normal"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 required
                 fullWidth
                 id="address"
