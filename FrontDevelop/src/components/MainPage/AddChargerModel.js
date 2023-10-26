@@ -30,9 +30,9 @@ function AddChargerModel(props) {
   const [model, setModel] = useState("");
   const [brand, setBrand] = useState("");
   const [portType, setPortType] = useState("");
-  const [power, setPower] = useState(0);
-  const [amp, setAmp] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [power, setPower] = useState("");
+  const [amp, setAmp] = useState("");
+  const [price, setPrice] = useState("");
 
   const [image, setImage] = useState(null);
 

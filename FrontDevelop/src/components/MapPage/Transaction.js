@@ -9,6 +9,9 @@ import HighlightOff from "@mui/icons-material/HighlightOff";
 
 import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import LiveChat from "./LiveChat";
+import { useNavigate } from "react-router-dom";
+
 const columns = [
   {
     field: "charger",
@@ -71,12 +74,15 @@ const columns = [
 ];
 
 const Transaction = (props) => {
+  const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
   const [titleOpacity, setTitleOpacity] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     setTitleOpacity(1);
-    const user = JSON.parse(localStorage.getItem("user"));
+
     setCurrentUser(user);
     if (user && user.access) {
       axios
@@ -94,14 +100,24 @@ const Transaction = (props) => {
   }, []);
   return (
     <div className="pageContainer">
-      <ButtonAppBar />
+      <ButtonAppBar
+        transactionpage={() => navigate("/TransactionPage")}
+        adminpage={() => navigate("/Adminpage")}
+        myChargers={() => navigate("/myCharger")}
+        showLiveChat={showLiveChat}
+        toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+        profile={() => navigate("/ProfilePage")}
+      />
+      {showLiveChat && (
+        <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />
+      )}
       <div style={{ marginTop: 100 }}>
         <Container>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="back"
-            onClick={() => window.history.back()}
+            onClick={() => (window.location.href = "/mapPage")}
           >
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>
@@ -113,7 +129,9 @@ const Transaction = (props) => {
               opacity: titleOpacity,
             }}
           >
-            {currentUser.name} Transaction
+            <Typography variant="h4">
+              {`${user.username}'s Transaction History`}
+            </Typography>
           </Typography>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid rows={activities} columns={columns} />

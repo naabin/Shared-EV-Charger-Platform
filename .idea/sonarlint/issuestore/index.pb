@@ -23,8 +23,6 @@ c
 0FrontDevelop/src/styles/CoverPage/app_header.css,2/8/28e00e80bac9ed0a4f159ca664fb9ef1ef7f645c
 L
 BackDevelop/requirements.txt,1/1/1100ec888e28ae9f2df43ec7773512c1abfbafdf
-H
-FrontDevelop/src/App.css,b/4/b48ffb821ef7e4b59096f9c1dbd3944d9e6977aa
 Q
 !FrontDevelop/src/services/auth.ts,3/5/359a809b63c958630ab441908647ba206865c6b3
 G
