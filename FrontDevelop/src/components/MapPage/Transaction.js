@@ -80,9 +80,10 @@ const Transaction = (props) => {
   const [titleOpacity, setTitleOpacity] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
   const [showLiveChat, setShowLiveChat] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     setTitleOpacity(1);
-    const user = JSON.parse(localStorage.getItem("user"));
+
     setCurrentUser(user);
     if (user && user.access) {
       axios
@@ -129,7 +130,9 @@ const Transaction = (props) => {
               opacity: titleOpacity,
             }}
           >
-            XXX's Transaction History
+            <Typography variant="h4">
+              {`${user.username}'s Transaction History`}
+            </Typography>
           </Typography>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid rows={activities} columns={columns} />
