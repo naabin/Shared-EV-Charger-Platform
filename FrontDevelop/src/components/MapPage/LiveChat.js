@@ -72,9 +72,6 @@ function LiveChat({ onClose, show, initialReceiver }) {
                     }
                 });
 
-                console.log(data);
-                console.log(data.length);
-                console.log(data[0].chatlog);
 
                 if (data && data.length > 0) {
                     setChatRooms(data);
