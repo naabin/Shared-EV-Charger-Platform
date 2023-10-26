@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, IconButton, Container } from "@mui/material";
+import { Typography, IconButton, Container, Chip } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
@@ -58,16 +58,27 @@ const columns = [
     headerName: "Approval",
     width: 150,
     renderCell: (params) => {
-      return (
-        <div>
-          <IconButton color="success">
-            <DoneRounded />
-          </IconButton>
-          <IconButton color="error">
-            <HighlightOff />
-          </IconButton>
-        </div>
-      );
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log(params.row);
+      if (params.row && params.row.owner) {
+        if (params.row.owner === user.id) {
+          return (
+            <div>
+              <IconButton color="success">
+                <DoneRounded />
+              </IconButton>
+              <IconButton color="error">
+                <HighlightOff />
+              </IconButton>
+            </div>
+          );
+        } else {
+          const approved = params.row.approve;
+          if (approved) {
+            return <Chip label="You request have been accepted" />;
+          } else return <Chip label="Pending approval" />;
+        }
+      }
     },
   },
 ];
@@ -75,10 +86,11 @@ const columns = [
 const Transaction = (props) => {
   const [activities, setActivities] = useState([]);
   const [titleOpacity, setTitleOpacity] = useState(0);
-
+  const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
     setTitleOpacity(1);
     const user = JSON.parse(localStorage.getItem("user"));
+    setCurrentUser(user);
     if (user && user.access) {
       axios
         .get("http://localhost:8000/charger-activity/get_activity_by_owner", {
