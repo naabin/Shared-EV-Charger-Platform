@@ -80,7 +80,7 @@ const ProfilePage = () => {
       email: userData.email,
       first_name: userData.first_name,
       last_name: userData.last_name,
-      password: userData.password,
+      password: "123456",
       role: {
         role: userData.role.role,
       },
