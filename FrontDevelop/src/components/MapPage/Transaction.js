@@ -1,49 +1,97 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  List,
-  ListItem,
-  Button,
-  Container,
-  ListItemText,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import { Typography, IconButton, Container } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import DoneRounded from "@mui/icons-material/DoneRounded";
+import HighlightOff from "@mui/icons-material/HighlightOff";
 
-const transactions = [
+import { DataGrid } from "@mui/x-data-grid";
+import dayjs from "dayjs";
+/*
+        "id": 2,
+        "approve": false,
+        "viewed": false,
+        "state": "request",
+        "start_time": "2023-10-23T13:00:00Z",
+        "end_time": "2023-10-23T19:00:00Z",
+        "duration": 6,
+        "total_price": "30.00",
+        "user": 11,
+        "owner": 10,
+        "charger": 20
+*/
+const columns = [
   {
-    id: 1,
-    position: "Auguest 1 Street",
-    Time: "1 Hours",
-    Price: "$10",
-    Date: "01/09/2023",
+    field: "charger",
+    headerName: "Charer",
+    width: 100,
+  },
+  { field: "user", headerName: "Requested By", width: 130 },
+  {
+    field: "start_time",
+    headerName: "Start time",
+    width: 200,
+    valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
   },
   {
-    id: 2,
-    position: "Auguest 2 Street",
-    Time: "2 Hours",
-    Price: "$20",
-    Date: "02/09/2023",
+    field: "end_time",
+    headerName: "End Time",
+    width: 200,
+    valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
   },
   {
-    id: 3,
-    position: "Auguest 3 Street",
-    Time: "3 Hours",
-    Price: "$30",
-    Date: "03/09/2023",
+    field: "duration",
+    headerName: "Duration",
+    width: 150,
+    valueFormatter: (p) => `${p.value} hrs`,
+  },
+  {
+    field: "total_price",
+    headerName: "Price",
+    width: 150,
+    valueFormatter: (p) => `AUD ${p.value}`,
+  },
+  {
+    field: "action",
+    headerName: "Approval",
+    width: 150,
+    renderCell: (params) => {
+      return (
+        <div>
+          <IconButton color="success">
+            <DoneRounded />
+          </IconButton>
+          <IconButton color="error">
+            <HighlightOff />
+          </IconButton>
+        </div>
+      );
+    },
   },
 ];
 
 const Transaction = (props) => {
+  const [activities, setActivities] = useState([]);
   const [titleOpacity, setTitleOpacity] = useState(0);
 
   useEffect(() => {
     setTitleOpacity(1);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.access) {
+      axios
+        .get("http://localhost:8000/charger-activity/get_activity_by_owner", {
+          params: {
+            owner: user.id,
+          },
+          headers: {
+            Authorization: `Bearer ${user.access}`,
+          },
+        })
+        .then((res) => setActivities(res.data))
+        .catch((err) => console.log(err));
+    }
   }, []);
   return (
     <div className="pageContainer">
@@ -68,23 +116,9 @@ const Transaction = (props) => {
           >
             XXX's Transaction History
           </Typography>
-
-          <List>
-            {transactions.map((transaction, index) => (
-              <div key={transaction.id}>
-                <ListItem>
-                  <ListItemText
-                    primary={`${transaction.position} - ${transaction.Date}`}
-                    secondary={`${transaction.Time} - ${transaction.Price}`}
-                  />
-                  <Button style={{ marginLeft: "auto" }} onClick={props.change}>
-                    Need Help With Transaction
-                  </Button>
-                </ListItem>
-                {index !== transactions.length - 1 && <Divider />}
-              </div>
-            ))}
-          </List>
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid rows={activities} columns={columns} />
+          </div>
         </Container>
       </div>
     </div>

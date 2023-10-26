@@ -23,10 +23,10 @@ class ChargerViewSet(viewsets.ModelViewSet):
             charger = serializer.save()
             return Response({'charger': ChargerSerializer(charger).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def perform_create(self, serializer):
         return serializer.save()
-    
+
     @action(methods=['get'], detail=False, permission_classes=[IsAuthenticated])
     def get_charger_by_renter_id(self, request):
         renter_id = request.query_params.get('renter')
@@ -34,19 +34,17 @@ class ChargerViewSet(viewsets.ModelViewSet):
             queryset = Charger.objects.filter(renter=renter_id)
             serializer = ChargerSerializer(queryset, many=True)
             return Response(serializer.data)
-            # if (len(chargers) > 0):
-            #     return Response(ChargerSerializer(chargers, ), status=status.HTTP_200_OK)
-            # return Response([], status=status.HTTP_200_OK)
-        return Response({'message':'Could not find any chargers associated with this renter'},status=status.HTTP_404_NOT_FOUND)
-    
+        return Response({'message': 'Could not find any chargers associated with this renter'}, status=status.HTTP_404_NOT_FOUND)
+
     @action(methods=['post'], detail=False, permission_classes=[IsAuthenticated])
     def charger_status(self, request):
         charger_id = request.query_params.get('id')
-        err_res = Response({'message': 'Could not find any chargers'}, status=status.HTTP_404_NOT_FOUND)
+        err_res = Response(
+            {'message': 'Could not find any chargers'}, status=status.HTTP_404_NOT_FOUND)
         if charger_id is not None:
             charger = Charger.objects.get(id=charger_id)
             if charger is None:
-                return err_res;
+                return err_res
             charger.status = not charger.status
             Charger.objects.update()
             charger.save()

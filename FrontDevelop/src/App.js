@@ -40,7 +40,6 @@ import { LoadScript } from "@react-google-maps/api";
 import ProfilePage from "./components/MapPage/Profile";
 import { ProtectedRoute } from "./services/ProtectedRoute";
 
-const googleMapsLibraries = ["places"];
 function App() {
   return (
     <LoadScript
@@ -60,7 +59,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/transcationPage" element={<TranscationPage />} />
+              <Route path="/TransactionPage" element={<TranscationPage />} />
               <Route
                 path="myCharger"
                 element={
