@@ -41,6 +41,12 @@ function LiveChat({ onClose, show, initialReceiver }) {
             joinRoom(); // Join the room once the initialReceiver is set
         }
     }, [initialReceiver]);
+    function disconnectFromRoom() {
+        if (chatSocket) {
+            chatSocket.close();
+            setChatSocket(null);
+        }
+    }
 
     function initializeUser() {
         const storedUser = localStorage.getItem("user");
@@ -181,6 +187,7 @@ function LiveChat({ onClose, show, initialReceiver }) {
                 <ChatSidebar
                     rooms={chatRooms}
                     onSelectRoom={room => {
+                        disconnectFromRoom();
                         setChatLog(room.chatlog);
                         setRoomNumber(room.room_name);
                         setReceiverUsername(room.user2);
