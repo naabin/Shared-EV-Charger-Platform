@@ -9,19 +9,10 @@ import HighlightOff from "@mui/icons-material/HighlightOff";
 
 import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-/*
-        "id": 2,
-        "approve": false,
-        "viewed": false,
-        "state": "request",
-        "start_time": "2023-10-23T13:00:00Z",
-        "end_time": "2023-10-23T19:00:00Z",
-        "duration": 6,
-        "total_price": "30.00",
-        "user": 11,
-        "owner": 10,
-        "charger": 20
-*/
+import LiveChat from "./LiveChat";
+import {useNavigate} from "react-router-dom";
+
+
 const columns = [
   {
     field: "charger",
@@ -84,9 +75,11 @@ const columns = [
 ];
 
 const Transaction = (props) => {
+  const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
   const [titleOpacity, setTitleOpacity] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showLiveChat, setShowLiveChat] = useState(false);
   useEffect(() => {
     setTitleOpacity(1);
     const user = JSON.parse(localStorage.getItem("user"));
@@ -107,14 +100,24 @@ const Transaction = (props) => {
   }, []);
   return (
     <div className="pageContainer">
-      <ButtonAppBar />
+      <ButtonAppBar
+          transactionpage={() => navigate("/TransactionPage")}
+          adminpage={() => navigate("/Adminpage")}
+          myChargers={() => navigate("/myCharger")}
+          showLiveChat={showLiveChat}
+          toggleLiveChat={() => setShowLiveChat(!showLiveChat)}
+          profile={() => navigate("/ProfilePage")}
+      />
+      {showLiveChat && (
+          <LiveChat onClose={() => setShowLiveChat(false)} show={showLiveChat} />
+      )}
       <div style={{ marginTop: 100 }}>
         <Container>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="back"
-            onClick={() => window.history.back()}
+            onClick={() => window.location.href = "/mapPage"}
           >
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>

@@ -284,9 +284,9 @@ function GoogleMapComponent({
                     })}
                   </Typography>
                 </AccordionDetails>
-              </Accordion>
-              {/* TODO: need to enable this one again after user uses the  */}
-              <Accordion disabled>
+              {/*</Accordion>*/}
+              {/*/!* TODO: need to enable this one again after user uses the  *!/*/}
+              {/*<Accordion disabled>*/}
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <div>
                     <Rating />

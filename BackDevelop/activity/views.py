@@ -25,7 +25,10 @@ class ChargerActivityViewSet(viewsets.ModelViewSet):
     def get_activity_by_owner(self, request):
         owner_id = request.query_params.get('owner')
         if owner_id is not None:
-            queryset = Activity.objects.filter(owner=owner_id)
+            queryset = Activity.objects.filter(
+                owner=owner_id)
+            if not queryset.exists():
+                queryset = Activity.objects.filter(user=owner_id)
             serializer = ActivitySerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'message': 'No activity associated with'}, status=status.HTTP_404_NOT_FOUND)
