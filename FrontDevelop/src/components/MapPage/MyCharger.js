@@ -146,8 +146,9 @@ const MyCharger = (props) => {
           <Button onClick={props.change}>Register a new Charger</Button>
           <Grid container spacing={2}>
             {chargers.map((charger, index) => (
-              <Grid key={index} xs={4} item>
-                <Accordion expanded={false}>
+                <Grid key={charger.id} xs={4} item>
+                  <Accordion key={`details-${charger.id}`} onChange={handleExpansion(`details-${charger.id}`)} expanded={contentExpanded === `details-${charger.id}`}>
+
                   <Card>
                     <CardHeader
                       title={charger.name}
