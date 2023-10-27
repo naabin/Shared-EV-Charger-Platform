@@ -16,14 +16,14 @@ class ChargerType(models.Model):
         ChargerImage, on_delete=models.CASCADE, null=True)
     brand = models.CharField(max_length=50)
     power = models.DecimalField(decimal_places=5, max_digits=10, null=True)
-    port_type = models.CharField(max_length=20, null=True)
+    port_type = models.CharField(max_length=50, null=True)
     amp = models.DecimalField(decimal_places=5, max_digits=10, null=True)
     warranty = models.IntegerField(null=True)
 
 
 class Charger(models.Model):
     status = models.BooleanField(default=False)
-    name = models.CharField(max_length=15, null=True)
+    name = models.CharField(max_length=50, null=True)
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, verbose_name='location')
     renter = models.ForeignKey(

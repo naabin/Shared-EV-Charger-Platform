@@ -183,7 +183,9 @@ function GoogleMapComponent({
 
                 {!imageLoaded ? <Spinner /> : null}
                 <img
-                  onLoad={(e) => setImageLoaded(true)}
+                  onLoad={(e) => {
+                    setImageLoaded(e.nativeEvent.returnValue);
+                  }}
                   style={{ objectFit: "contain", height: 90 }}
                   src={
                     selectedCharger && selectedCharger.charger_type.image.image
@@ -284,9 +286,9 @@ function GoogleMapComponent({
                     })}
                   </Typography>
                 </AccordionDetails>
-              {/*</Accordion>*/}
-              {/*/!* TODO: need to enable this one again after user uses the  *!/*/}
-              {/*<Accordion disabled>*/}
+                {/*</Accordion>*/}
+                {/*/!* TODO: need to enable this one again after user uses the  *!/*/}
+                {/*<Accordion disabled>*/}
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <div>
                     <Rating />

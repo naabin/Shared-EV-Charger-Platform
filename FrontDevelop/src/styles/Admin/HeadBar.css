@@ -1,19 +1,19 @@
 .container-headbar {
-    height: 60px;
-    background-color: rgb(64, 137, 141);
+  height: 60px;
+  background-color: rgb(64, 137, 141);
 }
 
 .head-row {
-    height: 60px;
+  height: 60px;
 }
 
 svg {
-    width: 3em;
-    height: 3em;
+  /* width: 3em; */
+  /* height: 3em; */
 }
 
 .round-input {
-    height: 50px;
-    margin-top: 5px;
-    border-radius: 25px;
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 25px;
 }

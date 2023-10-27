@@ -151,8 +151,6 @@ const Transaction = (props) => {
       width: 100,
       renderCell: (params) => {
         if (params.row && params.row.owner) {
-          if (params.row.approve) {
-          }
           if (params.row.owner === currentUser.id) {
             if (params.row.approve || params.row.reject) {
               const state = params.row.state;
@@ -266,16 +264,14 @@ const Transaction = (props) => {
             <Typography variant="h5">&lt; Back To Map</Typography>
           </IconButton>
           <Typography
-            variant="h4"
+            // variant="h4"
             style={{
               margin: "30px 0",
               transition: "opacity 1s",
               opacity: titleOpacity,
             }}
           >
-            <Typography variant="h4">
-              {`${user.username}'s Transaction History`}
-            </Typography>
+            <Typography>{`${user.username}'s Transaction History`}</Typography>
           </Typography>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid loading={loading} rows={activities} columns={columns} />

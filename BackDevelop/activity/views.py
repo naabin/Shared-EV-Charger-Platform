@@ -2,6 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.db.models import Q
 
 from .models import Activity
 from .serializers import ActivitySerializer
@@ -26,7 +27,7 @@ class ChargerActivityViewSet(viewsets.ModelViewSet):
         owner_id = request.query_params.get('owner')
         if owner_id is not None:
             queryset = Activity.objects.filter(
-                owner=owner_id)
+                Q(owner=owner_id) | Q(user=owner_id))
             if not queryset.exists():
                 queryset = Activity.objects.filter(user=owner_id)
             serializer = ActivitySerializer(queryset, many=True)

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { register } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
-import { Input } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import axios from "axios";
 import "../../styles/LoginReg.css";
 import AppRegistrationOutlinedIcon from "@mui/icons-material/AppRegistrationOutlined";
 import background from "../../matirial/Image/register.jpg";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import {
   Link,
   Grid,
@@ -16,11 +16,10 @@ import {
   Box,
   Avatar,
   Button,
-  Checkbox,
   Paper,
   Typography,
   TextField,
-  FormControlLabel,
+  MobileStepper,
 } from "@mui/material";
 
 const RegisterForm: React.FC = () => {
@@ -44,9 +43,21 @@ const RegisterForm: React.FC = () => {
   const [suburb, setSuburb] = useState("");
   const [postcode, setPostcode] = useState("");
   const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
   const [passwordLengthError, setPasswordLengthError] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNextStep = () => {
+    setActiveStep((prev) => prev + 1);
+  };
+  const handleBackStep = () => {
+    setActiveStep((prev) => prev - 1);
+  };
 
   useEffect(() => {
     axios
@@ -97,29 +108,29 @@ const RegisterForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const target = event.target as typeof event.target & {
-      lastname: { value: string };
-      firstname: { value: string };
-      email: { value: string };
-      username: { value: string };
-      password: { value: string };
-      confirmPassword: { value: string };
-      city: { value: string };
-      suburb: { value: string };
-      postcode: { value: string };
-      address: { value: string };
-    };
+    // const target = event.target as typeof event.target & {
+    //   lastname: { value: string };
+    //   firstname: { value: string };
+    //   email: { value: string };
+    //   username: { value: string };
+    //   password: { value: string };
+    //   confirmPassword: { value: string };
+    //   city: { value: string };
+    //   suburb: { value: string };
+    //   postcode: { value: string };
+    //   address: { value: string };
+    // };
 
-    const lastname = target.lastname.value;
-    const firstname = target.firstname.value;
-    const email = target.email.value;
-    const username = target.username.value;
-    const enteredPassword = target.password.value;
-    const enteredConfirmPassword = target.confirmPassword.value;
-    const city = target.city.value;
-    const suburb = target.suburb.value;
-    const postcode = target.postcode.value;
-    const address = target.address.value;
+    // const lastname = target.lastname.value;
+    // const firstname = target.firstname.value;
+    // const email = target.email.value;
+    // const username = target.username.value;
+    // const enteredPassword = target.password.value;
+    // const enteredConfirmPassword = target.confirmPassword.value;
+    // const city = target.city.value;
+    // const suburb = target.suburb.value;
+    // const postcode = target.postcode.value;
+    // const address = target.address.value;
 
     // Prepare user data based on the structure you provided
     const userData = {
@@ -127,17 +138,19 @@ const RegisterForm: React.FC = () => {
       email: email,
       first_name: firstname,
       last_name: lastname,
-      password: enteredPassword,
+      password: confirmPassword,
       role: {
         role: "user",
       },
       address: {
         street_address: address,
-        lat: -33.865143,
-        lng: 151.2099,
+        lat: lat,
+        lng: lng,
         suburb: suburb,
         post_code: postcode,
-        country: city, // Assuming city here is meant as country
+        state: state,
+        city: city,
+        country: country,
       },
     };
     if (!showEmailError && !showUsernameError) {
@@ -168,7 +181,6 @@ const RegisterForm: React.FC = () => {
       confirmPassword &&
       firstname &&
       lastname &&
-      city &&
       suburb &&
       postcode &&
       address &&
@@ -178,14 +190,66 @@ const RegisterForm: React.FC = () => {
       !showEmailError
     );
   };
-
+  const inputRef = useRef<HTMLInputElement>(null);
+  const autoComplete = () => {
+    const googleAutoComplete = new window.google.maps.places.Autocomplete(
+      /*@ts-ignore */
+      inputRef.current,
+      {
+        componentRestrictions: { country: "au" },
+        fields: ["address_components", "geometry", "icon", "name"],
+      }
+    );
+    googleAutoComplete.addListener("place_changed", () => {
+      const place = googleAutoComplete.getPlace();
+      if (place !== null && place.geometry) {
+        const latLng = place.geometry.location;
+        setLat(latLng?.lat() || 0);
+        setLng(latLng?.lng() || 0);
+        if (place.address_components) {
+          for (const component of place?.address_components) {
+            const componentType = component.types[0];
+            switch (componentType) {
+              case "subpremise":
+                setAddress(component.long_name.toLocaleUpperCase());
+                break;
+              case "street_number":
+                setAddress(
+                  (prev) => prev + " " + component.long_name.toLocaleUpperCase()
+                );
+                break;
+              case "route":
+                setAddress(
+                  (prev) => prev + " " + component.long_name.toLocaleUpperCase()
+                );
+                break;
+              case "locality":
+                setSuburb(component.long_name.toLocaleUpperCase());
+                break;
+              case "administrative_area_level_1":
+                setState(component.short_name);
+                break;
+              case "country":
+                setCountry(component.long_name);
+                break;
+              case "postal_code":
+                setPostcode(component.long_name);
+                break;
+              default:
+                break;
+            }
+          }
+        }
+      }
+    });
+  };
   const defaultTheme = createTheme();
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -204,6 +268,7 @@ const RegisterForm: React.FC = () => {
             </Typography>
             {/* <form onSubmit={handleSubmit}> */}
             <Box
+              hidden={activeStep !== 0}
               component="form"
               noValidate
               onSubmit={handleSubmit}
@@ -292,15 +357,22 @@ const RegisterForm: React.FC = () => {
               {passwordMatchError && (
                 <p className="error">{passwordMatchError}</p>
               )}
-              {/* </div> */}
+            </Box>
+            <Box hidden={activeStep !== 1}>
+              <input
+                className="search-button"
+                ref={inputRef}
+                onChange={autoComplete}
+                placeholder="Search Address"
+              />
               <TextField
-                value={city}
+                value={state}
                 onChange={(e) => setCity(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
                 id="city"
-                label="City"
+                label="State"
                 name="city"
                 autoComplete="city"
                 autoFocus
@@ -343,8 +415,8 @@ const RegisterForm: React.FC = () => {
                 autoComplete="address"
                 autoFocus
               />
-
               <Button
+                onClick={handleSubmit}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -353,19 +425,43 @@ const RegisterForm: React.FC = () => {
               >
                 Join Now!
               </Button>
-              <Grid
-                container
-                sx={{
-                  justifyContent: "center",
-                }}
-              >
-                <Grid item>
-                  <Link href="/login" variant="body1">
-                    Already Have An Account? Log In Here!
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
+            <MobileStepper
+              variant="progress"
+              position="static"
+              style={{ width: "100%" }}
+              backButton={
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBackStep}
+                  size="small"
+                >
+                  <KeyboardArrowLeft />
+                  BACK
+                </Button>
+              }
+              nextButton={
+                <Button disabled={activeStep === 1} onClick={handleNextStep}>
+                  NEXT
+                  <KeyboardArrowRight />
+                </Button>
+              }
+              activeStep={activeStep}
+              steps={2}
+            />
+
+            <Grid
+              container
+              sx={{
+                justifyContent: "center",
+              }}
+            >
+              <Grid item>
+                <Link href="/login" variant="body1">
+                  Already Have An Account? Log In Here!
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Grid>
         <Grid

@@ -8,7 +8,7 @@ class Role(models.Model):
 
 
 class Address(models.Model):
-    street_address = models.CharField(max_length=50)
+    street_address = models.CharField(max_length=100)
     lat = models.DecimalField(decimal_places=15, max_digits=20, null=True)
     lng = models.DecimalField(decimal_places=15, max_digits=20, null=True)
     suburb = models.CharField(max_length=20)
@@ -16,7 +16,7 @@ class Address(models.Model):
     country = models.CharField(max_length=12)
 
 
-storage = S3Storage(aws_s3_bucket_name="evcharger-bucket-eren")
+storage = S3Storage(aws_s3_bucket_name="evcharger-bucket")
 
 
 class UserProfile(AbstractUser):
