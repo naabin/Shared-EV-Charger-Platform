@@ -115,7 +115,7 @@ const MyCharger = (props) => {
   }
   const handleMenuClose = () => {
     setAnchorEl(null); 
-    setSelectedChargerId(null);
+    //setSelectedChargerId(null);
   };
 
   const handleUpdateForm = () => {
