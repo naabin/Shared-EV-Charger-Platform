@@ -158,7 +158,7 @@ const Transaction = (props) => {
                 <Chip
                   size="small"
                   label={state}
-                  color={state === "Approved" ? "info" : "error"}
+                  color={state === "Approved" ? "success" : "error"}
                 />
               );
             }
