@@ -30,6 +30,25 @@ const Transaction = (props) => {
   const [requestedUsers, setRequestedUsers] = useState([]);
   const [chargers, setChargers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const handleApprove = (activityId) => {
+    axios
+      .post(
+        `http://localhost:8000/charger-activity/approve/`,
+        {},
+        {
+          params: {
+            activityId,
+          },
+          headers: {
+            Authorization: `Bearer ${currentUser.access}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   const columns = [
     {
       field: "charger",
@@ -102,12 +121,16 @@ const Transaction = (props) => {
       width: 100,
       renderCell: (params) => {
         // const user = JSON.parse(localStorage.getItem("user"));
+        console.log(params.row);
         if (params.row && params.row.owner) {
           if (params.row.owner === currentUser.id) {
             return (
               <>
                 <div>
-                  <IconButton color="success">
+                  <IconButton
+                    onClick={() => handleApprove(params.row.id)}
+                    color="success"
+                  >
                     <DoneRounded />
                   </IconButton>
                   <IconButton color="error">
@@ -143,7 +166,6 @@ const Transaction = (props) => {
   ];
   useEffect(() => {
     setTitleOpacity(1);
-
     setCurrentUser(user);
     setLoading(true);
     if (user && user.access) {
@@ -167,7 +189,7 @@ const Transaction = (props) => {
     axios
       .get("http://localhost:8000/charger/")
       .then((res) => setChargers(res.data));
-  });
+  }, []);
   useEffect(() => {
     setLoading(true);
     axios

@@ -32,3 +32,18 @@ class ChargerActivityViewSet(viewsets.ModelViewSet):
             serializer = ActivitySerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'message': 'No activity associated with'}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(methods=['post'], permission_classes=[IsAuthenticated], detail=False)
+    def approve(self, request):
+        activity_id = request.query_params.get('activityId')
+        err_res = Response(
+            {'message': 'Could not find any activities'}, status=status.HTTP_404_NOT_FOUND)
+        if activity_id is not None:
+            activity = Activity.objects.get(id=activity_id)
+            if activity is None:
+                return err_res
+            activity.approve = True
+            Activity.objects.update()
+            activity.save()
+            return Response(Activity(activity).data, status=status.HTTP_200_OK)
+        return err_res
