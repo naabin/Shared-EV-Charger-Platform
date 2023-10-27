@@ -35,8 +35,39 @@ function UpdatingChargerModel(props) {
   const [price, setPrice] = useState("");
 
   const [image, setImage] = useState(null);
-
+ const [data,setData] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
+
+  
+
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/charger/${props.id}`, {
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: "Bearer " + auth.access,
+       },
+     })
+     .then((res) => {
+       setStreet(res.data.address.street_address);
+       setSuburb(res.data.address.suburb);
+       setPostCode(res.data.address.post_code);
+       setState(res.data.address.postCode);
+       setCountry(res.data.address.country);
+       setModel(res.data.charger_type.model);
+       setBrand(res.data.charger_type.brand);
+       setPortType(res.data.charger_type.port_type);
+       setPower(res.data.charger_type.power);
+       setAmp(res.data.charger_type.amp);
+       setPrice(res.data.hourly_rate);
+       setImage(res.data.charger_type.image.image);
+     })
+     .catch((err) => {
+       console.log(err);
+     });
+     }, [auth.access, props.id]);
+ 
 
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("user")));
@@ -97,20 +128,28 @@ function UpdatingChargerModel(props) {
     setActiveStep((prev) => prev - 1);
   };
   const handleCancel = () => {
-    setStreet("");
-    setSuburb("");
-    setCountry("");
-    setLat(null);
-    setLng(null);
-    setPostCode(null);
-    setState("");
     props.closeEvent();
   };
 
   const handleOk = () => {
     setSubmitting(true);
+    if (props.id) {
+      axios
+        .delete(`http://localhost:8000/charger/${props.id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.access,
+          },
+        })
+        .then((res) => {
+          console.log("Successfully deleted charger");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     let data = null;
-    if (image.thumbUrl && auth.id && props.id) {
+    if (image.thumbUrl && auth.id ){
       data = {
         charger_type: {
           name: model,
@@ -141,14 +180,14 @@ function UpdatingChargerModel(props) {
     }
     data && 
       axios
-        .patch(`http://localhost:8000/charger/${props.id}`, {
+        .post('http://localhost:8000/charger/',JSON.stringify(data), {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + auth.access,
           },
         })
         .then((res) => {
-          console.log("successfully created charger");
+          console.log("successfully update charger");
           setSubmitting(false);
           navigate("/myCharger");
           props.closeEvent();
@@ -158,35 +197,7 @@ function UpdatingChargerModel(props) {
         });
   };
   
-       if (props.id) {
-         axios
-           .get(`http://localhost:8000/charger/${props.id}`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + auth.access,
-            },
-          })
-          .then((res) => {
-            setStreet(res.data.address.street_address);
-            setSuburb(res.data.address.suburb);
-            setPostCode(res.data.address.post_code);
-            setState(res.data.address.postCode);
-            setCountry(res.data.address.country);
-            setModel(res.data.charger_type.model);
-            setBrand(res.data.charger_type.brand);
-            setPortType(res.data.charger_type.port_type);
-            setPower(res.data.charger_type.power);
-            setAmp(res.data.charger_type.amp);
-            setPrice(res.data.hourly_rate);
-            setImage(res.data.charger_type.image.image)
-            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log("Missing auth.id or chargers.id");
-      }
+      
     
   
 
@@ -242,7 +253,7 @@ function UpdatingChargerModel(props) {
           </Step>
           <Step>
             <StepLabel>
-              <strong>Charger Details</strong>
+              <strong>Update Details</strong>
             </StepLabel>
             <StepContent>
               <Grid container spacing={2}>
@@ -311,7 +322,7 @@ function UpdatingChargerModel(props) {
           </Step>
           <Step>
             <StepLabel>
-              <strong>Upload Image</strong>
+              <strong>Update Image</strong>
             </StepLabel>
             <StepContent>
               <Grid container>
