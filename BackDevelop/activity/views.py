@@ -43,7 +43,24 @@ class ChargerActivityViewSet(viewsets.ModelViewSet):
             if activity is None:
                 return err_res
             activity.approve = True
+            activity.state = 'Approved'
             Activity.objects.update()
             activity.save()
-            return Response(Activity(activity).data, status=status.HTTP_200_OK)
+            return Response(ActivitySerializer(activity).data, status=status.HTTP_200_OK)
+        return err_res
+
+    @action(methods=['post'], permission_classes=[IsAuthenticated], detail=False)
+    def reject(self, request):
+        activity_id = request.query_params.get('activityId')
+        err_res = Response(
+            {'message': 'Could not find any activities'}, status=status.HTTP_404_NOT_FOUND)
+        if activity_id is not None:
+            activity = Activity.objects.get(id=activity_id)
+            if activity is None:
+                return err_res
+            activity.state = 'Rejected'
+            activity.reject = True
+            Activity.objects.update()
+            activity.save()
+            return Response(ActivitySerializer(activity).data, status=status.HTTP_200_OK)
         return err_res

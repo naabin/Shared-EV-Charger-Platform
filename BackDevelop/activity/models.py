@@ -6,6 +6,7 @@ from charger.models import Charger
 
 class Activity(models.Model):
     approve = models.BooleanField(default=False)
+    reject = models.BooleanField(default=False)
     state = models.CharField(max_length=20)
     start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)

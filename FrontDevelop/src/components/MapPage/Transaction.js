@@ -4,7 +4,6 @@ import {
   IconButton,
   Container,
   Chip,
-  Badge,
   Tooltip,
 } from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
@@ -49,6 +48,25 @@ const Transaction = (props) => {
       })
       .catch((err) => console.log(err));
   };
+  const handleRejected = (activityId) => {
+    axios
+      .post(
+        `http://localhost:8000/charger-activity/reject/`,
+        {},
+        {
+          params: {
+            activityId,
+          },
+          headers: {
+            Authorization: `Bearer ${currentUser.access}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   const columns = [
     {
       field: "charger",
@@ -76,7 +94,7 @@ const Transaction = (props) => {
 
       renderCell: (p) => {
         const row = p.row;
-        const currUser = requestedUsers.filter((curr) => curr.id === row.id);
+        const currUser = requestedUsers.filter((curr) => curr.id === row.user);
         if (currUser.length > 0) {
           return (
             <>
@@ -120,10 +138,20 @@ const Transaction = (props) => {
       headerName: "Approval",
       width: 100,
       renderCell: (params) => {
-        // const user = JSON.parse(localStorage.getItem("user"));
-        console.log(params.row);
         if (params.row && params.row.owner) {
+          if (params.row.approve) {
+          }
           if (params.row.owner === currentUser.id) {
+            if (params.row.approve || params.row.reject) {
+              const state = params.row.state;
+              return (
+                <Chip
+                  size="small"
+                  label={state}
+                  color={state === "Approved" ? "info" : "error"}
+                />
+              );
+            }
             return (
               <>
                 <div>
@@ -133,7 +161,10 @@ const Transaction = (props) => {
                   >
                     <DoneRounded />
                   </IconButton>
-                  <IconButton color="error">
+                  <IconButton
+                    onClick={() => handleRejected(params.row.id)}
+                    color="error"
+                  >
                     <HighlightOff />
                   </IconButton>
                 </div>
@@ -142,8 +173,11 @@ const Transaction = (props) => {
           } else {
             const approved = params.row.approve;
             if (approved) {
-              return <Chip label="You request have been accepted" />;
-            } else return <Chip label="Pending approval" />;
+              return <Chip color="success" size="small" label="Approved" />;
+            } else if (params.row.reject) {
+              return <Chip color="error" size="small" label="Rejected" />;
+            }
+            return <Chip size="small" color="primary" label="Pending" />;
           }
         }
       },
@@ -156,7 +190,7 @@ const Transaction = (props) => {
         const row = params.row;
         if (row && row.owner) {
           if (row.owner === currentUser.id) {
-            if (!row.approve) {
+            if (!row.approve && !row.reject) {
               return <Chip size="small" label="new" color="success" />;
             }
           }
