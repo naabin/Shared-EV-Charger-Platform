@@ -44,7 +44,13 @@ const Transaction = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        const updatedActivity = res.data;
+        const arr = [...activities];
+        const updatedAcitivityIndex = arr.findIndex(
+          (act) => act.id === updatedActivity.id
+        );
+        arr.splice(updatedAcitivityIndex, 1, updatedActivity);
+        setActivities(arr);
       })
       .catch((err) => console.log(err));
   };
@@ -63,7 +69,13 @@ const Transaction = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        const updatedActivity = res.data;
+        const arr = [...activities];
+        const updatedAcitivityIndex = arr.findIndex(
+          (act) => act.id === updatedActivity.id
+        );
+        arr.splice(updatedAcitivityIndex, 1, updatedActivity);
+        setActivities(arr);
       })
       .catch((err) => console.log(err));
   };
