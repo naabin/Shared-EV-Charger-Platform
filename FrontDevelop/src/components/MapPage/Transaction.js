@@ -1,77 +1,24 @@
 import React from "react";
-import { Typography, IconButton, Container, Chip } from "@mui/material";
+import {
+  Typography,
+  IconButton,
+  Container,
+  Chip,
+  Badge,
+  Tooltip,
+} from "@mui/material";
 import ButtonAppBar from "../utils/ButtonAppBar";
 import "../../styles/MainPage/Transaction.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DoneRounded from "@mui/icons-material/DoneRounded";
 import HighlightOff from "@mui/icons-material/HighlightOff";
+import ElectricalServices from "@mui/icons-material/ElectricalServices";
 
 import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import LiveChat from "./LiveChat";
 import { useNavigate } from "react-router-dom";
-
-const columns = [
-  {
-    field: "charger",
-    headerName: "Charer",
-    width: 100,
-  },
-  { field: "user", headerName: "Requested By", width: 130 },
-  {
-    field: "start_time",
-    headerName: "Start time",
-    width: 200,
-    valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
-  },
-  {
-    field: "end_time",
-    headerName: "End Time",
-    width: 200,
-    valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
-  },
-  {
-    field: "duration",
-    headerName: "Duration",
-    width: 150,
-    valueFormatter: (p) => `${p.value} hrs`,
-  },
-  {
-    field: "total_price",
-    headerName: "Price",
-    width: 150,
-    valueFormatter: (p) => `AUD ${p.value}`,
-  },
-  {
-    field: "action",
-    headerName: "Approval",
-    width: 150,
-    renderCell: (params) => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      console.log(params.row);
-      if (params.row && params.row.owner) {
-        if (params.row.owner === user.id) {
-          return (
-            <div>
-              <IconButton color="success">
-                <DoneRounded />
-              </IconButton>
-              <IconButton color="error">
-                <HighlightOff />
-              </IconButton>
-            </div>
-          );
-        } else {
-          const approved = params.row.approve;
-          if (approved) {
-            return <Chip label="You request have been accepted" />;
-          } else return <Chip label="Pending approval" />;
-        }
-      }
-    },
-  },
-];
 
 const Transaction = (props) => {
   const navigate = useNavigate();
@@ -80,10 +27,125 @@ const Transaction = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [showLiveChat, setShowLiveChat] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
+  const [requestedUsers, setRequestedUsers] = useState([]);
+  const [chargers, setChargers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const columns = [
+    {
+      field: "charger",
+      headerName: "Charer",
+      width: 150,
+      renderCell: (p) => {
+        const row = p.row;
+        const charger = chargers.filter((curr) => curr.id === row.charger);
+        return (
+          <Tooltip key={charger[0] && charger[0].id} arrow>
+            <IconButton>
+              <ElectricalServices color="warning"></ElectricalServices>
+              <span style={{ fontSize: "15px" }}>
+                {charger[0] && charger[0].name}
+              </span>
+            </IconButton>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      field: "user",
+      headerName: "Requested By",
+      width: 130,
+
+      renderCell: (p) => {
+        const row = p.row;
+        const currUser = requestedUsers.filter((curr) => curr.id === row.id);
+        if (currUser.length > 0) {
+          return (
+            <>
+              <Chip
+                onClick={(e) => console.log(e)}
+                size="small"
+                color="secondary"
+                label={currUser[0].username}
+              />
+            </>
+          );
+        }
+      },
+    },
+    {
+      field: "start_time",
+      headerName: "Start time",
+      width: 200,
+      valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
+    },
+    {
+      field: "end_time",
+      headerName: "End Time",
+      width: 200,
+      valueFormatter: (p) => dayjs(p.value).format("DD/MM/YYYY ddd HH:mm A"),
+    },
+    {
+      field: "duration",
+      headerName: "Duration",
+      width: 150,
+      valueFormatter: (p) => `${p.value} hrs`,
+    },
+    {
+      field: "total_price",
+      headerName: "Price",
+      width: 150,
+      valueFormatter: (p) => `AUD ${p.value}`,
+    },
+    {
+      field: "action",
+      headerName: "Approval",
+      width: 100,
+      renderCell: (params) => {
+        // const user = JSON.parse(localStorage.getItem("user"));
+        if (params.row && params.row.owner) {
+          if (params.row.owner === currentUser.id) {
+            return (
+              <>
+                <div>
+                  <IconButton color="success">
+                    <DoneRounded />
+                  </IconButton>
+                  <IconButton color="error">
+                    <HighlightOff />
+                  </IconButton>
+                </div>
+              </>
+            );
+          } else {
+            const approved = params.row.approve;
+            if (approved) {
+              return <Chip label="You request have been accepted" />;
+            } else return <Chip label="Pending approval" />;
+          }
+        }
+      },
+    },
+    {
+      field: "action2",
+      headerName: "",
+      width: 150,
+      renderCell: (params) => {
+        const row = params.row;
+        if (row && row.owner) {
+          if (row.owner === currentUser.id) {
+            if (!row.approve) {
+              return <Chip size="small" label="new" color="success" />;
+            }
+          }
+        }
+      },
+    },
+  ];
   useEffect(() => {
     setTitleOpacity(1);
 
     setCurrentUser(user);
+    setLoading(true);
     if (user && user.access) {
       axios
         .get("http://localhost:8000/charger-activity/get_activity_by_owner", {
@@ -94,9 +156,23 @@ const Transaction = (props) => {
             Authorization: `Bearer ${user.access}`,
           },
         })
-        .then((res) => setActivities(res.data))
+        .then((res) => {
+          setActivities(res.data);
+          setLoading(false);
+        })
         .catch((err) => console.log(err));
     }
+  }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/charger/")
+      .then((res) => setChargers(res.data));
+  });
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:8000/user/")
+      .then((res) => setRequestedUsers(res.data));
   }, []);
   return (
     <div className="pageContainer">
@@ -134,7 +210,7 @@ const Transaction = (props) => {
             </Typography>
           </Typography>
           <div style={{ height: 400, width: "100%" }}>
-            <DataGrid rows={activities} columns={columns} />
+            <DataGrid loading={loading} rows={activities} columns={columns} />
           </div>
         </Container>
       </div>
