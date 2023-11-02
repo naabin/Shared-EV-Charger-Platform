@@ -138,6 +138,14 @@ DATABASES = {
         # Your MySQL host. If your database is on the same machine, leave as 'localhost'
         'HOST': 'elec3609db.cfiq262stshu.us-east-1.rds.amazonaws.com',
         'PORT': '3306',   # Default MySQL port
+
+        # 'NAME': 'evcharger',   # Name of your database
+        # # Your MySQL username (given as 'user admin' in your description)
+        # 'USER': 'admin',
+        # # Your MySQL password (given as 'password admin' in your description)
+        # 'PASSWORD': 'admin',
+        # # Your MySQL host. If your database is on the same machine, leave as 'localhost'
+        # 'HOST': 'localhost',
     }
 }
 SWAGGER_SETTINGS = {
