@@ -25,8 +25,6 @@ SECRET_KEY = 'django-insecure-pw6#5#y*nk0ps^jw!++^y9#9azwa^&-stk6os24ve6et(x53u&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
 
 # Application definition
 
@@ -110,7 +108,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'ROTATE_REFRESH_TOKENS': True,
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
@@ -132,13 +130,13 @@ AUTHENTICATION_BACKENDS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'evcharger',   # Name of your database
+        'NAME': 'elec3609',   # Name of your database
         # Your MySQL username (given as 'user admin' in your description)
-        'USER': 'admin',
+        'USER': 'elec3609_admin',
         # Your MySQL password (given as 'password admin' in your description)
-        'PASSWORD': 'admin',
+        'PASSWORD': 'tmY!wb4_q92igwJ',
         # Your MySQL host. If your database is on the same machine, leave as 'localhost'
-        'HOST': 'localhost',
+        'HOST': 'elec3609db.cfiq262stshu.us-east-1.rds.amazonaws.com',
         'PORT': '3306',   # Default MySQL port
     }
 }
