@@ -46,9 +46,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
             return Response({'message': 'Username already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
         except UserProfile.DoesNotExist:
-            return Response( status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_200_OK)
-
 
     @action(methods=['get'], detail=False, permission_classes=[AllowAny])
     def get_user_by_itsname(request):
@@ -64,10 +63,9 @@ class UserViewSet(viewsets.ModelViewSet):
             return JsonResponse({
                 "id": id_from_db,
                 "username": username_from_db,
-            },status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK)
         except UserProfile.DoesNotExist:
             return JsonResponse({"error": "User not found."}, status=404)
-
 
     @action(methods=['get'], detail=False, permission_classes=[AllowAny])
     def get_user_by_email(self, request):

@@ -105,6 +105,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'TEST_REQUEST_RENDERER_CLASSES': [
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer'
+    ]
 }
 
 SIMPLE_JWT = {
@@ -179,13 +185,13 @@ AUTH_USER_MODEL = "users.UserProfile"
 AWS_REGION = "us-east-1"
 
 # The AWS access key to use.
-AWS_ACCESS_KEY_ID = "ASIA5BJCD236GY3GNBI6"
+AWS_ACCESS_KEY_ID = "ASIA5BJCD236G3EQXGMV"
 
 # The AWS secret access key to use.
-AWS_SECRET_ACCESS_KEY = "gqBoj+OxadmVB2wyfI2xwueh0PGuKOBs2eaFAyQm"
+AWS_SECRET_ACCESS_KEY = "vY0cqDNywFEPtPKanc+E8055NTu1Smsf7yA8t3TW"
 
 # The optional AWS session token to use.
-AWS_SESSION_TOKEN = "FwoGZXIvYXdzEG0aDKbZBvKNHGg2egQCaiLLAYdToGVujFWn87aPhLGJpOovRo38NANNnProDOpCP6Lc47ZwrlKBdCLwL1YFLtFk2anTHteYSm7yWP+DzZEN7930iw60rfHuOyRcpBp+UPy59R/587Epc3upE6WtnVzSLiOmlUk0sG30ZH99SctuM/tr2THBt0aSwdfDF7jxjVkbIhWsuQfeMU2DBM3zySsTW8FnL40IojSldc4Jgki/MdnNcXG1w7/krv8mAB+wjIY8oGngWCPoK8pgellV0+GN83XOK9jzgn8eAy3bKOzr7KkGMi0mSHfbeYczzzlkg4RldRP8m9A85Z+7gX+LhjJacHUEYdKz2KPuL1ODyGqdAlI="
+AWS_SESSION_TOKEN = "FwoGZXIvYXdzEAYaDHUsPykmV7xmtEqByiLLATzFiBjm4sApSr1BDZlVV0v9NZVBv6O7Ilm03+s68bPOSVtlLyKHPkHg7llJbdhMlWazbIptbvDuT3Yu+YIsM1aVUW0zLRbaRwHtwx4kEFU8BAmpWoBzVcc/gEzy6l3uAnNsKw/7PQk8UNCwpcDJ9TMjVlz82Pmic1wHzrV2+kGaZpPfNqw8uyJowkZfGEZ9raQpbxB9bQbkOpgWouYMB3Ob4ltsIIIKpk/FFoCAFxhZKYk63kTnwQaigCs9U0hnZdqXtTjNI/8R24l1KP2wjqoGMi2duNxmaLQEJFVXtOFjbnfOTRSgJWYuOmPHHiwD7p/rBHFTqeJxO96ObohmklM="
 
 # The name of the bucket to store files in.
 AWS_S3_BUCKET_NAME = "evcharger-bucket"
