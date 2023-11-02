@@ -8,8 +8,14 @@ class Chatroom(models.Model):
     chatlog = models.TextField(default='[]')
     room_name = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.room_name
+
 class Message(models.Model):
     chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp']
